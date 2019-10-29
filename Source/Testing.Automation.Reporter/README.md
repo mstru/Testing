@@ -1,7 +1,6 @@
 # Testing.Automation.Reporter
-Tento repozitár obsahuje riešenie pre vytváranie podrobných správ logovania automatizovaných testov.
+Tento repozitár obsahuje riešenie pre vytváranie podrobných správ logovania automatizovaných testov pomocou technológií:
 
-Použité technológie:
     a. C#,
     b. ExtentReports.dll
     c. TechTalk.SpecFlow.dll
