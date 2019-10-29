@@ -73,7 +73,7 @@ Príklad (Kontrola vytvorenia entity pomocou metódy HttpGet)
         {
             string uri = $"/v2/{RoutePrefixConst}?$filter=name eq '{alarmDefName}'";
 
-            var result = MyWebApi
+            MyWebApi
                .Start()
                    .Working()
                    .WithHttpRequestMessage(req => req.WithMethod(HttpMethod.Get)
