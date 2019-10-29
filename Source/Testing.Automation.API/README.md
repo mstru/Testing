@@ -21,7 +21,7 @@ Príklad (Vytvorenie entity pomocou metódy HttpPost)
                        "'notificationEnabled': true," +
                        "'wagons': " +
                        "[{" +
-                            "'wagonId': " + _polygonAlarmData.Wagons.First().WagonId + "" +
+                            "'objectId': " + ObjectId + "" +
                        "}]}";
             }
             else if (alarmType == _standingAlarmType.Name)
@@ -35,7 +35,7 @@ Príklad (Vytvorenie entity pomocou metódy HttpPost)
                        "'standingDuration': 'P1D'," +
                        "'wagons': " +
                        "[{" +
-                            "'wagonId': " + _standingAlarmData.Wagons.First().WagonId + "" +
+                  	    "'objectId': " + ObjectId + "" +
                        "}]}";
             }
             else if (alarmType == _shockDetectedAlarmType.Name)
@@ -51,7 +51,7 @@ Príklad (Vytvorenie entity pomocou metódy HttpPost)
                        "'shockZ': 2.5," +
                        "'wagons': " +
                        "[{" +
-                            "'wagonId': " + _shockAlarmData.Wagons.First().WagonId + "" +
+                            "'objectId': " + ObjectId + "" +
                        "}]}";
             }
 
