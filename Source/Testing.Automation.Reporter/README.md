@@ -14,5 +14,5 @@ Použité technológie:
     4. Detail JSON,			
     5. Pridávanie tag-ov, autorov, kategórií a akýkoľvek iných doležitých informácií
 
-![Alt text](/image.jpeg?raw=true "Optional Title")
+![Alt text](/Testing.Automation.Reporter/image.jpeg?raw=true "Optional Title")
 
