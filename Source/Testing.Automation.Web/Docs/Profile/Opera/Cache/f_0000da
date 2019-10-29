@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<!--[if lt IE 8]> <html class="lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html> <!--<![endif]-->
+<head id="Head1"><meta http-equiv="X-UA-Compatible" content="IE=edge" />
+     
+<title>
+	XMatik®.NET/ISOM V17.1 (26.07.2017v1.7.01.18)
+</title><meta name="author" content="sféra,a.s." /><link id="favicon" href="../Plugins/MDC/App_Themes/Default/favicon.png" rel="shortcut icon" type="image/png" />
+    <link type="text/css" rel="stylesheet" href="/extjs/packages/ext_theme_crisp/build/resources/ext-theme-crisp-all-embedded-css/ext.axd?v=29122" id="ext-theme" />
+    <link type="text/css" rel="stylesheet" href="/extnet/resources/css/extnet-all-embedded-css/ext.axd?v=29122" id="extnet-styles" /><link href="../App_Themes/Default/Shell.css?14" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="/extjs/ext-all-js/ext.axd?v=29122"></script>
+    <script type="text/javascript" src="/extjs/packages/ext_theme_crisp/build/ext-theme-crisp-js/ext.axd?v=29122"></script>
+    <script type="text/javascript" src="/extnet/extnet-all-js/ext.axd?v=29122"></script>
+    <script type="text/javascript" src="/extnet/locale/ext-locale-sk-js/ext.axd?v=29122"></script>
+
+    <script type="text/javascript">
+    //<![CDATA[
+        Ext.net.ResourceMgr.init({ajaxTimeout:119000,id:"ctl00$ctl00$resourceManager",aspForm:"form1",theme:"crisp"});Ext.onReady(function(){Ext.net.DirectEvent.showFailure = Ext.emptyFn;Ext.ns("App.direct");Ext.apply(App.direct, { LogJavascriptError:function(error,additionalInfo,config){return Ext.net.DirectMethod.request("LogJavascriptError",Ext.applyIf(config || {}, {params:{error:error,additionalInfo:additionalInfo}}));},SaveUIState:function(data,config){return Ext.net.DirectMethod.request("SaveUIState",Ext.applyIf(config || {}, {params:{data:data}}));},IsUrlAuthorized:function(url,config){return Ext.net.DirectMethod.request("IsUrlAuthorized",Ext.applyIf(config || {}, {params:{url:url}}));},NavigateTo:function(url,config){return Ext.net.DirectMethod.request("NavigateTo",Ext.applyIf(config || {}, {params:{url:url}}));} });Ext.net.DirectEvent.on({ajaxrequestexception:{fn:Sfera.Web.Shell.handleRequestException}});Ext.create("Ext.net.Viewport",{id:"cphShellContent_viewPort",cls:"  ",renderTo:Ext.get("form1"),items:[{id:"cphShellContent_header",xtype:"container",region:"north",contentEl:"cphShellContent_header_Content"},{id:"cphShellContent_main",xtype:"container",region:"center",items:[{id:"cphShellContent_cphShellTopContent_loginUrl",xtype:"hiddenfield",value:"/Pages/Login.aspx?lang=sk-SK",rawValue:"/Pages/Login.aspx?lang=sk-SK"},{id:"cphShellContent_cphShellTopContent_Panel2",flex:4,items:[{id:"cphShellContent_cphShellTopContent_loginForm",border:true,cls:"login",width:480,xtype:"form",keyMap:{binding:{handler:function(){App.cphShellContent_cphShellTopContent_btnLogin.fireEvent('click');},key:[13]}},defaultAnchor:"100%",defaults:{"labelWidth":140,"allowBlank":false},items:[{id:"cphShellContent_cphShellTopContent_txtLogin",xtype:"textfield",autoFocus:true,fieldLabel:"Používateľské meno",labelSeparator:"",msgTarget:"side",value:"selenium_test",rawValue:"selenium_test",blankText:"Povinná hodnota nebola zadaná."},{id:"cphShellContent_cphShellTopContent_txtPassword",xtype:"textfield",fieldLabel:"Heslo",inputType:"password",labelSeparator:"",msgTarget:"side",value:"Abcd1234",rawValue:"Abcd1234",blankText:"Povinná hodnota nebola zadaná."},{id:"cphShellContent_cphShellTopContent_txtLoginOrEmail",hidden:true,xtype:"textfield",fieldLabel:"Používateľské meno<br />alebo e-mail",labelWidth:130,msgTarget:"side",rawValue:"",blankText:"Povinná hodnota nebola zadaná."},{xtype:"container",items:[{id:"cphShellContent_cphShellTopContent_btnLoginPressed",xtype:"hiddenfield",value:false,rawValue:"true"},{id:"cphShellContent_cphShellTopContent_btnLogin",postback:{"eventName":"click","fn":function(){setTimeout('WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions("ctl00$ctl00$cphShellContent$cphShellTopContent$btnLogin", "", true, "", "", false, true))', 0);}},height:40,width:150,xtype:"button",scale:"medium",text:"Prihlásiť sa",listeners:{click:{fn:function(item,e){if(App.cphShellContent_cphShellTopContent_txtLogin.validate() && App.cphShellContent_cphShellTopContent_txtPassword.validate()) { App.cphShellContent_cphShellTopContent_btnLoginPressed.setValue(true); App.cphShellContent_cphShellTopContent_loginForm.mask(OM.dictionary.get('Verfication')); return true; } else { return false; }}}}},{id:"cphShellContent_cphShellTopContent_btnResetPassword",height:40,hidden:true,width:150,xtype:"button",scale:"medium",text:"Obnoviť heslo",directEvents:{click:{fn:function(item,e){Ext.net.directRequest({eventMask:{showMask:true,msg:"Spracovanie..."},before:function(el,type,action,extraParams,o){return App.cphShellContent_cphShellTopContent_txtLoginOrEmail.validate();},control:this});}}}},{xtype:"netlabel",flex:1},{id:"cphShellContent_cphShellTopContent_btnPasswordLost",cls:"btn-lost-password",style:"margin-right:10px;",xtype:"nethyperlinkbutton",text:"Zabudnuté heslo",listeners:{click:{fn:function(item,e){App.cphShellContent_cphShellTopContent_txtLogin.hide();App.cphShellContent_cphShellTopContent_txtPassword.hide();App.cphShellContent_cphShellTopContent_btnLogin.hide();App.cphShellContent_cphShellTopContent_btnPasswordLost.hide();App.cphShellContent_cphShellTopContent_txtLoginOrEmail.show();App.cphShellContent_cphShellTopContent_btnResetPassword.show();}}}}],layout:"hbox"}],tbar:{cls:"title-bar",xtype:"toolbar",items:[{xtype:"netlabel",flex:1,text:"Prihlásenie do systému"}],layout:"hbox"},url:unescape("%2fPages%2fLogin.aspx%3fReturnUrl%3d%252f")}],layout:{type:"vbox",pack:"center",align:"center"},bodyCls:"login-container"}],layout:"fit"},{id:"cphShellContent_footer","margins":"4 0 4 0",height:30,xtype:"container",region:"south",contentEl:"cphShellContent_footer_Content"}],layout:"border"});Ext.create("Ext.net.HyperlinkButton",{id:"cphShellContent_Header1_hlInfo",cls:"about",renderTo:"App.cphShellContent_Header1_hlInfo_Container",text:" ",tooltip:"O aplikácii, kontakt na technickú podporu, odkaz na používateľskú príručku",listeners:{click:{fn:function(item,e){App.cphShellContent_Header1_windowAboutApp_winAboutApp.show();}}}});new Ext.window.Window({id:"cphShellContent_Header1_windowAboutApp_winAboutApp","autoHeight":true,autoRender:false,border:true,hidden:true,width:650,contentEl:"cphShellContent_Header1_windowAboutApp_winAboutApp_Content",draggable:false,resizable:false,title:"O aplikácii",defaultRenderTo:"form",hidden:true,modal:true});Ext.create("Ext.panel.Panel",{border:false,renderTo:"App.cphShellContent_Footer1_ctl00_Container",bbar:{cls:"footer",xtype:"toolbar",items:[{xtype:"tbtext",contentEl:"cphShellContent_Footer1_ctl02_Content"},{xtype:"tbfill"},{id:"cphShellContent_Footer1_lblSystemTime","updateTime":function(time){App.cphShellContent_Footer1_lblSystemTime.setText(Ext.util.Format.date(time,OM.dictionary.get('DateTimeSecFormat')));},xtype:"netlabel",tooltips:[{html:"Systémový čas",xtype:"tooltip",anchor:"top",target:"App.cphShellContent_Footer1_lblSystemTime"}],listeners:{beforerender:{fn:function(item){Sfera.Web.Shell.onTimeUpdated = App.cphShellContent_Footer1_lblSystemTime.updateTime;App.cphShellContent_Footer1_lblSystemTime.updateTime(Sfera.Web.Shell.time);}}}},{xtype:"tbfill"},{xtype:"tbtext",contentEl:"cphShellContent_Footer1_ctl11_Content"}]}});OM.dictionary.add("ChartMonths", ["január","február","marec","apríl","máj","jún","júl","august","september","október","november","december"]);OM.dictionary.add("ChartShortMonths", ["jan","feb","mar","apr","máj","jún","júl","aug","sep","okt","nov","dec"]);OM.dictionary.add("ChartWeekdays", ["nedeľa","pondelok","utorok","streda","štvrtok","piatok","sobota"]);Ext.net.Mask.show({"msg":"Presmerovanie...","msgCls":"x-mask-loading"});window.location="/";});
+    //]]>
+    </script>
+<style type='text/css'> @font-face {
+                          font-family: 'FontAwesome';
+                          src: url('/WebResource.axd?d=toAcwtf7dHxIYH4oxI7GhMIGgSyehdc_fWIW66rsdxO2lYuwEapVKIv-G4-UjFv_jDbkQwAOYZTB-ku1cNneuckkUvx8McPtSenVO8mFfK0WENkBFt4Khw7LSqcVgTuDvyb-Huf6h5OW3eVlSdIS_R9QbTPkRF5R5PiecE92BvTuukL4kMdy-yFgWMlOoAs90&t=636360739860000000?v=4.4.0');
+                          src: url('/WebResource.axd?d=toAcwtf7dHxIYH4oxI7GhMIGgSyehdc_fWIW66rsdxO2lYuwEapVKIv-G4-UjFv_jDbkQwAOYZTB-ku1cNneuckkUvx8McPtSenVO8mFfK0WENkBFt4Khw7LSqcVgTuDvyb-Huf6h5OW3eVlSdIS_R9QbTPkRF5R5PiecE92BvTuukL4kMdy-yFgWMlOoAs90&t=636360739860000000?#iefix&v=4.4.0') format('embedded-opentype'), url('/WebResource.axd?d=L0nbrzPpDo_kWDS7ai08-eCixqpy267eYAoGNdhL-9ASVGPJ05pE_gGm69hIDR7aw15tepdKNK8yrb5zcSFjAUhtJq55Zc1zSHgYCKKjKakaThb_axhM4DEsrVpc2l8BJjc9u-uh5KxKxo949q5_kLvWcwZWnI90Rps4YTS2JFcfSXs2MLuqSnPn2ILCKDwG0&t=636360739860000000?v=4.4.0') format('woff2'), url('/WebResource.axd?d=fjsAis9Pi9P6ZbWBTx-wZSxPyygOS6MGaBRwjwslFraGujB-scGJmn1zjSTR2mXMx-V83_KOLUdawdbcLwZKCtndfQVGcWUxlBNeGRmtFnkIiFLg_9ecEo1BxEOAroC_44Koc2Y1cyqpfMRJVIlWHqoMBjAdCX2fuhciL2LFHb_2N6Lj6l_Nxy2MBQLGwBUp0&t=636360739860000000?v=4.4.0') format('woff'), url('/WebResource.axd?d=CVmWjIxclTIYkQt6jeEmtOOW1PFi8qnQ1PQQUsZ-b1RVPE-ag8PX6jeRATupvfwrul1DdMouPWCNvzL7lBHq4LWrLRVAnxrTREWQFY6RGEhIpCzNqGuDjADsX3oBA7Nflc5X2tVERWQIT8B17wR0uGUXqZXPIfzTU9IPq_-gi3FqK9kbr56erPblkAVzsqkF0&t=636360739860000000?v=4.4.0') format('truetype'), url('/WebResource.axd?d=kx17AOp8I7C-HrpobYKw06kl0ZsM8Y7I0L9QW2joAz53inwNXx9NiZLpIH48zkksKola93MtOkBGggFl1DCjtRJmGxDqfLWZof91uarGFO__x79fvGUkvsHtby0hLLpJl4CPIWjX2IS-aupjAbWetCA_4LLV2RL--cLABw9a8jBz7-0jC7x40bGDVN5yUiiC0&t=636360739860000000?v=4.4.0#fontawesomeregular') format('svg');
+                          font-weight: normal;
+                          font-style: normal;
+                        }</style><link href="/WebResource.axd?d=_yHqY-p-z4l5XjDNL5z4YB97r9JxnA7g698MW_5RUwzj3Mkctn38Rfyy5jKSnHZl5FG-TlMFWTEltXNexFwsIYubykikElliibQAMd_g_OA6iyjAVXp7mooQkzCPxOqcacS5MtJztk8kSlg2S0UhAqDf5iYB1YyVHwR1C1MOS5M1&amp;t=636360739860000000" rel="stylesheet" /><link href="../Plugins/MDC/App_Themes/Default/Shell.css?5" rel="stylesheet" /><script type="text/javascript">window.systemTimeOffset = new Date() - new Date(1501145250600);</script></head>
+<body>        
+    <!-- Server: .15 -->  
+    <form method="post" action="./Login.aspx?ReturnUrl=%2f" id="form1">
+<div class="aspNetHidden">
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="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" />
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['form1'];
+if (!theForm) {
+    theForm = document.form1;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+
+<script src="/WebResource.axd?d=r-zCcXDZDbeHb2CjAOijXVN5zETS9jaelaMM9r1_qA-I98jwA8eEMLUN688d1uTbk4Dx9AZB9FyM1j_OTzhuH5ToihEKLWdOsL1rszRrPVaVmO4YW73_sj8VDouzPUigWcRuMmEsUc5GOseofszl7Mmz9zd7yznU_wZ6HLjWILwcoQJ1hUNkB-WjgjeFu2Nx0&amp;t=636360739860000000" type="text/javascript"></script>
+<script type="text/javascript">
+//<![CDATA[
+OM.dictionary.addMultiple({JavaHandlerUrl:"/WebResource.axd?d=k9M31pnwYtpraFynYAdNq-5N4fxxOkZ1eFxN-YvP5oYPwVRaq3NXJGOFGEqk6DrnYoBNI5GKPWUqKJvyNla64IkgnyBWeEPpzxuKMLrlJwr2TQF4s-_dmNReFxCZLlNQrZ3XjZuVWMuQNw41E7PQqRL_CQVme8hoBDBQjDgX4Z81&t=636305356404155236",Verfication:"Verifikácia...",ShowInShell:"false",ShowErrors:"true",GoogleAnalyticsId:"UA-39897374-1",GoogleAnalyticsName:"iszo.sk",ScriptHighstockUrl:"/WebResource.axd?d=50-w7AgyTOchHQqs5kYCwDgoJCdJWxZwDKNuxRRrl7s6PNOL157LOYtyEdpQt_v0yHkI8abIzYASVCo5BsvYmDuYTwH_bGmYCMQe10wD5UDDMuB6gDqLhlXh6xXo3qxVFNmibijQRwPpqYPei_AYcme372mFmxOlPzo_SNb0EDnYwbHXn-NnqCgCaLa5K30F0&t=636360739860000000",HighchartsExportHandler:"/intranet/HighchartsExport.axd",SystemPopupHeader:"",ImportFile:"Import súboru",EnterFilter:"Zadajte text filtra",Filter:"Filter",Before:"Do",RequestTimeoutInfo:"Požiadavka trvala príliš dlho a preto bola zrušená.",SystemErrorTitle:"V aplikácii nastala chyba",Cancel:"Zrušiť",DeleteToolTipNoPermissions:"Nemáte dostatočné práva na vymazanie všetkých zvolených záznamov.",InputNotNegative:"Hodnota pre toto pole nemôže byť záporná",ChartRangeSelector:"Rozsah údajov",SortASC:"Zoradiť vzostupne",DeleteToolTipNoRecords:"Nie je zvolený žiadny záznam.",DownloadText:"Súbor <b>{0}</b> s veľkosťou {1} KB je pripravený na stiahnutie.",DownloadFile:"Sťahovanie súboru",AllowPopupsForNav:"Pre otváranie stránok v novom okne povoľte v prehliadači vyskakovacie okná.",DecimalPoint:",",SortDESC:"Zoradiť zostupne",DateTimeSecFormat:"j. n. Y H:i:s",PasswordDoNotMatch:"Heslá sa musia zhodovať.",DownloadAsyncText:"Súbor <b>{0}</b> sa pripravuje na stiahnutie. Po jeho vygenerovaní si ho môžete stiahnuť v časti <a href=\"javascript:void(0);\" onclick=\"Sfera.Web.Shell.pluginPageRedirect('{1}');\" title=\"Správa exportu\">Správa exportu</a>.",ShowNavigation:"Zobraziť navigáciu",Submit:"Potvrdiť",ChartExport:"Uložiť graf ako obrázok",DateFieldStartDay:"1",GridFilter:"Filter tabuľky",NoDataToDisplay:"Žiadne údaje",ErrorsFound:"Nájdené chyby",Columns:"Stĺpce",DateFormat:"j. n. Y",ValidationErrorText:"Pri požadovanej operácii systém narazil na validačné obmedzenia. Prosím venujte pozornosť nasledujúcim chybám.",GroupByText:"Zoskupiť podľa tohto stĺpca",HideNavigation:"Skryť navigáciu",DateRangeDaysMaxWarning:"Maximálny rozsah dátumov je {0} dní.",ThousandsSeparator:" ",Download:"Stiahnuť",No:"Nie",On:"V",ChartResetZoom:"Zrušiť priblíženie",DateTimeFormatChart:"%d. %m. %Y %H:%M",Yes:"Áno",Error:"Chyba",After:"Od",Close:"Zavrieť",Clear:"Vyčistiť",ChartPrint:"Vytlačiť",ShowGroupsText:"Zobraziť skupiny",TimeSecFormat:"H:i:s",ValidationErrorTitle:"Chyba validácie",ImportAsyncText:"Súbor <b>{0}</b> sa importuje. Po jeho spracovaní si výsledok môžete overiť v časti <a href=\"javascript:void(0);\" onclick=\"Sfera.Web.Shell.pluginPageRedirect('{1}');\" title=\"Správa importu\">Správa importu</a>.",DeleteToolTip:"Vymazať zvolené záznamy",PageRedirectWarning:"Naozaj si želáte opustiť túto stránku? Všetky neuložené zmeny sa stratia.",SingleUserInfo:"V jednom prehliadači môže byť prihlásený iba jeden používateľ. Stránka bude obnovená v kontexte aktuálneho používateľa.",DateTimeFormat:"j. n. Y H:i",AltDateFormats:"j. n.Y|j.n. Y|j.n.Y|j. n. Y|j, n,Y|j,n, Y|j,n,Y|j, n, Y|dmY|dmy|j.n.y|j,n,y|d.m.Y",ExceptionOccured:"Systémová chyba",Loading:"Načítavanie...",ChartResetZoomTitle:"Zobraziť pôvodné priblíženie grafu",NoRecordsFound:"Neboli nájdené žiadne záznamy",EmptyGroupText:"(žiadne)",ChartSVG:"Uložiť ako SVG",ChartPNG:"Uložiť ako PNG",ChartPDF:"Uložiť ako PDF",DateFormatChart:"%d. %m. %Y",ChartJPEG:"Uložiť ako JPG",ChartMenu:"Možnosti grafu",Warning:"Upozornenie",FilterApply:"Filtrovať"});//]]>
+</script>
+
+<script src="/WebResource.axd?d=13MeSwixC33Ho0OJFcEv6I8uFu2E0NXE7zEGmog5hlAtIDTo2fHz_Hdk-nd51bZ6FxCWITSBUoLhc6LT2VQkr1zEyfj-c5MXnSnq4ER-Q9EGULpEgvU6W0Bo7lsdZjQ-TR61JLE6ZT3nL-g0IC_iM0eKoGByw2tgzNHjiAFFeJ8vC1Dx_weYH0Jx5HJinFiO0&amp;t=636360739860000000" type="text/javascript"></script>
+<script src="/WebResource.axd?d=QweeN7KGrVzrnbr8hc90W1QzSPM_IriMzsWgBWnzqw-mUOlq6p7Vofi83J999w2EZrC-tSKvCHKR5tt5D_9UQZeDigJA4LWW2jRP2BUBblllvuyHxtflme4wv9U-2eaHL9W2SxF5Wm42NhaLrxOH6z-_2u2OdvHTgbOEi27KNKlWrNwpww5Cy1cFFK18i1-d0&amp;t=636360739860000000" type="text/javascript"></script>
+<div class="aspNetHidden">
+
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="D44F3332" />
+	<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="S33oWoVlTb1Gy+FM6B53bvdaJRbTyzaFt2O6N2UP3ufqEMHhiN7PIYGLhZaaWv0bLj0/CKsxnnF2x+lZtGQ/eVLOn0oqyepyZEsyyPIRiMGvQjMOdrtK5dnOSA/tU0eV" />
+</div>
+           
+                
+        
+    
+     
+
+    <div id="cphShellContent_header_Content" class="x-hidden">                    
+                    
+
+<div id="live-notice" class="notice live-notice">
+</div>
+
+<div id="cphShellContent_Header1_browserWarning" class="browser-warning">    
+    <b>Upozornenie!</b> Používate zastaraný internetový prehliadač. Kvôli  bezpečnosti a používateľskému komfortu odporúčame nainštalovať aktuálnejšiu verziu prehliadača <a href="http://windows.microsoft.com/sk-sk/internet-explorer/download-ie" target="_blank" title="Prehliadač Internet Explorer">Internet Explorer</a>, prípadne niektorú z nasledujúcich alternatív: <a href="http://www.google.com/intl/sk/chrome/browser/" target="_blank" title="Prehliadač Chrome">Google Chrome</a>, <a href="http://www.mozilla.org/sk/firefox/new/" target="_blank" title="Prehliadač Firefox">Mozilla Firefox</a>, <a href="http://www.opera.com/sk" target="_blank" title="Prehliadač Opera">Opera</a>, <a href="http://www.apple.com/safari/" target="_blank" title="Prehliadač Safari">Safari</a>.
+</div>
+<div id="header">
+    <div id="cphShellContent_Header1_launcher" class="launcher-icon">
+        <div class="launcher">
+            <ul class="systems">
+                
+                        <li class="isom"><a href="https://dev-isod.sfera.sk/intranet/" target="_blank"><span class="logo"></span>Informačný systém XMatik.NET/ISOM</a></li>
+                    
+                        <li class="portal"><a href="https://dev-isod.sfera.sk/portal/" target="_blank"><span class="logo"></span>Zákaznícky portál</a></li>
+                    
+            </ul>
+            <ul id="cphShellContent_Header1_links" class="links">
+                
+                        <li class=""><a href="http://dev-isod.sfera.sk/intranet/Default.aspx#/intranet/Pages/UserSettings.aspx" target="_blank">Môj účet</a></li>
+                    
+                        <li class=""><a href="http://www.enstra.sk/" target="_blank">Pomocník</a></li>
+                    
+                        <li class="right"><a href="http://www.enstra.sk/" target="_blank">ENSTRA, a.s.</a></li>
+                    
+            </ul>
+        </div>
+    </div>
+    <h1>
+        <a id="cphShellContent_Header1_linkHome" href="/Default.aspx?lang=sk-SK"><img id="cphShellContent_Header1_imgProductLogo" src="../Plugins/MDC/App_Themes/Default/logo-xmatik.png" /></a>
+    </h1>    
+    
+    <p class="company">
+        <a id="cphShellContent_Header1_linkCompany" title="ENSTRA, a.s." href="http://www.enstra.sk" target="_blank"><img id="cphShellContent_Header1_imgCompanyLogo" src="../Plugins/MDC/App_Themes/Default/logo-enstra.png" /></a>
+    </p>
+    
+    <div class="info">
+        <div id="App.cphShellContent_Header1_hlInfo_Container"></div>
+    </div>
+    
+</div>  
+
+
+<div id="cphShellContent_Header1_windowAboutApp_winAboutApp_Content" class="x-hidden">
+        <div id="about">      
+            <div class="window">    
+                <h1>
+                    <a id="cphShellContent_Header1_windowAboutApp_linkHome" href="/Default.aspx?lang=sk-SK"><img id="cphShellContent_Header1_windowAboutApp_imgProductLogo" src="../Plugins/MDC/App_Themes/Default/logo-xmatik.png" /></a>
+                </h1>
+                <div class="text">
+                    <h2>
+                        XMatik®.NET/ISOM V17.1 (26.07.2017v1.7.01.18)
+                        <small>  Verzia portálu: 1.7.01.14</small>
+                    </h2>
+                    <div class="left">
+                        <p style="text-align:justify">                       
+                            Systém XMatik<sup>®</sup>.NET/ISOM zabezpečuje zber, spracovanie, vyhodnotenie meraných údajov, výpočet predikcií, archiváciu a poskytovanie údajov ďalším oprávneným subjektom. Vďaka integrovaným obchodným modulom je komplexným riešením pre subjekty, ktoré pôsobia súčasne aj v pozícii vlastnej zodpovednosti za odchýlku. Umožňuje rozšírenie o funkcie správy a údržby majetku a zariadení.&nbsp;
+                        </p>
+                    </div>
+                    <div class="right">
+                        <div class="support">
+                            <a id="cphShellContent_Header1_windowAboutApp_linkSupportMail" href="mailto:tomas.bartek@sfera.sk" target="_blank">tomas.bartek@sfera.sk</a>    
+                                             
+                        </div>
+                        <div class="docs">
+                            <a id="cphShellContent_Header1_windowAboutApp_linkDocs" href="http://wwww.enstra.sk" target="_blank">Používateľská príručka</a>   
+                        </div>
+                    </div>
+                </div>
+                <div class="copy">
+                    <p>
+                        <a href="http://www.sfera.sk" target="_blank"><img src="../App_Themes/Default/Images/about-sfera.gif" alt="sfera" title="Design and Technology by sféra, a.s." /></a>
+                          &nbsp;                
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<script type="text/javascript">
+    Ext.onReady(function () {
+        var noticeEl = Ext.get('notice');
+        if (noticeEl) {
+            var nt = noticeEl.query("a.notice-text")[0].innerHTML;
+            if (!nt) nt = noticeEl.query("div.notice-html")[0].innerHTML;
+            var noticeHash = Shell.getHash(nt);
+            if (nt && Shell.getCookie("banner") != noticeHash) {
+                noticeEl.addCls("on");
+                App.cphShellContent_header.doLayout();
+                Ext.get('notice-close').on('click', function () {
+                    noticeEl.removeCls("on");
+                    Shell.setCookie("banner", noticeHash, 30);
+                    App.cphShellContent_header.doLayout();
+                });
+            }
+        }
+    });
+</script>
+
+                </div><div id="cphShellContent_main_Content" class="x-hidden">
+                    
+    
+
+    
+
+ 
+                </div><div id="cphShellContent_footer_Content" class="x-hidden">
+                    <div id="App.cphShellContent_Footer1_ctl00_Container"><div id="cphShellContent_Footer1_ctl02_Content" class="x-hidden">
+                        Copyright © 2017 <a id="cphShellContent_Footer1_linkCompany" href="http://www.enstra.sk" target="_blank">ENSTRA, a.s.</a>
+                    </div><div id="cphShellContent_Footer1_ctl11_Content" class="x-hidden">                                    
+                        Design and Technology by <a href="http://www.sfera.sk" target="_blank">sféra, a.s.</a>
+                    </div></div>
+
+                </div>
+
+    
+    
+
+<script type="text/javascript">
+        SP.initJava = function() {  
+            if (typeof(deployJava) == 'undefined') {
+                var head = document.getElementsByTagName('head')[0];
+                var script = document.createElement('script');
+                script.type = 'text/javascript';
+                var onLoadFunction = function () {
+                    if (typeof(App.cphShellContent_cphShellTopAfterContent_winCertificate_hidJavaVersion) != 'undefined') {
+                        var version = parseInt(App.cphShellContent_cphShellTopAfterContent_winCertificate_hidJavaVersion.getValue());
+                        if (version && (deployJava.versionCheck(version+"+") == false)) {
+                            App.cphShellContent_cphShellTopAfterContent_winCertificate_conWarning.show();
+                        }
+                    }
+                }
+                script.onreadystatechange = function () {
+                    if (this.readyState == 'complete') onLoadFunction()
+                }
+                script.onload = onLoadFunction;
+                script.src = OM.dictionary.get("JavaHandlerUrl");
+                head.appendChild(script);
+            }
+        }
+    </script>
+    
+    
+ 
+    
+ 
+        
+    
+<script src="/WebResource.axd?d=pynGkmcFUV13He1Qd6_TZDbv3Xuyzm9vk1Cd-qxgTVEtYj5AuNB5rOLIefJxev0HZviWI33g_VWbCTcwWRd2fw2&amp;t=635823848444146506" type="text/javascript"></script>
+</form>                  
+</body>
+</html>

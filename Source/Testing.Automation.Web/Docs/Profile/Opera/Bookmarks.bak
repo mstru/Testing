@@ -1,0 +1,513 @@
+{
+   "checksum": "86412eb154bce4de571c6ebf2778fb20",
+   "roots": {
+      "bookmark_bar": {
+         "children": [  ],
+         "date_added": "13138786594787429",
+         "date_modified": "0",
+         "id": "1",
+         "name": "Panel so záložkami",
+         "type": "folder"
+      },
+      "custom_root": {
+         "speedDial": {
+            "children": [ {
+               "children": [ {
+                  "date_added": "13138786614523429",
+                  "id": "54",
+                  "meta_info": {
+                     "custom_keywords": "[]",
+                     "guid": "AB51E2BF-EBAE-4157-B119-6C478CE725DC",
+                     "imageData": "http://redir.opera.com/speeddials/partner/facebook",
+                     "imageDataType": "2",
+                     "imageID": "5243A22ED78411B65CDA129005121CF941D086A621B144FBC0F990740924A7C8",
+                     "imageType": "2",
+                     "partner_id": "facebook",
+                     "partner_image_download_url": "http://redir.opera.com/speeddials/partner/facebook",
+                     "partner_url": "http://redir.opera.com/speeddials/partner/facebook",
+                     "redirect": "1"
+                  },
+                  "name": "Facebook",
+                  "type": "url",
+                  "url": "http://www.facebook.com/"
+               }, {
+                  "date_added": "13138786614523429",
+                  "id": "55",
+                  "meta_info": {
+                     "custom_keywords": "[\"práčky\",\"chladničky\",\"umývačky riadu\",\"LCD televízory\",\"hračky\",\"DVD rekordéry\",\"digitálne fotoaparáty\",\"hobby\",\"krmivo\",\"bicykle\",\"outdoor\",\"hodinky\"]",
+                     "guid": "A53C4C26-098A-4B45-8612-73891447056F",
+                     "imageData": "http://redir.opera.com/speeddials/partner/mall_sk",
+                     "imageDataType": "2",
+                     "imageID": "06F41E50CE6EBD42856840C5018D90A3B6BDC1DCA6334D9BD16C7747EBFE6E72",
+                     "imageType": "2",
+                     "partner_id": "mall_sk",
+                     "partner_image_download_url": "http://redir.opera.com/speeddials/partner/mall_sk",
+                     "partner_url": "http://redir.opera.com/speeddials/partner/mall_sk",
+                     "redirect": "1"
+                  },
+                  "name": "Mall",
+                  "type": "url",
+                  "url": "http://www.mall.sk/"
+               }, {
+                  "date_added": "13138786614524429",
+                  "id": "56",
+                  "meta_info": {
+                     "custom_keywords": "[]",
+                     "guid": "60DE9DCF-A785-4466-825F-A18E82CBC168",
+                     "imageData": "http://redir.opera.com/speeddials/partner/heureka_sk",
+                     "imageDataType": "2",
+                     "imageID": "F3047894183F1C2D4618DE7828FA9A85715BCC386CA78BBEE772E21B7F2E7242",
+                     "imageType": "2",
+                     "partner_id": "heureka_sk",
+                     "partner_image_download_url": "http://redir.opera.com/speeddials/partner/heureka_sk",
+                     "partner_url": "http://redir.opera.com/speeddials/partner/heureka_sk",
+                     "redirect": "1"
+                  },
+                  "name": "Heureka",
+                  "type": "url",
+                  "url": "http://www.heureka.sk/"
+               }, {
+                  "date_added": "13138786614524429",
+                  "id": "57",
+                  "meta_info": {
+                     "custom_keywords": "[]",
+                     "guid": "AAA8026B-3697-43C6-BA9C-25CFD0BC881A",
+                     "imageData": "http://redir.opera.com/speeddials/partner/topky_sk",
+                     "imageDataType": "2",
+                     "imageID": "8A1B4A77EA6EB4AEED9206E8C457335D1AE468ECBD06FA033B43F202C3CFFFD5",
+                     "imageType": "2",
+                     "partner_id": "topky_sk",
+                     "partner_image_download_url": "http://redir.opera.com/speeddials/partner/topky_sk",
+                     "partner_url": "http://redir.opera.com/speeddials/partner/topky_sk",
+                     "redirect": "1"
+                  },
+                  "name": "Topky",
+                  "type": "url",
+                  "url": "http://www.topky.sk/"
+               }, {
+                  "date_added": "13138786614524429",
+                  "id": "58",
+                  "meta_info": {
+                     "custom_keywords": "[]",
+                     "guid": "77AB31CD-EF26-45B8-A840-7297DCEFEB81",
+                     "imageData": "http://redir.opera.com/speeddials/partner/amazon_sk",
+                     "imageDataType": "2",
+                     "imageID": "34766F2D8F7BECB8271F8C134765B173DA8407A5F46CBFF3F2F4398F1B5A6ABA",
+                     "imageType": "2",
+                     "partner_id": "amazon_sk",
+                     "partner_image_download_url": "http://redir.opera.com/speeddials/partner/amazon_sk",
+                     "partner_url": "http://redir.opera.com/speeddials/partner/amazon_sk",
+                     "redirect": "1"
+                  },
+                  "name": "Amazon.de",
+                  "type": "url",
+                  "url": "http://www.amazon.de/"
+               }, {
+                  "date_added": "13138786614524429",
+                  "id": "59",
+                  "meta_info": {
+                     "custom_keywords": "[\"azet\",\"pokec\",\"chat\",\"ludia\",\"katalog\",\"fotoalbumy\",\"zoznamka\",\"slovnik\",\"tahaky\",\"aktuality\",\"email\"]",
+                     "guid": "BA1FA531-8650-4138-BED1-0D584DD13ADF",
+                     "imageData": "http://redir.opera.com/speeddials/partner/azet_sk",
+                     "imageDataType": "2",
+                     "imageID": "304C47D81126DC96B2BACE0A11DEC06099C409EBC019273AD31CDD5C7E906B47",
+                     "imageType": "2",
+                     "partner_id": "azet_sk",
+                     "partner_image_download_url": "http://redir.opera.com/speeddials/partner/azet_sk",
+                     "partner_url": "http://redir.opera.com/speeddials/partner/azet_sk",
+                     "redirect": "1"
+                  },
+                  "name": "Azet",
+                  "type": "url",
+                  "url": "http://www.azet.sk/"
+               }, {
+                  "date_added": "13138786614525429",
+                  "id": "60",
+                  "meta_info": {
+                     "custom_keywords": "[]",
+                     "guid": "FB5BE1DA-8151-11E5-81BB-324669A460B9",
+                     "imageData": "http://redir.opera.com/speeddials/partner/booking_com_sk",
+                     "imageDataType": "2",
+                     "imageID": "1C6E16D104AEC48B14F29257CD0B71EA3BCE56115F8F2FAD4B56758FDB623988",
+                     "imageType": "2",
+                     "partner_id": "booking_com_sk",
+                     "partner_image_download_url": "http://redir.opera.com/speeddials/partner/booking_com_sk",
+                     "partner_url": "http://redir.opera.com/speeddials/partner/booking_com_sk",
+                     "redirect": "1"
+                  },
+                  "name": "Booking.com",
+                  "type": "url",
+                  "url": "http://www.booking.com/"
+               }, {
+                  "date_added": "13138786614525429",
+                  "id": "61",
+                  "meta_info": {
+                     "custom_keywords": "[]",
+                     "guid": "744FAA63-0697-4168-93DC-7F7B17737759",
+                     "imageData": "http://redir.opera.com/speeddials/partner/aliexpress_com_sk",
+                     "imageDataType": "2",
+                     "imageID": "F885B4060044588AC297096E89EBFD7478D864B8DF37764E601EDCDCD0CF9F23",
+                     "imageType": "2",
+                     "partner_id": "aliexpress_com_sk",
+                     "partner_image_download_url": "http://redir.opera.com/speeddials/partner/aliexpress_com_sk",
+                     "partner_url": "http://redir.opera.com/speeddials/partner/aliexpress_com_sk",
+                     "redirect": "1"
+                  },
+                  "name": "AliExpress",
+                  "type": "url",
+                  "url": "http://aliexpress.com/"
+               }, {
+                  "children": [ {
+                     "date_added": "13138786614526429",
+                     "id": "63",
+                     "meta_info": {
+                        "custom_keywords": "[\"Opera\",\"Opera Software\"]",
+                        "guid": "18306EFD-29C8-4CF9-9CEF-0C1C3C54A281",
+                        "imageData": "http://redir.opera.com/speeddials/partner/product_sk",
+                        "imageDataType": "2",
+                        "imageID": "399E9C81D7778AD2E47FD312A489293BC25D782C40E9BAFFA064599358DB4F69",
+                        "imageType": "2",
+                        "partner_id": "product_sk",
+                        "partner_image_download_url": "http://redir.opera.com/speeddials/partner/product_sk",
+                        "partner_url": "http://redir.opera.com/speeddials/partner/product_sk",
+                        "redirect": "1"
+                     },
+                     "name": "Spojte sa s nami",
+                     "type": "url",
+                     "url": "http://www.opera.com/sk/follow"
+                  }, {
+                     "date_added": "13138786614526429",
+                     "id": "64",
+                     "meta_info": {
+                        "custom_keywords": "[]",
+                        "guid": "B95B5301-9A36-4832-97DD-885CE0E79654",
+                        "imageData": "http://redir.opera.com/speeddials/partner/zoznam_sk",
+                        "imageDataType": "2",
+                        "imageID": "14F82C3199A1DA268F000A09B72D202B46E7EF59B872C3604CEF711D55C620BB",
+                        "imageType": "2",
+                        "partner_id": "zoznam_sk",
+                        "partner_image_download_url": "http://redir.opera.com/speeddials/partner/zoznam_sk",
+                        "partner_url": "http://redir.opera.com/speeddials/partner/zoznam_sk",
+                        "redirect": "1"
+                     },
+                     "name": "Zoznam",
+                     "type": "url",
+                     "url": "http://www.zoznam.sk/"
+                  }, {
+                     "date_added": "13138786614526429",
+                     "id": "65",
+                     "meta_info": {
+                        "custom_keywords": "[\"video\",\"sharing\",\"camera phone\",\"video phone\",\"free\",\"upload\"]",
+                        "guid": "CAFEC238-B329-458A-B84D-74F9F6CCF4E8",
+                        "imageData": "http://redir.opera.com/speeddials/partner/youtube",
+                        "imageDataType": "2",
+                        "imageID": "45D0AA34B9346B9C1CD482F465D18E25EF796A0CE412B7CA7C86B0C2ACC9CBEE",
+                        "imageType": "2",
+                        "partner_id": "youtube",
+                        "partner_image_download_url": "http://redir.opera.com/speeddials/partner/youtube",
+                        "partner_url": "http://redir.opera.com/speeddials/partner/youtube",
+                        "redirect": "1"
+                     },
+                     "name": "YouTube",
+                     "type": "url",
+                     "url": "http://www.youtube.com/"
+                  } ],
+                  "date_added": "13138786614525429",
+                  "date_modified": "13138786614526429",
+                  "id": "62",
+                  "meta_info": {
+                     "custom_keywords": "[]",
+                     "guid": "AE316069-0617-4FBE-8B41-2AC8C069B0C9",
+                     "partner_id": "",
+                     "partner_image_download_url": "",
+                     "partner_url": "",
+                     "redirect": "0"
+                  },
+                  "name": "",
+                  "type": "folder"
+               }, {
+                  "date_added": "13146308073697763",
+                  "id": "66",
+                  "meta_info": {
+                     "custom_keywords": "[]",
+                     "guid": "ac5b07c5-1fc4-410f-ab81-fcca4c3956ba",
+                     "last_visited_desktop": "13146320694782605",
+                     "partner_id": "",
+                     "partner_image_download_url": "",
+                     "partner_url": "",
+                     "redirect": "0"
+                  },
+                  "name": "XMatik®.NET/ISOM V17.1 (28.07.2017v1.7.01.19)",
+                  "type": "url",
+                  "url": "http://intranet.isommds.sfera.sk/#/Plugins/MDC/Pages/PowerGrids/Create.aspx"
+               } ],
+               "date_added": "13138786606185429",
+               "date_modified": "13146308073697763",
+               "id": "8",
+               "meta_info": {
+                  "speed_dial_root_folder_guid": "FD6FF000-B32D-4848-8F9E-04EB94C1B09D"
+               },
+               "name": "X-80084-PC-W7",
+               "type": "folder"
+            } ],
+            "date_added": "13138786606162429",
+            "date_modified": "0",
+            "id": "6",
+            "name": "Speed Dials",
+            "type": "folder"
+         },
+         "trash": {
+            "children": [  ],
+            "date_added": "13138786606162429",
+            "date_modified": "0",
+            "id": "7",
+            "name": "Trash",
+            "type": "folder"
+         },
+         "unsorted": {
+            "children": [  ],
+            "date_added": "13138786606162429",
+            "date_modified": "0",
+            "id": "4",
+            "name": "Unsorted bookmarks",
+            "type": "folder"
+         },
+         "userRoot": {
+            "children": [  ],
+            "date_added": "13138786606162429",
+            "date_modified": "0",
+            "id": "5",
+            "name": "All bookmarks",
+            "type": "folder"
+         }
+      },
+      "other": {
+         "children": [ {
+            "children": [ {
+               "children": [ {
+                  "date_added": "13064942468259683",
+                  "id": "11",
+                  "name": "XMtrade®/ISOM",
+                  "type": "url",
+                  "url": "https://test-isom.okte.sk/"
+               }, {
+                  "date_added": "13092404064935825",
+                  "id": "12",
+                  "name": "XMtrade®/RRM",
+                  "type": "url",
+                  "url": "https://test-rrm.okte.sk/portal/Pages/Login.aspx?ReturnUrl=%2fportal%2f"
+               }, {
+                  "date_added": "13065268355821006",
+                  "id": "13",
+                  "name": "XMtrade®/ISOT",
+                  "type": "url",
+                  "url": "https://test-isot.okte.sk/portal/Default.aspx?lang=sk"
+               }, {
+                  "date_added": "13065780524467271",
+                  "id": "14",
+                  "name": "XMtrade®/ISZO",
+                  "type": "url",
+                  "url": "http://test-iszo.okte.sk/portal/"
+               }, {
+                  "date_added": "13122027819296174",
+                  "id": "15",
+                  "name": "XMtrade®/ISO",
+                  "type": "url",
+                  "url": "https://test-iso.okte.sk/portal/default.aspx#/portal/Plugins/SystemManagement/Pages/UsersGlobalSSO/Default.aspx"
+               }, {
+                  "date_added": "13132137216599490",
+                  "id": "16",
+                  "meta_info": {
+                     "last_visited_desktop": "13147446303720115"
+                  },
+                  "name": "XMatik®/ISOM.MDS",
+                  "type": "url",
+                  "url": "http://intranet.isommds.sfera.sk/"
+               }, {
+                  "date_added": "13136536913780905",
+                  "id": "17",
+                  "name": "XMatik®/ISOM.ZSR.NEW",
+                  "type": "url",
+                  "url": "http://dev-oed.sfera.sk/prototype/Map"
+               }, {
+                  "date_added": "13136537006328905",
+                  "id": "18",
+                  "name": "XMatik®/ISOM.ZSR.OLD",
+                  "type": "url",
+                  "url": "http://dev-oed.sfera.sk/dispatching/Pages/Login.aspx?ReturnUrl=%2fdispatching%2fdefault.aspx"
+               } ],
+               "date_added": "13138786607256429",
+               "date_modified": "13138786607256429",
+               "id": "10",
+               "name": "Portal",
+               "type": "folder"
+            }, {
+               "date_added": "13130507975289573",
+               "id": "19",
+               "name": "TFS",
+               "type": "url",
+               "url": "http://tfs/DefaultCollection/Testing"
+            }, {
+               "date_added": "13088621139898179",
+               "id": "20",
+               "name": "Jenkins",
+               "type": "url",
+               "url": "http://v-99064-sr-12:8080/"
+            }, {
+               "date_added": "13119080954384062",
+               "id": "21",
+               "name": "RabbitMQ",
+               "type": "url",
+               "url": "http://10.35.207.68:15672/#/queues"
+            }, {
+               "date_added": "13132417500924093",
+               "id": "22",
+               "name": "DFS",
+               "type": "url",
+               "url": "http://intranet.sfera.sk/dfs/dokumentacia/"
+            }, {
+               "date_added": "13087550711261709",
+               "id": "23",
+               "name": "Google",
+               "type": "url",
+               "url": "https://www.google.sk/"
+            }, {
+               "date_added": "13064942424910818",
+               "id": "24",
+               "name": "intranet",
+               "type": "url",
+               "url": "http://intranet/intranet/index.asp"
+            }, {
+               "date_added": "13115112844983748",
+               "id": "25",
+               "name": "Fingera Vlastna",
+               "type": "url",
+               "url": "http://sfera.fingera.com/own_web_overview"
+            }, {
+               "date_added": "13125746362042441",
+               "id": "26",
+               "name": "Safari",
+               "type": "url",
+               "url": "https://www.safaribooksonline.com/home/"
+            }, {
+               "date_added": "13067071838983465",
+               "id": "27",
+               "name": "SoapUI",
+               "type": "url",
+               "url": "http://www.soapui.org/"
+            }, {
+               "date_added": "13100265571788861",
+               "id": "28",
+               "name": "Home - My Visual Studio",
+               "type": "url",
+               "url": "https://myprodscussu1.app.vssubscriptions.visualstudio.com/dashboard"
+            }, {
+               "date_added": "13118995308722361",
+               "id": "29",
+               "name": "Mestan",
+               "type": "url",
+               "url": "http://dunajska.mestianskypivovar.sk/pivovar-dunajska-ponuka-dna-denne-menu-bratislava-dobry-obed"
+            }, {
+               "date_added": "13129631563624286",
+               "id": "30",
+               "name": "Kantínka1",
+               "type": "url",
+               "url": "https://menucka.sk/denne-menu/bratislava/kantinka"
+            }, {
+               "date_added": "13130326699333164",
+               "id": "31",
+               "name": "Kantínka2",
+               "type": "url",
+               "url": "https://www.zomato.com/sk/kantinka"
+            }, {
+               "date_added": "13124896376311045",
+               "id": "32",
+               "name": "NuGet Gallery | Packages",
+               "type": "url",
+               "url": "http://tfs/nugetgallery/packages?sortOrder=package-download-count&page=11&prerelease=False"
+            }, {
+               "date_added": "13126694290116101",
+               "id": "33",
+               "name": "rndsolutions/trx-merger",
+               "type": "url",
+               "url": "https://github.com/rndsolutions/trx-merger"
+            }, {
+               "date_added": "13131527411067577",
+               "id": "34",
+               "name": "NetScaler Gateway",
+               "type": "url",
+               "url": "https://ncag1.sepsas.sk/cvpn/aHR0cDovLzEyNy4wLjAuMQ/vpns/portal/homepage.html"
+            }, {
+               "date_added": "13133871385635848",
+               "id": "35",
+               "name": "Using VisualStudio webtest for automating API testing | THISDEVMIND.COM",
+               "type": "url",
+               "url": "http://www.thisdevmind.com/2014/12/27/using-visual-studio-web-test-for-automating-api-testing/"
+            }, {
+               "date_added": "13133871398691848",
+               "id": "36",
+               "name": "Anthony Baker: How to Consume a JSON REST API in .NET",
+               "type": "url",
+               "url": "http://blog.anthonybaker.me/2013/05/how-to-consume-json-rest-api-in-net.html"
+            }, {
+               "date_added": "13133881772466848",
+               "id": "37",
+               "name": "c# - How to remove proxy from WebRequest and leave DefaultWebProxy untouched - Stack Overflow",
+               "type": "url",
+               "url": "http://stackoverflow.com/questions/1559863/how-to-remove-proxy-from-webrequest-and-leave-defaultwebproxy-untouched"
+            }, {
+               "date_added": "13134554618539594",
+               "id": "38",
+               "name": "RESTful Day #9: OData in ASP.NET Web APIs - CodeProject",
+               "type": "url",
+               "url": "https://www.codeproject.com/articles/1089577/restful-day-sharp-odata-in-asp-net-web-apis"
+            }, {
+               "date_added": "13134569981586518",
+               "id": "39",
+               "name": "Basic Tutorial · OData - the Best Way to REST",
+               "type": "url",
+               "url": "http://www.odata.org/getting-started/basic-tutorial/"
+            }, {
+               "date_added": "13135700550284841",
+               "id": "40",
+               "name": "json2csharp - generate c# classes from json",
+               "type": "url",
+               "url": "http://json2csharp.com/"
+            }, {
+               "children": [  ],
+               "date_added": "13138786607258429",
+               "date_modified": "13138786607258429",
+               "id": "41",
+               "name": "Iné záložky",
+               "type": "folder"
+            }, {
+               "children": [  ],
+               "date_added": "13138786607258429",
+               "date_modified": "13138786607258429",
+               "id": "42",
+               "name": "Záložky v mobile",
+               "type": "folder"
+            } ],
+            "date_added": "13138786607256429",
+            "date_modified": "13138786607256429",
+            "id": "9",
+            "name": "Importované z Chromu",
+            "type": "folder"
+         } ],
+         "date_added": "13138786594787429",
+         "date_modified": "0",
+         "id": "2",
+         "name": "Imported bookmarks",
+         "type": "folder"
+      },
+      "synced": {
+         "children": [  ],
+         "date_added": "13138786594787429",
+         "date_modified": "0",
+         "id": "3",
+         "name": "Záložky v mobile",
+         "type": "folder"
+      }
+   },
+   "version": 1
+}

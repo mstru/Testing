@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link type="text/css" rel="stylesheet" href="/extjs/packages/ext_theme_crisp/build/resources/ext-theme-crisp-all-embedded-css/ext.axd?v=29122" id="ext-theme" />
+    <link type="text/css" rel="stylesheet" href="/extnet/resources/css/extnet-all-embedded-css/ext.axd?v=29122" id="extnet-styles" />
+    <script type="text/javascript" src="/extjs/ext-all-js/ext.axd?v=29122"></script>
+    <script type="text/javascript" src="/extjs/packages/ext_theme_crisp/build/ext-theme-crisp-js/ext.axd?v=29122"></script>
+    <script type="text/javascript" src="/extnet/extnet-all-js/ext.axd?v=29122"></script>
+    <script type="text/javascript" src="/extnet/locale/ext-locale-sk-js/ext.axd?v=29122"></script>
+<meta http-equiv="X-UA-Compatible" content="IE=9" /><title>
+	XMatik MDC
+</title><meta name="author" content="sféra,a.s." /><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><link type="text/css" href="../../App_Themes/Default/style.css?9" rel="stylesheet" /><style type='text/css'> @font-face {
+                          font-family: 'FontAwesome';
+                          src: url('/WebResource.axd?d=toAcwtf7dHxIYH4oxI7GhMIGgSyehdc_fWIW66rsdxO2lYuwEapVKIv-G4-UjFv_jDbkQwAOYZTB-ku1cNneuckkUvx8McPtSenVO8mFfK0WENkBFt4Khw7LSqcVgTuDvyb-Huf6h5OW3eVlSdIS_R9QbTPkRF5R5PiecE92BvTuukL4kMdy-yFgWMlOoAs90&t=636360739860000000?v=4.4.0');
+                          src: url('/WebResource.axd?d=toAcwtf7dHxIYH4oxI7GhMIGgSyehdc_fWIW66rsdxO2lYuwEapVKIv-G4-UjFv_jDbkQwAOYZTB-ku1cNneuckkUvx8McPtSenVO8mFfK0WENkBFt4Khw7LSqcVgTuDvyb-Huf6h5OW3eVlSdIS_R9QbTPkRF5R5PiecE92BvTuukL4kMdy-yFgWMlOoAs90&t=636360739860000000?#iefix&v=4.4.0') format('embedded-opentype'), url('/WebResource.axd?d=L0nbrzPpDo_kWDS7ai08-eCixqpy267eYAoGNdhL-9ASVGPJ05pE_gGm69hIDR7aw15tepdKNK8yrb5zcSFjAUhtJq55Zc1zSHgYCKKjKakaThb_axhM4DEsrVpc2l8BJjc9u-uh5KxKxo949q5_kLvWcwZWnI90Rps4YTS2JFcfSXs2MLuqSnPn2ILCKDwG0&t=636360739860000000?v=4.4.0') format('woff2'), url('/WebResource.axd?d=fjsAis9Pi9P6ZbWBTx-wZSxPyygOS6MGaBRwjwslFraGujB-scGJmn1zjSTR2mXMx-V83_KOLUdawdbcLwZKCtndfQVGcWUxlBNeGRmtFnkIiFLg_9ecEo1BxEOAroC_44Koc2Y1cyqpfMRJVIlWHqoMBjAdCX2fuhciL2LFHb_2N6Lj6l_Nxy2MBQLGwBUp0&t=636360739860000000?v=4.4.0') format('woff'), url('/WebResource.axd?d=CVmWjIxclTIYkQt6jeEmtOOW1PFi8qnQ1PQQUsZ-b1RVPE-ag8PX6jeRATupvfwrul1DdMouPWCNvzL7lBHq4LWrLRVAnxrTREWQFY6RGEhIpCzNqGuDjADsX3oBA7Nflc5X2tVERWQIT8B17wR0uGUXqZXPIfzTU9IPq_-gi3FqK9kbr56erPblkAVzsqkF0&t=636360739860000000?v=4.4.0') format('truetype'), url('/WebResource.axd?d=kx17AOp8I7C-HrpobYKw06kl0ZsM8Y7I0L9QW2joAz53inwNXx9NiZLpIH48zkksKola93MtOkBGggFl1DCjtRJmGxDqfLWZof91uarGFO__x79fvGUkvsHtby0hLLpJl4CPIWjX2IS-aupjAbWetCA_4LLV2RL--cLABw9a8jBz7-0jC7x40bGDVN5yUiiC0&t=636360739860000000?v=4.4.0#fontawesomeregular') format('svg');
+                          font-weight: normal;
+                          font-style: normal;
+                        }</style><link href="/WebResource.axd?d=_yHqY-p-z4l5XjDNL5z4YB97r9JxnA7g698MW_5RUwzj3Mkctn38Rfyy5jKSnHZl5FG-TlMFWTEltXNexFwsIYubykikElliibQAMd_g_OA6iyjAVXp7mooQkzCPxOqcacS5MtJztk8kSlg2S0UhAqDf5iYB1YyVHwR1C1MOS5M1&amp;t=636360739860000000" rel="stylesheet" /><link href="../../../MDC/App_Themes/Default/Shell.css?5" rel="stylesheet" />
+    <script type="text/javascript">
+    //<![CDATA[
+        Ext.net.ResourceMgr.init({ajaxTimeout:119000,id:"ctl00$resourceManager",aspForm:"ctl01",theme:"crisp",icons:["FolderUp","Pencil"]});Ext.onReady(function(){Ext.net.DirectEvent.showFailure = Ext.emptyFn;Ext.ns("App.direct");Ext.apply(App.direct, { LogJavascriptError:function(error,additionalInfo,config){return Ext.net.DirectMethod.request("LogJavascriptError",Ext.applyIf(config || {}, {params:{error:error,additionalInfo:additionalInfo},viewStateMode:"enabled"}));},SaveUIState:function(data,config){return Ext.net.DirectMethod.request("SaveUIState",Ext.applyIf(config || {}, {params:{data:data},viewStateMode:"enabled"}));},IsUrlAuthorized:function(url,config){return Ext.net.DirectMethod.request("IsUrlAuthorized",Ext.applyIf(config || {}, {params:{url:url},viewStateMode:"enabled"}));},NavigateTo:function(url,config){return Ext.net.DirectMethod.request("NavigateTo",Ext.applyIf(config || {}, {params:{url:url},viewStateMode:"enabled"}));} });Ext.net.DirectEvent.on({ajaxrequestexception:{fn:Shell.handleRequestException}});window.App.cphPluginContent_formNewsForm_storeContent=Ext.create("Ext.data.Store",{model:Ext.ClassManager.isCreated(Ext.id()) ? Ext.id() : Ext.define(Ext.id(), {extend: "Ext.data.Model", fields:[{name:"ID"},{name:"Title",type:"string"},{name:"Content",type:"string"},{name:"CreatedAt",type:"date",dateFormat:"c"},{name:"CreatedBy",type:"string"},{name:"ChangedAt",type:"date",dateFormat:"c"},{name:"ChangedBy",type:"string"}],idProperty:"ID" }),storeId:"cphPluginContent_formNewsForm_storeContent",autoLoad:true,proxy:{data:[{"ID":4,"Title":"motýle","Content":"<img width=\"\" height=\"\" _moz_dirty=\"\" src=\"/Plugins/ISOD/Shared/ImageHandler.ashx?ID=655778&boid=9ac987319ae2427cbaf9017f4afe1e28\" _moz_resizing=\"true\">","CreatedAt":"2017-07-25T13:58:35","CreatedBy":"Gabriela Kékešiová","ChangedAt":"2017-07-25T13:58:35","ChangedBy":"Gabriela Kékešiová"}], type: 'memory'},listeners:{datachanged:{fn:function(store){var record = Shell.Form.loadFromStore(App.cphPluginContent_formNewsForm_formContent, App.cphPluginContent_formNewsForm_storeContent);}}}});Ext.create("Ext.net.Viewport",{id:"cphPluginContent_formNewsForm_viewport",cls:" plugin-style-a",renderTo:Ext.get("ctl01"),items:[{id:"cphPluginContent_formNewsForm_pnlToolbar",cls:" sp-toolbar no-title",height:46,region:"north",items:[{id:"cphPluginContent_formNewsForm_Toolbar1",xtype:"toolbar",items:[{cls:"bg-back",xtype:"buttongroup",items:[{id:"cphPluginContent_formNewsForm_btnBackToList",cls:"btn-back",iconCls:"#FolderUp",tooltip:"Návrat naspäť na zoznam",directEvents:{click:{fn:function(item,e){Ext.net.directRequest({viewStateMode:"enabled",eventMask:{showMask:true,msg:"Načítavanie..."},control:this});}}}}]},{id:"cphPluginContent_formNewsForm_bgRecord",xtype:"buttongroup",items:[{id:"cphPluginContent_formNewsForm_btnEdit","createVisible":false,"editVisible":false,iconCls:"#Pencil",text:"Modifikovať",tooltip:"Modifikovať záznam",directEvents:{click:{fn:function(item,e){Ext.net.directRequest({viewStateMode:"enabled",eventMask:{showMask:true,msg:"Načítavanie..."},control:this});}}}}]}]}],header:false},{id:"cphPluginContent_formNewsForm_pnlContent","margins":3,region:"center",autoScroll:true,items:[{id:"cphPluginContent_formNewsForm_formContent",xtype:"form",autoScroll:true,defaults:{"width":780,"padding":10,"margin":10},items:[{id:"cphPluginContent_formNewsForm_FieldSet1",xtype:"fieldset",defaultAnchor:"98%",items:[{id:"cphPluginContent_formNewsForm_tfTitle",width:250,xtype:"textfield",fieldLabel:"Nadpis",dataIndex:"Title",readOnly:true,remoteValidationOptions:{viewStateMode:"enabled"},allowBlank:false},{id:"cphPluginContent_formNewsForm_ctl15","createVisible":false,xtype:"displayfield",fieldLabel:"Vytvoril",dataIndex:"CreatedBy",remoteValidationOptions:{viewStateMode:"enabled"}},{id:"cphPluginContent_formNewsForm_ctl17","createVisible":false,cls:"readonly",xtype:"datefield",fieldLabel:"Dátum vytvorenia",dataIndex:"CreatedAt",readOnly:true,remoteValidationOptions:{viewStateMode:"enabled"},format:"j.n.Y",submitFormat:"j.n.Y"},{id:"cphPluginContent_formNewsForm_ctl19","createVisible":false,xtype:"displayfield",fieldLabel:"Modifikoval",dataIndex:"ChangedBy",remoteValidationOptions:{viewStateMode:"enabled"}},{id:"cphPluginContent_formNewsForm_ctl21","createVisible":false,cls:"readonly",xtype:"datefield",fieldLabel:"Dátum modifikácie",dataIndex:"ChangedAt",readOnly:true,remoteValidationOptions:{viewStateMode:"enabled"},format:"j.n.Y",submitFormat:"j.n.Y"}],title:"Základné údaje"},{id:"cphPluginContent_formNewsForm_fsContent",xtype:"fieldset",defaultAnchor:"98%",contentEl:"cphPluginContent_formNewsForm_fsContent_Content",items:[{id:"cphPluginContent_formNewsForm_fuFile",hidden:true,xtype:"filefield",fieldLabel:"Vložiť obrázok",readOnly:true,remoteValidationOptions:{viewStateMode:"enabled"},listeners:{change:{fn:function(item,newValue,oldValue){App.cphPluginContent_formNewsForm_btnUpload.fireEvent('click', App.cphPluginContent_formNewsForm_btnUpload);}}}},{id:"cphPluginContent_formNewsForm_btnUpload",hidden:true,xtype:"button",directEvents:{click:{fn:function(item,e){Ext.net.directRequest({viewStateMode:"enabled",control:this});}}}}],title:"Obsah"}],layout:{type:"vbox"},url:unescape("%2fPlugins%2fISOD%2fPages%2fNews%2fView.aspx%3fID%3d4%26lang%3dsk-SK%26boid%3d9ac987319ae2427cbaf9017f4afe1e28%26_dc%3d1501497363619"),fieldDefaults:{labelWidth:250}}],layout:"form",buttonAlign:"left",buttons:null}],layout:"border"});OM.dictionary.add("ChartMonths", ["január","február","marec","apríl","máj","jún","júl","august","september","október","november","december"]);OM.dictionary.add("ChartShortMonths", ["jan","feb","mar","apr","máj","jún","júl","aug","sep","okt","nov","dec"]);OM.dictionary.add("ChartWeekdays", ["nedeľa","pondelok","utorok","streda","štvrtok","piatok","sobota"]);Sfera.Web.Shell.setCurrentPageToBreadcrumb('Prezeranie novinky Zákazníckeho portálu');App.cphPluginContent_formNewsForm_tfTitle.addCls("readonly");App.cphPluginContent_formNewsForm_ctl17.addCls("readonly");App.cphPluginContent_formNewsForm_ctl21.addCls("readonly");App.cphPluginContent_formNewsForm_fuFile.addCls("readonly");});
+    //]]>
+    </script>
+</head>
+<body>
+    <form method="post" action="./View.aspx?ID=4&amp;lang=sk-SK&amp;boid=9ac987319ae2427cbaf9017f4afe1e28&amp;_dc=1501497363619" id="ctl01" enctype="multipart/form-data">
+<div class="aspNetHidden">
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="yd61Mf2hlTWUol1vfXINTKmYGEYG1VtxAAXL8+/JISlujbIJWrdnSPQji98TJZllSsuYThilK26l5gTQinchBpAxewo9vzEKIY1X6A4c0eCY1D9LQwcUdoJVSUNZ9qyATuwhM6NTevUx2cKNu7bTR8TacJFJbL++GaMnydZFNoIkYWxung+rBjrzChUQVSnzFh5Hf1JX63Z/ykq9R+dEwGS7jMU7y+cT3jIXCB9Xy7tfw6ADKM3sgUxTIuqVmxrX5JdLD3WanhCmzLKjdmuVB2ceqjLq2iqkBBSutTYswvV2a9bySnitMFo/FKb2TQ6BkH3il0fN5Ut2XTB7QQd6nXpEvWTFTc8QbcUt8cZKx01RsUBCjcU3sqB/C5IBgfH/E7mkfSRtMZFSyA0ApcwaPBM/LIyz/HPvYIHc8bQ93UiIaU1JKNwD+IHH6KIpUWb73kssJu0M5213i0aWXy83qI1SXOS7y0z4BmJcd5+qCjUXLCE4nAzncXdfHBnX0GpDrGvCTH5IZ3dXTDIgijgyt4RFpcjhoZYjdPyv6FKFsqmSlpQFwbFevp5o+ydWmFS6Q6udfQLsU63RZsX4DfXMHGfggPI7Jd7dj/40CgwZsu5QbFxHW1hNzfNfYrqdZiZCV2SnVERgZgbKKiVXvnbPOd+zlDZKZ6iOP54vuJCH6gJPy76/Qau1yT1s0ompA7m7hc5bX4fg5DoQ93HnCCGK88YALKItUFRnxH6G+FyIvRciRT0jhGVbP+ChfXltkxjTxRgNjHUGEWKdxUPfpMmb/zmkAOpZTUNssqMEP8f5p0DmfMNhNGPagsc7f3WB14NSQTRmR2fTOjBiy+b3hLzW0TmdTXWDz3qrjls1UDmFvoOBmPNgVzGwpjDssYg6YYcsjBC1jdlzBuOa0E09eTIqji603N5N3mXGneG/N71POYfpsUKU2wKHIrJQxPDoTI06xxJIvnj5zHzA7mpWWGpQIVHi91LJW7utNNIisdhobNIcrweN1RoBZLOUBs4kqnceMquTT7h56jZab7kLPohmh3o8XDUt8/1yAloqm5wsdGAbtf1l2ufY1A5MGzQj0uQRxCQe6xfjWd/IHRolfatdmK5sgAISzlQfiFdHM+L5RC0BSv+OAGK9ZGgmAOUNrLJSnUiRxzh0erPqMpx6Jq/MnKWAJLjG0kgbdgdBzgMfus2+Ct+ROSdaPchaqDy79ptie7fxStPuFkCqOCiX4RvquuQeuU2zbaeNYL5ow8hfaHpr2pbsVmec0FATu7641LZPyKkdGXN9D1NzT7tqDmR/PzSE+a9kZ30sTdo5K64t13xrZdypPGXquU15WTS7EAVDukXvaHnfQDvOMyoWLG5b8xmi46xAUptY2VcdZXb0+OfQL7+Hd+0Nn/tO4n9X16cOmvMx31q7T6yvRD8mCuz4zWHwjGTb3Gmu8T/H2sw4p1VGEnB9UZG0Stcq1x7zQCXJ71fuJSyErKxAhqlyGaL3v/CB3IxRaQO8zqqeJojhDGZBE9c/Cu93ZeSqXCULHSAfELZ/o9MYWJrvMz2fEa5ANw==" />
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['ctl01'];
+if (!theForm) {
+    theForm = document.ctl01;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+
+<script src="/WebResource.axd?d=r-zCcXDZDbeHb2CjAOijXVN5zETS9jaelaMM9r1_qA-I98jwA8eEMLUN688d1uTbk4Dx9AZB9FyM1j_OTzhuH5ToihEKLWdOsL1rszRrPVaVmO4YW73_sj8VDouzPUigWcRuMmEsUc5GOseofszl7Mmz9zd7yznU_wZ6HLjWILwcoQJ1hUNkB-WjgjeFu2Nx0&amp;t=636360739860000000" type="text/javascript"></script>
+<script type="text/javascript">
+//<![CDATA[
+OM.dictionary.addMultiple({ShowInShell:"true",ShowErrors:"true",GoogleAnalyticsId:"UA-39897374-1",GoogleAnalyticsName:"iszo.sk",ScriptHighstockUrl:"/WebResource.axd?d=50-w7AgyTOchHQqs5kYCwDgoJCdJWxZwDKNuxRRrl7s6PNOL157LOYtyEdpQt_v0yHkI8abIzYASVCo5BsvYmDuYTwH_bGmYCMQe10wD5UDDMuB6gDqLhlXh6xXo3qxVFNmibijQRwPpqYPei_AYcme372mFmxOlPzo_SNb0EDnYwbHXn-NnqCgCaLa5K30F0&t=636360739860000000",HighchartsExportHandler:"/intranet/HighchartsExport.axd",SystemPopupHeader:"",ImportFile:"Import súboru",EnterFilter:"Zadajte text filtra",Filter:"Filter",Before:"Do",RequestTimeoutInfo:"Požiadavka trvala príliš dlho a preto bola zrušená.",SystemErrorTitle:"V aplikácii nastala chyba",Cancel:"Zrušiť",DeleteToolTipNoPermissions:"Nemáte dostatočné práva na vymazanie všetkých zvolených záznamov.",InputNotNegative:"Hodnota pre toto pole nemôže byť záporná",ChartRangeSelector:"Rozsah údajov",SortASC:"Zoradiť vzostupne",DeleteToolTipNoRecords:"Nie je zvolený žiadny záznam.",DownloadText:"Súbor <b>{0}</b> s veľkosťou {1} KB je pripravený na stiahnutie.",DownloadFile:"Sťahovanie súboru",AllowPopupsForNav:"Pre otváranie stránok v novom okne povoľte v prehliadači vyskakovacie okná.",DecimalPoint:",",SortDESC:"Zoradiť zostupne",DateTimeSecFormat:"j. n. Y H:i:s",PasswordDoNotMatch:"Heslá sa musia zhodovať.",DownloadAsyncText:"Súbor <b>{0}</b> sa pripravuje na stiahnutie. Po jeho vygenerovaní si ho môžete stiahnuť v časti <a href=\"javascript:void(0);\" onclick=\"Sfera.Web.Shell.pluginPageRedirect('{1}');\" title=\"Správa exportu\">Správa exportu</a>.",ShowNavigation:"Zobraziť navigáciu",Submit:"Potvrdiť",ChartExport:"Uložiť graf ako obrázok",DateFieldStartDay:"1",GridFilter:"Filter tabuľky",NoDataToDisplay:"Žiadne údaje",ErrorsFound:"Nájdené chyby",Columns:"Stĺpce",DateFormat:"j. n. Y",ValidationErrorText:"Pri požadovanej operácii systém narazil na validačné obmedzenia. Prosím venujte pozornosť nasledujúcim chybám.",GroupByText:"Zoskupiť podľa tohto stĺpca",HideNavigation:"Skryť navigáciu",DateRangeDaysMaxWarning:"Maximálny rozsah dátumov je {0} dní.",ThousandsSeparator:" ",Download:"Stiahnuť",No:"Nie",On:"V",ChartResetZoom:"Zrušiť priblíženie",DateTimeFormatChart:"%d. %m. %Y %H:%M",Yes:"Áno",Error:"Chyba",After:"Od",Close:"Zavrieť",Clear:"Vyčistiť",ChartPrint:"Vytlačiť",ShowGroupsText:"Zobraziť skupiny",TimeSecFormat:"H:i:s",ValidationErrorTitle:"Chyba validácie",ImportAsyncText:"Súbor <b>{0}</b> sa importuje. Po jeho spracovaní si výsledok môžete overiť v časti <a href=\"javascript:void(0);\" onclick=\"Sfera.Web.Shell.pluginPageRedirect('{1}');\" title=\"Správa importu\">Správa importu</a>.",DeleteToolTip:"Vymazať zvolené záznamy",PageRedirectWarning:"Naozaj si želáte opustiť túto stránku? Všetky neuložené zmeny sa stratia.",SingleUserInfo:"V jednom prehliadači môže byť prihlásený iba jeden používateľ. Stránka bude obnovená v kontexte aktuálneho používateľa.",DateTimeFormat:"j. n. Y H:i",AltDateFormats:"j. n.Y|j.n. Y|j.n.Y|j. n. Y|j, n,Y|j,n, Y|j,n,Y|j, n, Y|dmY|dmy|j.n.y|j,n,y|d.m.Y",ExceptionOccured:"Systémová chyba",Loading:"Načítavanie...",ChartResetZoomTitle:"Zobraziť pôvodné priblíženie grafu",NoRecordsFound:"Neboli nájdené žiadne záznamy",EmptyGroupText:"(žiadne)",ChartSVG:"Uložiť ako SVG",ChartPNG:"Uložiť ako PNG",ChartPDF:"Uložiť ako PDF",DateFormatChart:"%d. %m. %Y",ChartJPEG:"Uložiť ako JPG",ChartMenu:"Možnosti grafu",Warning:"Upozornenie",FilterApply:"Filtrovať"});//]]>
+</script>
+
+<script src="/WebResource.axd?d=13MeSwixC33Ho0OJFcEv6I8uFu2E0NXE7zEGmog5hlAtIDTo2fHz_Hdk-nd51bZ6FxCWITSBUoLhc6LT2VQkr1zEyfj-c5MXnSnq4ER-Q9EGULpEgvU6W0Bo7lsdZjQ-TR61JLE6ZT3nL-g0IC_iM0eKoGByw2tgzNHjiAFFeJ8vC1Dx_weYH0Jx5HJinFiO0&amp;t=636360739860000000" type="text/javascript"></script>
+<script src="/WebResource.axd?d=QweeN7KGrVzrnbr8hc90W1QzSPM_IriMzsWgBWnzqw-mUOlq6p7Vofi83J999w2EZrC-tSKvCHKR5tt5D_9UQZeDigJA4LWW2jRP2BUBblllvuyHxtflme4wv9U-2eaHL9W2SxF5Wm42NhaLrxOH6z-_2u2OdvHTgbOEi27KNKlWrNwpww5Cy1cFFK18i1-d0&amp;t=636360739860000000" type="text/javascript"></script>
+<div class="aspNetHidden">
+
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="9D95BE09" />
+	<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="v2SnYgafhYkSGc2Bu0Cv+I/COzV4DJv2EUnHeUf6aXSeH1teodgCbl0ayLTVSgZb81GYyFWSvhZbI/nsYJcjbV1g8E9NXzDm1wo8aO+6qXVwrbQLeG/4WWqFcRxqA5jD" />
+</div>
+          
+       
+    
+
+
+
+<div id="cphPluginContent_formNewsForm_fsContent_Content" class="x-hidden">
+                                <iframe src="../../Shared/HtmlContent.aspx?ID=4&boid=9ac987319ae2427cbaf9017f4afe1e28" id="cphPluginContent_formNewsForm_ifContent" frameborder="0" width="750" height="500"></iframe>
+                            </div>
+
+<script type="text/javascript">
+        SP.getEntityJSON = function () {
+            App.cphPluginContent_formNewsForm_richText.toggleSourceEdit(false);
+            var rec = App.cphPluginContent_formNewsForm_storeContent.getAt(0);
+            if (!rec || Ext.isEmptyObj(rec)) {
+                var r = Ext.data.Record.create(App.cphPluginContent_formNewsForm_storeContent.fields.items);
+                rec = new r();
+            }
+            App.cphPluginContent_formNewsForm_formContent.getForm().updateRecord(rec);
+            var obj = App.cphPluginContent_formNewsForm_storeContent.prepareRecord(rec.data, rec, {});
+            obj.Content = App.cphPluginContent_formNewsForm_richText.value;
+            return Ext.encode(obj);
+        }
+    </script>
+
+     
+    </form>
+</body>
+</html>

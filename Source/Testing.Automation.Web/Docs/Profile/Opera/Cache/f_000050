@@ -1,0 +1,1442 @@
+﻿(function (Sfera, undefined) {
+
+    Sfera.Web = Sfera.Web || {};
+    Sfera.Web.Shell = Sfera.Web.Shell || {};
+
+    Sfera.Web.Shell.Form = {};
+    // skryje všetky elementy (buttongroup-y s CSS triedou .s-switch (alebo vlastnou poskytnutou v druhom argumente) a zobrazí poskytnutý element
+    Sfera.Web.Shell.Form.showSingle = function (toolbar, cls) {
+        cls = cls || "s-switch";
+        Ext.select("." + cls).each(function (t) {
+            Ext.getCmp(t.dom.id).hide();
+        });
+        if (toolbar) toolbar.show();
+    }
+    // naplní form prvým záznamom zo store-u
+    Sfera.Web.Shell.Form.loadFromStore = function (form, store) {
+        var record = store.getAt(0) || {},
+            f = form.getForm();
+        if ((!record || Ext.isEmptyObj(record))) {
+            record = store.model.create();
+        }
+        f.loadRecord(record);
+        f.getFields().each(function (item) {
+            if (item.xtype == "compositefield") {
+                item.items.each(function (cfitem) { if (cfitem.clearInvalid) cfitem.clearInvalid() });
+            } else if (item.xtype == "combobox" && item.dataIndex) {
+                var value = record.data[item.dataIndex];
+                if (typeof (value) == "string") {
+                    item.setRawValue(value);
+                } else if (value && typeof (value) == "object") {
+                    if (item.rawValueField) {
+                        item.setRawValue(value[item.rawValueField]);
+                    } else {
+                        var r = {};
+                        r[item.valueField] = value[item.valueField];
+                        r[item.displayField] = value[item.displayField];
+                        item.store.add(r);
+                        item.setValue(value[item.valueField]);
+                    }
+                }
+            }
+            item.clearInvalid();
+        });
+        return record;
+    }
+    // zmaže všetky položky formulára
+    Sfera.Web.Shell.Form.clearForm = function (form) {
+        form.getForm().items.each(function (item) {
+            Sfera.Web.Shell.Form.clearItem(item);
+            if (item.xtype == "compositefield") {
+                item.items.each(function (cfitem) { Sfera.Web.Shell.Form.clearItem(cfitem); });
+            }
+        });
+    }
+    // zmaže položku formulára
+    Sfera.Web.Shell.Form.clearItem = function (item) {
+        var cleared = false;
+        if (item.clear) {
+            item.clear();
+            cleared = true;
+        }
+        /*
+        if (item.clearValue) {
+            item.clearValue();
+            cleared = true;
+        }
+        */
+        if (!cleared && item.setValue) {
+            item.setValue(null);
+        }
+        if (item.clearInvalid) {
+            item.clearInvalid();
+        }
+    }
+    // vyresetuje všetky položky formulára
+    Sfera.Web.Shell.Form.resetForm = function (form) {
+        form.getForm().items.each(function (item) {
+            Sfera.Web.Shell.Form.resetItem(item);
+            if (item.xtype == "compositefield") {
+                item.items.each(function (cfitem) { Sfera.Web.Shell.Form.resetItem(cfitem); });
+            }
+        });
+    }
+    // vyresetuje položku formulára
+    Sfera.Web.Shell.Form.resetItem = function (item) {
+        if (item.reset) {
+            item.reset();
+        }
+        if (item.clearInvalid) {
+            item.clearInvalid();
+        }
+    }
+    Sfera.Web.Shell.Form.validateForm = function (form) {
+        if (!form.isValid()) {
+            var errors = [];
+            form.getForm().monitor.items.each(function (control) {
+                if (!control.validate()) {
+                    errors.push("<b>" + control.fieldLabel + ":</b>&nbsp;" + control.activeErrors[0]);
+                }
+            });
+            Shell.showSystemPopup(OM.dictionary.get("ValidationErrorTitle"), OM.dictionary.get("ValidationErrorText"), null, errors);
+            return false;
+        }
+        return true;
+    }
+    // zvaliduje controly (napr. ktoré vstupujú ako filter do gridu)
+    Sfera.Web.Shell.Form.validateControls = function (controls, showPopup) {
+        var valid = true,
+            errors = [],
+            checkedControls = [];
+        Ext.each(controls, function (control, index) {
+            if (control && !control.validate()) {
+                if (checkedControls.indexOf(control) > -1) return; // ak už som kontroloval control, preskočím ho
+                if (typeof (control.dateRangeDays) != 'undefined' && (control.endDateField || control.startDateField)) { // ak sa validuje rozsah dátumov
+                    var c = eval(control.endDateField || control.startDateField), // získam párový control
+                        t = control.endDateField ? control.emptyText + ", " + c.emptyText : c.emptyText + ", " + control.emptyText;
+                    checkedControls.push(c); // pridám párový control do zoznamu kontrolovaných
+                    errors.push("<b>" + t + ":</b> " + Ext.String.format(Sfera.Web.Shell.ObjectModel.dictionary.get("DateRangeDaysMaxWarning"), parseInt(control.dateRangeDays) + 1));
+                } else {
+                    errors.push("<b>" + control.emptyText + ":</b> " + control.activeError);
+                }
+                valid = false;
+                checkedControls.push(control); // pridám do zoznamu kontrolovaných
+            }
+        });
+        if (!valid && showPopup) { // ak som zistil chybu a ak nie je vypnuté zobrazovanie popupu
+            Ext.MessageBox.alert(Sfera.Web.Shell.GridFilters.lang.validationErrorTitle, errors.join("<br />"));
+        }
+        return valid;
+    }
+    Sfera.Web.Shell.Form.handleEmptyCombo = function (combo) {
+        if (!combo.inputEl.getValue() && combo.getValue())
+            combo.clearValue();
+    }
+    // vráti hodnoty formuláru vo formáte JSON ako má store
+    Sfera.Web.Shell.Form.getEntityJSON = function (form, store) {
+        var rec = store.getAt(0);
+        if (!rec || Ext.isEmptyObj(rec)) {
+            rec = store.model.create();;
+        }
+        form.getForm().updateRecord(rec);
+        return Ext.encode(store.prepareRecord(rec.data, rec, {}));
+    };
+
+    Sfera.Web.Shell.Grid = {};
+
+    // z gridu získa dataIndexy stĺpcov
+    Sfera.Web.Shell.Grid.getColumnState = function (grid) {
+        var columns = [];
+        Ext.each(grid.columns, function (column, index) {
+            if (column.dataIndex) {
+                columns.push({
+                    ID: column.dataIndex,
+                    Order: column.fullColumnIndex,
+                    Visible: !column.hidden,
+                    Width: column.getWidth()
+                });
+            }
+        });
+        return columns;
+    }
+    // z gridu získa id záznamov, prvý argument je grid, druhý je indikátor, či sa majú exportovať len záznamy aktuálnej stránky a tretí je názov property, ktorá sa má brať
+    // ak ide aj z iných stránok, tak defaultne vráti IDčka, dá sa obísť zmenou ID property pre store
+    Sfera.Web.Shell.Grid.getSelectionRows = function (grid, pageOnly, property) {
+        var ids = [];
+        if (pageOnly) {
+            if (grid.selModel.selected.length > 0) {
+                grid.selModel.selected.each(function (item) {
+                    ids.push(item.data[property] || item.id);
+                });
+            } else {
+                grid.getStore().data.each(function (item) {
+                    ids.push(item.data[property] || item.id);
+                });
+            }
+        } else {
+            var selectedIds = grid.getSelectionMemory().selectedIds
+            for (var i in selectedIds) {
+                ids.push(selectedIds[i].id);
+            }
+        }
+        return ids;
+    }
+    /*
+    funkcia, handler pre Ext.Net.CommandColumn.PrepareCommands, ktorá upraví operácie nad záznamom v gride podľa práv prihláseného používateľa
+    */
+    Sfera.Web.Shell.Grid.prepareCommands = function (grid, commands, record, row) {
+        if (!record.data.CanView) {
+            Sfera.Web.Shell.Grid.hideCommand(commands, "View");
+        }
+        if (!record.data.CanEdit) {
+            Sfera.Web.Shell.Grid.hideCommand(commands, "Edit");
+        }
+        if (!record.data.CanDelete) {
+            Sfera.Web.Shell.Grid.hideCommand(commands, "Delete");
+        }
+        if (!record.data.CanExecute) {
+            Sfera.Web.Shell.Grid.hideCommand(commands, "Execute");
+        }
+    };
+    /* 
+    funkcia na skrytie command buttonu v gride 
+        commandItems  -   
+        command     -   názov command-u, s ktorým súvisiace tlačidlo sa má skryť
+    */
+    Sfera.Web.Shell.Grid.hideCommand = function (commandItems, command) {
+        // prejde všetky tlačidlá v commandBar-e a ak jeho command je rovný so  zadaným, tak ho skryje
+        Ext.each(commandItems, function (item) {
+            if (item && item.command == command) {
+                item.hidden = true;
+            }
+        });
+    };
+
+    /*
+    funkcia, handler pre Ext.Net.CommandColumn.PrepareToolBar, ktorá upraví operácie nad záznamom v gride podľa práv prihláseného používateľa
+    */
+    Sfera.Web.Shell.Grid.prepareCommandToolbar = function (grid, toolbar, rowIndex, record) {
+        if (!record.data.CanView) {
+            Sfera.Web.Shell.Grid.hideCommandBarItem(toolbar, "View");
+        }
+        if (!record.data.CanEdit) {
+            Sfera.Web.Shell.Grid.hideCommandBarItem(toolbar, "Edit");
+        }
+        if (!record.data.CanDelete) {
+            Sfera.Web.Shell.Grid.hideCommandBarItem(toolbar, "Delete");
+        }
+        if (!record.data.CanExecute) {
+            Sfera.Web.Shell.Grid.hideCommandBarItem(toolbar, "Execute");
+        }
+    };
+    /* 
+    funkcia na skrytie command buttonu v gride 
+        commandBar  -   
+        command     -   názov command-u, s ktorým súvisiace tlačidlo sa má skryť
+    */
+    Sfera.Web.Shell.Grid.hideCommandBarItem = function (commandBar, command) {
+        // prejde všetky tlačidlá v commandBar-e a ak jeho command je rovný so  zadaným, tak ho skryje
+        Ext.each(commandBar.items.items, function (item) {
+            if (item && item.command == command) {
+                item.hide();
+            }
+        });
+    };
+
+    var hasPermissionOverAll = function (selectedItems, permissionName) {
+        var propertyName = "Can" + permissionName;
+        var perm = true;
+        Ext.each(selectedItems, function (item, i) {
+            if (item.data[propertyName] == false) {
+                perm = false;
+            }
+        });
+        return perm;
+    }
+    Sfera.Web.Shell.Grid.handleGroupOperations = function (btn, selection) {
+        // handlujem práva na Delete
+        if (typeof (btn.initialConfig.deletePermission) != "undefined") {
+            if (selection.length > 0) {
+                if (hasPermissionOverAll(selection.items, "Delete")) {
+                    btn.enable();
+                    if (btn.setTooltip) btn.setTooltip(Sfera.Web.Shell.ObjectModel.dictionary.get("DeleteToolTip"));
+                } else {
+                    btn.disable();
+                    if (btn.setTooltip) btn.setTooltip(Sfera.Web.Shell.ObjectModel.dictionary.get("DeleteToolTipNoPermissions"));
+                }
+            } else {
+                btn.disable();
+                if (btn.setTooltip) btn.setTooltip(Sfera.Web.Shell.ObjectModel.dictionary.get("DeleteToolTipNoRecords"));
+            }
+        }
+        // handlujem práva na Edit
+        if (typeof (btn.initialConfig.editPermission) != "undefined") {
+            if (selection.length > 0) {
+                if (hasPermissionOverAll(selection.items, "Edit")) {
+                    btn.enable();
+                } else {
+                    btn.disable();
+                }
+            } else {
+                btn.disable();
+            }
+        }
+        // handlujem dostupnosť pri hromadných operáciách
+        if (typeof (btn.initialConfig.groupOperation) != "undefined") {
+            if (selection.length > 0) {
+                btn.enable();
+            } else {
+                btn.disable();
+            }
+        }
+    };
+    Sfera.Web.Shell.Grid.processColumnsExtensions = function (grid) {
+        var pathname = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
+        var addTooltip = false;
+        Ext.each(grid.columns, function (column) {
+            if (column.linkUrl != undefined && App.direct.IsUrlAuthorized(Sfera.Web.Shell.convertUrlRelativeToAbsolute(pathname + column.linkUrl))) {
+                column.allowLink = true;
+            }
+            if (column.cellToolTip != undefined) {
+                addTooltip = true;
+            }
+        });
+        if (addTooltip) {
+            Sfera.Web.Shell.Grid.createTooltip(grid.getView());
+        }
+    };
+    Sfera.Web.Shell.Grid.createTooltip = function (view) {
+        view.tip = Ext.create('Ext.tip.ToolTip', {
+            target: view.el,
+            delegate: '.x-grid-cell',
+            trackMouse: true,
+            listeners: {
+                beforeshow: function (toolTip) {
+                    column = view.getHeaderByCell(toolTip.triggerElement),
+                    ttText = column.cellToolTip;
+                    if (ttText) {
+                        var key = ttText.match(/\{([^)]+)\}/);
+                        if (key) {
+                            var record = view.getRecord(view.findItemByChild(toolTip.triggerElement));
+                            toolTip.update(ttText.replace("{" + key[1] + "}", record.get(key[1])));
+                        } else {
+                            toolTip.update(ttText);
+                        }
+                    } else {
+                        return false;
+                    }
+                }
+            }
+        });
+    };
+    Sfera.Web.Shell.TreePanel = {};
+    // zabezpečí rozbalenie/zbalenie uzla v strome po kliknutí na neho
+    Sfera.Web.Shell.TreePanel.toggleNode = function (item, record) {
+        if (record.isLeaf()) return;
+        if (record.isExpanded()) {
+            record.collapse();
+        } else {
+            record.expand();
+        }
+    };
+    // zruší zaškrtnutie uzlov v Ext JS strome
+    Sfera.Web.Shell.TreePanel.uncheckAllNodes = function (tp) {
+        tp.getSelectionModel().deselectAll();
+        var records = tp.getChecked();
+        for (var i = 0; i < records.length; i++) {
+            records[i].set('checked', false);
+        }
+    };
+    // Objekt doplňujúci funkcionalitu do Ext JS Grid Filter, pridáva tlačidlo na potvrdenie filtra...
+
+    Sfera.Web.Shell.GridFilters = {
+        lang: {
+            filterButtonText: Sfera.Web.Shell.ObjectModel.dictionary.get("FilterApply"),
+            validationErrorTitle: Sfera.Web.Shell.ObjectModel.dictionary.get("Error")
+        },
+        /*
+        funkcia aktivuje doplnky nad filtrom gridu
+            grid        - Ext JS GridPanel, ktorý sa má rozšíriť
+            filterItems - Ext JS control-y, ktoré sú doplnkovým filtrom pre grid
+            indicationCmp - Ext JS control, ktorému sa bude pridávať CLS podľa toho, či je filter aktívny
+            onReload    - funkcia, ktorá má zabezpečovať refresh gridu (netreba posielať, ak je null, nahradí sa všeobecnou)
+            onUpdate    - funkcia, ktorá sa má vyvolať po zmene filtra gridu
+        */
+        activate: function (grid, filterItems, indicationCmp, onReload, onUpdate) {
+            if (!grid.filters) return;
+
+            filterItems = filterItems ? (Ext.isArray(filterItems) ? filterItems : [filterItems]) : [];
+            Ext.apply(grid, {
+                gfe_reload: onReload || Sfera.Web.Shell.GridFilters.reloadGrid,
+                gfe_indicationCmp: indicationCmp,
+                gfe_onUpdate: onUpdate || Sfera.Web.Shell.GridFilters.onUpdate,
+                gfe_filterItems: filterItems,
+                gfe_ignoreColumns: []
+            });
+
+            Ext.each(grid.columns, function (column) {
+                var filter = column.filter;
+                if (filter && typeof (filter.type) != "undefined") {
+                    filter.createMenuOrig = filter.createMenu;
+                    filter.createMenu = function () { filter.createMenuOrig(); Sfera.Web.Shell.GridFilters.extendFilterMenu(grid, filter); }
+                }
+            });
+            var store = grid.getStore();
+            grid.gfe_nextLoadSubmitted = !!store.autoLoad;
+            store.getProxy().on("beforerequest", Sfera.Web.Shell.GridFilters.onBeforeProxyRequest, grid);
+            store.getFilters().on("endupdate", Sfera.Web.Shell.GridFilters.onFilterChange, grid, { priority: 900 });
+            Sfera.Web.Shell.GridFilters.onFilterPreChange(grid);
+        },
+        extendFilterMenu: function (grid, filter) {
+            if (filter.type === "string") {
+                Ext.apply(filter, {
+                    updateBuffer: 0,
+                    setValue: function (b) { var a = this, f = a.getGridStore().getFilters(); if (a.inputItem) { a.inputItem.setValue(b) } a.filter.setValue(b); f.suspendEvent("endupdate"); if (b && a.active) { a.value = b; a.updateStoreFilter() } else { a.setActive(!!b) } f.resumeEvent("endupdate"); Sfera.Web.Shell.GridFilters.onFilterPreChange(grid, a.active);/*aby sa mi zavolalo po stlačení písmena */ }
+                });
+                Sfera.Web.Shell.GridFilters.addButton(grid, filter);
+                Sfera.Web.Shell.GridFilters.addEnterHandler(grid, filter, filter.inputItem);
+            } else if (filter.type === "list") {
+                Ext.apply(filter, {
+                    updateBuffer: 0,
+                    setValue: function (value) { var f = this.getGridStore().getFilters(); f.suspendEvent("endupdate"); if (arguments.length === 1) { this.filter.setValue(value); if (this.active) { this.updateStoreFilter(); this.activateMenu(); } else { this.setActive(!!value); } } else { Ext.grid.filters.filter.List.prototype.setValue.apply(filter, arguments) } f.resumeEvent("endupdate"); Sfera.Web.Shell.GridFilters.onFilterPreChange(grid, this.active); }
+                });
+                Sfera.Web.Shell.GridFilters.addButton(grid, filter, "-list");
+            } else if (filter.type === "date") {
+
+            } else if (filter.type === "number") {
+                Ext.apply(filter, {
+                    updateBuffer: 0,
+                    setValue: function (value) { var f = this.getGridStore().getFilters(); f.suspendEvent("endupdate"); if (!this.menu) { this.createMenu(); } Ext.grid.filters.filter.TriFilter.prototype.setValue.apply(filter, arguments); f.resumeEvent("endupdate"); Sfera.Web.Shell.GridFilters.onFilterPreChange(grid, this.active); }
+                });
+                Sfera.Web.Shell.GridFilters.addButton(grid, filter);
+                Sfera.Web.Shell.GridFilters.addEnterHandler(grid, filter, filter.fields.eq);
+                Sfera.Web.Shell.GridFilters.addEnterHandler(grid, filter, filter.fields.gt);
+                Sfera.Web.Shell.GridFilters.addEnterHandler(grid, filter, filter.fields.lt);
+            } else if (filter.type === "boolean") {
+                Ext.apply(filter, {
+                    updateBuffer: 0,
+                    setValue: function (b) { var a = this, f = a.getGridStore().getFilters(); a.filter.setValue(b); f.suspendEvent("endupdate"); if (b !== undefined && a.active) { a.value = b; a.updateStoreFilter() } else { a.setActive(true) } f.resumeEvent("endupdate"); Sfera.Web.Shell.GridFilters.onFilterPreChange(grid, a.active); grid.gfe_reload() }
+                });
+            }
+        },
+        onFilterPreChange: function (grid, active) {
+            var filters = grid.getStore().getFilters();
+            grid.gfe_onUpdate(grid, filters, active);
+            Sfera.Web.Shell.GridFilters.updateHideability(grid);
+        },
+        onFilterChange: function () {
+            var grid = this, // som si nastavil pri zavesení na event
+                store = grid.getStore(),
+                filters = store.getFilters();
+            grid.gfe_nextLoadSubmitted = true;
+            grid.gfe_onUpdate(grid, filters);
+            Sfera.Web.Shell.GridFilters.updateHideability(grid);
+        },
+        updateHideability: function (grid) {
+            Ext.each(grid.columns, function (column) {
+                var filter = column.filter;
+                if (filter && typeof (filter.type) != "undefined") {
+                    column.hideable = !filter.active;
+                    column.setVisible(!column.hidden || !column.hideable);
+                }
+            });
+        },
+        onUpdate: function (grid, filters, active) {
+            var icmp = grid.gfe_indicationCmp;
+            if (icmp) {
+                if (filters.length > 0 || active) {
+                    icmp.addCls("x-btn-highlight");
+                    icmp.setIconCls("icon-tablelightning");
+                } else {
+                    icmp.removeCls("x-btn-highlight");
+                    icmp.setIconCls("icon-tablegear");
+                }
+            }
+        },
+        addButton: function (grid, filter, cls) {
+            filter.menu.add(new Ext.menu.Separator());
+            filter.menu.add(new Ext.Button({
+                cls: "x-grid-menu-btn-filter" + (cls || ""),
+                text: Sfera.Web.Shell.GridFilters.lang.filterButtonText,
+                listeners: {
+                    click: function () { /*bolo tu setActive podľa existencie filtra*/if (grid.gfe_reload()) this.menu.parentMenu.hide(); },
+                    scope: filter
+                }
+            }));
+        },
+        addEnterHandler: function (grid, filter, input) {
+            input.on("keyup", function (field, e) {
+                if (e.getKey() == e.RETURN && field.isValid()) {
+                    grid.gfe_reload();
+                    filter.menu.parentMenu.hide();
+                }
+            });
+        },
+        // zvaliduje controly, ktoré vstupujú ako filter do gridu
+        validateControls: function (grid) {
+            return Sfera.Web.Shell.Form.validateControls(grid.gfe_filterItems, grid.gfe_showErrorsPopup !== false);
+        },
+        reloadGrid: function () {
+            if (Sfera.Web.Shell.GridFilters.validateControls(this)) {
+                var grid = this,
+                    store = grid.getStore();
+                grid.clearSelection(); //moja fn definovaná nižšie
+                grid.gfe_nextLoadSubmitted = true;
+                store.loadPage(1);
+                return true;
+            }
+            return false;
+        },
+        onBeforeProxyRequest: function (proxy, operation) {
+            /* inspired Ext.data.AbstractStore.override.buildReadParams <- BuildRequestParams */
+            var grid = this; // som si nastavil pri zavesení na event
+            if (grid.gfe_nextLoadSubmitted) {
+                grid.gfe_nextLoadSubmitted = false;
+                var params = operation.getParams() || {};
+                Ext.apply(params, { gfe_submitted: true });
+                operation.setParams(params);
+            }
+        }
+    };
+
+    Sfera.Web.Shell.GridFiltersPopup = {
+        lang: {
+            formTitle: Sfera.Web.Shell.ObjectModel.dictionary.get("GridFilter"),
+            formCancelText: Sfera.Web.Shell.ObjectModel.dictionary.get("Cancel"),
+            formClearText: Sfera.Web.Shell.ObjectModel.dictionary.get("Clear"),
+            formSubmitText: Sfera.Web.Shell.ObjectModel.dictionary.get("FilterApply"),
+            loading: Sfera.Web.Shell.ObjectModel.dictionary.get("Loading")
+        },
+        showFilterPopup: function (grid, readonly) {
+            Ext.getBody().mask(Sfera.Web.Shell.GridFiltersPopup.lang.loading, "x-mask-loading");
+            setTimeout(function () {
+                var filterItems = Sfera.Web.Shell.GridFiltersPopup.extractFilterItems(grid);
+                var popup = Sfera.Web.Shell.GridFiltersPopup.createFilterWindow(grid, filterItems, readonly);
+                popup.show();
+                Ext.getBody().unmask();
+            }, 0);
+        },
+        extractFilterItems: function (grid) {
+            var filterItems = Sfera.Web.Shell.GridFiltersPopup.extractGridFilters(grid);
+            filterItems = Ext.apply(filterItems, Sfera.Web.Shell.GridFiltersPopup.extractFormFilters(grid));
+            return filterItems;
+        },
+        extractGridFilters: function (grid) {
+            var filterItems = {},
+                value = null,
+                options = {},
+                setter = function () { },
+                resetter = function () { };
+            Ext.each(grid.columns, function (column) {
+                var filter = column.filter;
+                if (!filter || !filter.type || !filter.dataIndex || grid.gfe_ignoreColumns.indexOf(filter.dataIndex) > -1) return;
+                if (filter.type === "string") {
+                    value = filter.filter.getValue();
+                    setter = function () {
+                        var value = Ext.ComponentMgr.get(this.id).getValue();
+                        this.filter.setValue(value);
+                    };
+                    resetter = function () {
+                        Ext.ComponentMgr.get(this.id).setValue(null);
+                    }
+                } else if (filter.type === "list") {
+                    value = filter.filter.getValue();
+                    options = [];
+                    if (!filter.options && filter.store) {
+                        var store = filter.store;
+                        if (typeof (filter.store) == "string") {
+                            store = Ext.StoreMgr.get(filter.store)
+                        }
+                        store.data.each(function (item, i) {
+                            //options.push([item.data[filter.idField], item.data[filter.labelField]]);
+                            options.push([item.data[filter.idField], item.data[filter.labelField]]);
+                        });
+                    } else {
+                        Ext.each(filter.options, function (item, i) {
+                            options.push([item, item]);
+                        });
+                    }
+                    setter = function () {
+                        var value = Ext.ComponentMgr.get(this.id).getValue() || [];
+                        try { this.filter.setValue(value); } catch (e) { };
+                        this.filter.setActive(value.length > 0);
+                    };
+                    resetter = function () {
+                        Ext.ComponentMgr.get(this.id).setValue(null);
+                    }
+                } else if (filter.type === "date" || filter.type === "number") {
+                    value = {};
+                    for (var i in filter.filter) {
+                        value[i] = {
+                            id: "gfe_" + filter.dataIndex + "_" + i,
+                            value: filter.active ? filter.filter[i].getValue() : null
+                        };
+                    }
+                    setter = function () {
+                        var active = false,
+                            allVal = {};
+                        for (var comparison in this.value) {
+                            var cmp = Ext.ComponentMgr.get(this.value[comparison].id);
+                            if (cmp) {
+                                var val = cmp.getValue() || null;
+                                if (val) allVal[comparison] = val;
+                                active = active || !!val;
+                            }
+                        }
+                        this.filter.setValue(allVal);
+                        this.filter.setActive(active);
+                    };
+                    resetter = function () {
+                        for (var comparison in this.value) {
+                            var cmp = Ext.ComponentMgr.get(this.value[comparison].id);
+                            if (cmp) {
+                                cmp.setValue({ eq: null, lt: null, gt: null });
+                            }
+                        }
+                        this.filter.setActive(false);
+                    }
+                } else if (filter.type === "boolean") {
+                    filter.filter.setDisableOnEmpty(true);
+                    value = filter.active ? (filter.filter.getValue() ? 2 : 1) : null;
+                    options = [
+                        [1, filter.noText],
+                        [2, filter.yesText]
+                    ];
+                    setter = function () {
+                        var value = Ext.ComponentMgr.get(this.id).getValue();
+                        try { this.filter.setValue(value == 2); } catch (e) { };
+                        this.filter.setActive(value ? true : false);
+                    };
+                    resetter = function () {
+                        Ext.ComponentMgr.get(this.id).clearValue();
+                    }
+                }
+                filterItems[filter.dataIndex] = {
+                    header: column.text,
+                    filter: filter,
+                    active: filter.active,
+                    id: "gfe_" + filter.dataIndex,
+                    setValue: setter,
+                    reset: resetter,
+                    type: filter.type,
+                    value: value,
+                    options: options
+                }
+            });
+            return filterItems;
+        },
+        extractFormFilters: function (grid) {
+            var filterItems = {},
+                value = null,
+                setter = function () { },
+                resetter = function () { },
+                type = null;
+
+            Ext.each(grid.gfe_filterItems, function (filter, index) {
+                if (!filter) return;
+                var options = {};
+                if (filter.xtype == "datefield") {
+                    type = "date";
+                    value = {
+                        eq: {
+                            title: filter.emptyText,
+                            id: "gfe_" + filter.id + "_on",
+                            value: filter.getValue()
+                        }
+                    };
+                    setter = function () {
+                        var value = Ext.ComponentMgr.get(this.value["eq"].id).getValue();
+                        this.filter.setValue(value || (this.filter.allowBlank == false ? new Date : null));
+                    };
+                    resetter = function () {
+                        Ext.ComponentMgr.get(this.value["eq"].id).setValue(null);
+                    }
+                } else if (filter.xtype == "combobox") {
+                    type = "combobox";
+                    value = filter.getValue();
+                    options = {
+                        displayField: filter.displayField,
+                        minChars: filter.minChars,
+                        queryDelay: filter.queryDelay,
+                        selectedIndex: filter.selectedIndex,
+                        valueField: filter.valueField,
+                        forceSelection: filter.forceSelection,
+                        editable: filter.editable,
+                        resetable: filter.allowBlank,
+                        store: filter.store
+                    };
+                    setter = function () {
+                        var value = Ext.ComponentMgr.get(this.id).getValue();
+                        if (this.filter.forceSelection && value == null)
+                            this.filter.reset();
+                        else
+                            this.filter.setValue(value);
+                    };
+                    resetter = function () {
+                        if (this.options.editable)
+                            Ext.ComponentMgr.get(this.id).clearValue();
+                    }
+                } else if (filter.xtype == "textfield") {
+                    type = "string";
+                    value = filter.getValue();
+                    setter = function () {
+                        var value = Ext.ComponentMgr.get(this.id).getValue();
+                        this.filter.setValue(value);
+                    };
+                    resetter = function () {
+                        Ext.ComponentMgr.get(this.id).setValue(null);
+                    }
+                } else if (filter.xtype == "numberfield") {
+                    type = "number";
+                    value = { eq: { id: "gfe_" + filter.id + "_eq", value: filter.getValue() } };
+                    setter = function () {
+                        var value = Ext.ComponentMgr.get(this.value.eq.id).getValue();
+                        this.filter.setValue(value);
+                    };
+                    resetter = function () {
+                        Ext.ComponentMgr.get(this.id).setValue(null);
+                    }
+                    options = {
+                        resetable: filter.allowBlank
+                    };
+                } else if (filter.xtype == "spinnerfield") {
+                    type = "number";
+                    value = { eq: { id: "gfe_" + filter.id + "_eq", value: filter.getValue() } };
+                    setter = function () {
+                        var value = Ext.ComponentMgr.get(this.value.eq.id).getValue();
+                        this.filter.setValue(parseInt(value));
+                    };
+                    resetter = function () {
+                        Ext.ComponentMgr.get(this.id).setValue(null);
+                    }
+                }
+                filterItems[filter.id] = {
+                    filter: filter,
+                    header: filter.emptyText || filter.title,
+                    active: true,
+                    id: "gfe_" + filter.id,
+                    setValue: setter,
+                    reset: resetter,
+                    type: type,
+                    value: value,
+                    options: options
+                }
+            });
+            return filterItems;
+        },
+        createFilterWindow: function (grid, filterItems, readonly) {
+            var formItems = [],
+                clearButtonEnabled = {
+                    xtype: 'button',
+                    scale: 'small',
+                    width: 24,
+                    iconCls: 'icon-cross',
+                    margin: "0 0 0 5",
+                    handler: function () {
+                        this.ownerCt.items.each(function (item) {
+                            if (item.xtype == "displayfield") return;
+                            if (item.setValue) item.setValue(null);
+                            if (item.clearValue && !item.forceSelection) item.clearValue();
+                        });
+                    }
+                },
+                clearButtonDisabled = { xtype: 'button', scale: 'small', width: 24, iconCls: 'icon-cross', disabled: true, margin: "0 0 0 5" },
+                clearButton = {};
+            for (var i in filterItems) {
+                var item = filterItems[i];
+                clearButton = item.options.resetable != false ? clearButtonEnabled : clearButtonDisabled;
+                if (item.type == "string") {
+                    formItems.push({
+                        xtype: "fieldcontainer",
+                        layout: 'hbox',
+                        fieldLabel: item.header,
+                        items: [{
+                            xtype: "textfield",
+                            flex: 1,
+                            id: item.id,
+                            value: item.active ? item.value : null,
+                            readOnly: readonly ? true : false,
+                            cls: readonly ? "readonly" : ""
+                        }, clearButton]
+                    });
+                } else if (item.type == "list") {
+                    var options = [];
+                    if (item.options) {
+                        options = item.options;
+                    }
+                    var multicombo = {
+                        xtype: "netmulticombo",
+                        id: item.id,
+                        flex: 1,
+                        displayField: "text",
+                        valueField: "value",
+                        mode: "local",
+                        store: new Ext.data.SimpleStore({
+                            fields: ["value", "text"],
+                            data: options
+                        }),
+                        selectionMode: "all",
+                        readOnly: readonly ? true : false,
+                        cls: readonly ? "readonly" : ""
+                    };
+                    if (item.value.length) multicombo.value = item.value;
+                    formItems.push({
+                        xtype: "fieldcontainer",
+                        layout: 'hbox',
+                        fieldLabel: item.header,
+                        items: [multicombo, clearButton]
+                    });
+                } else if (item.type == "combobox") {
+                    var combo = {
+                        xtype: "combobox",
+                        id: item.id,
+                        flex: 1,
+                        value: item.value,
+                        readOnly: readonly ? true : false,
+                        cls: readonly ? "readonly" : ""
+                    };
+                    Ext.apply(combo, item.options);
+                    formItems.push({
+                        xtype: "fieldcontainer",
+                        layout: 'hbox',
+                        fieldLabel: item.header,
+                        items: [combo, clearButton]
+                    });
+                } else if (item.type == "date") {
+                    var format = Sfera.Web.Shell.ObjectModel.dictionary.get("DateFormat");
+                    if (item.value.gt && item.value.lt) format = format.replace("Y", "'y").replace(/ /g, "")
+                    var items = [{
+                        xtype: "datefield",
+                        id: item.value.eq.id,
+                        value: item.value.eq.value ? item.value.eq.value : null,
+                        emptyText: readonly ? "" : "=",
+                        flex: 1,
+                        format: format
+                    }];
+                    if (item.value.gt && item.value.lt) {
+                        items = items.concat([{ xtype: 'displayfield', value: '|', width: 5, margin: "0 5 0 5" }, {
+                            xtype: 'datefield',
+                            id: item.value.gt.id,
+                            value: item.value.gt.value ? item.value.gt.value : null,
+                            emptyText: readonly ? "" : ">",
+                            flex: 1,
+                            format: format
+                        }, { xtype: 'displayfield', value: '-', width: 5, margin: "0 5 0 5" }, {
+                            xtype: 'datefield',
+                            id: item.value.lt.id, flex: 1,
+                            value: item.value.lt.value ? item.value.lt.value : null,
+                            emptyText: readonly ? "" : "<",
+                            flex: 1,
+                            format: format
+                        }]);
+                    }
+                    items.push(clearButton);
+                    formItems.push({
+                        xtype: "fieldcontainer",
+                        layout: 'hbox',
+                        fieldLabel: item.header,
+                        fieldDefaults: {
+                            readOnly: readonly ? true : false,
+                            cls: readonly ? "readonly" : ""
+                        },
+                        items: items
+                    });
+                } else if (item.type == "number") {
+                    var items = [{
+                        xtype: "numberfield",
+                        id: item.value.eq.id,
+                        flex: 1,
+                        emptyText: '=',
+                        value: item.value.eq.value ? item.value.eq.value : null,
+                        listeners: {
+                            change: (function (_item) {
+                                return function (el, val) {
+                                    if (val) {
+                                        if (_item.value.gt) {
+                                            el.ownerCt.items.items[2].setValue(null);
+                                        }
+                                        if (_item.value.lt) {
+                                            el.ownerCt.items.items[4].setValue(null);
+                                        }
+                                    }
+                                };
+                            })(item)
+                        }
+                    }];
+                    if (item.value.gt) {
+                        items.push({ xtype: 'displayfield', value: '|', width: 5, margin: "0 5 0 5" });
+                        items.push({
+                            xtype: "numberfield",
+                            id: item.value.gt.id,
+                            flex: 1,
+                            emptyText: '>',
+                            value: item.value.gt.value ? item.value.gt.value : null,
+                            listeners: {
+                                change: function (el, val) { if (val) el.ownerCt.items.items[0].setValue(null) }
+                            }
+                        });
+                    }
+                    if (item.value.lt) {
+                        items.push({ xtype: 'displayfield', value: '-', width: 5, margin: "0 5 0 5" });
+                        items.push({
+                            xtype: "numberfield",
+                            id: item.value.lt.id,
+                            flex: 1,
+                            emptyText: '<',
+                            value: item.value.lt.value ? item.value.lt.value : null,
+                            listeners: {
+                                change: function (el, val) { if (val) el.ownerCt.items.items[0].setValue(null) }
+                            }
+                        });
+                    }
+                    items.push(clearButton)
+                    formItems.push({
+                        xtype: "fieldcontainer",
+                        layout: 'hbox',
+                        fieldLabel: item.header,
+                        defaults: {
+                            readOnly: readonly ? true : false,
+                            cls: readonly ? "readonly" : ""
+                        },
+                        items: items
+                    });
+                } else if (item.type == "boolean") {
+                    formItems.push({
+                        xtype: "fieldcontainer",
+                        layout: 'hbox',
+                        fieldLabel: item.header,
+                        items: [{
+                            xtype: "combo",
+                            id: item.id,
+                            flex: 1,
+                            value: item.value,
+                            displayField: "text",
+                            valueField: "value",
+                            mode: "local",
+                            triggerAction: 'all',
+                            store: new Ext.data.SimpleStore({
+                                fields: ["value", "text"],
+                                data: item.options
+                            }),
+                            forceSelection: true,
+                            editable: false,
+                            readOnly: readonly ? true : false,
+                            cls: readonly ? "readonly" : ""
+                        }, clearButton]
+                    });
+                }
+            }
+            var winCfg = {
+                modal: true,
+                title: Sfera.Web.Shell.GridFiltersPopup.lang.formTitle,
+                width: 500,
+                //iconCls: 'icon-tablegear',
+                closeAction: 'close',
+                buttonAlign: "center",
+                gfe_associatedGrid: grid,
+                cls: "s-filterpopup",
+                listeners: {
+                    resize: function () {
+                        win.doLayout();
+                    }
+                },
+                items: {
+                    id: "gfe_filterform",
+                    xtype: "form",
+                    autoHeight: true,
+                    items: formItems,
+                    padding: 10,
+                    border: false,
+                    fieldDefaults: {
+                        labelWidth: 150
+                    },
+                },
+                buttons: [{
+                    iconCls: "icon-accept",
+                    text: Sfera.Web.Shell.GridFiltersPopup.lang.formSubmitText,
+                    handler: function () {
+                        Sfera.Web.Shell.GridFiltersPopup.submitFilterForm(win, filterItems, false);
+                    }
+                }, {
+                    iconCls: "icon-erase ",
+                    text: Sfera.Web.Shell.GridFiltersPopup.lang.formClearText,
+                    handler: function () {
+                        Sfera.Web.Shell.GridFiltersPopup.submitFilterForm(win, filterItems, true);
+                    }
+                }, {
+                    iconCls: "icon-decline",
+                    text: Sfera.Web.Shell.GridFiltersPopup.lang.formCancelText,
+                    handler: function () {
+                        win.destroy();
+                    }
+                }]
+            };
+            if (formItems.length > 10) {
+                Ext.apply(winCfg, {
+                    height: 415,
+                    bodyStyle: {
+                        marginRight: "15px",
+                        overflowY: "auto"
+                    }
+                });
+            }
+            var win = new Ext.Window(winCfg);
+            return win;
+        },
+        submitFilterForm: function (win, filterItems, reset) {
+            if (!win.items.items[0].validate() && !reset) return;
+            var filters = win.gfe_associatedGrid.getStore().getFilters();
+            filters.suspendEvent("endupdate");
+            for (var i in filterItems) {
+                try { if (reset) filterItems[i].reset(); } catch (e) { }
+                try { filterItems[i].setValue(); } catch (e) { } // pri ShowMenu="true" hádže chybu
+            }
+            filters.resumeEvent("endupdate");
+            Sfera.Web.Shell.GridFilters.onFilterChange.call(win.gfe_associatedGrid);
+            win.gfe_associatedGrid.gfe_reload();
+            win.destroy();
+        }
+    };
+
+
+
+    /* lokalizácie pre formulárové elementy + doplnená funkčnosť */
+    if (Ext.form) {
+        if (Ext.form.DateField) {
+            Ext.apply(Ext.form.DateField.prototype, {
+                format: Sfera.Web.Shell.ObjectModel.dictionary.get("DateFormat"),
+                altFormats: Sfera.Web.Shell.ObjectModel.dictionary.get("AltDateFormats"),
+                startDay: parseInt(Sfera.Web.Shell.ObjectModel.dictionary.get("DateFieldStartDay")),
+                minValue: new Date(1900, 0, 1)
+            });
+            Ext.override(Ext.form.DateField, { // zabezpečenie, aby sa pri nastavení rozsahu dátumov dal cez picker vybrať dátum aj nevalidný
+                setMaxValue: function (c) { var b = this, a = b.picker, d = (Ext.isString(c) ? b.parseDate(c) : c); b.maxValue = d; if (a) { a.maxText = Ext.String.format(b.maxText, b.formatDate(b.maxValue)); a.setMaxDate(typeof (b.dateRangeDays) == 'undefined' ? d : null) } },
+                setMinValue: function (d) { var b = this, a = b.picker, c = (Ext.isString(d) ? b.parseDate(d) : d); b.minValue = c; if (a) { a.minText = Ext.String.format(b.minText, b.formatDate(b.minValue)); a.setMinDate(typeof (b.dateRangeDays) == 'undefined' ? c : null) } },
+                getPicker: function () { var b = this, a = b.picker; if (!a) { b.picker = a = b.createPicker(); a.ownerCmp = b } a.setMaxDate(typeof (b.dateRangeDays) == 'undefined' ? b.maxValue : null); a.setMinDate(typeof (b.dateRangeDays) == 'undefined' ? b.minValue : null); return b.picker }
+            });
+        }
+        if (Ext.form.NumberField) {
+            Ext.override(Ext.form.NumberField, {
+                negativeText: Sfera.Web.Shell.ObjectModel.dictionary.get("InputNotNegative"),
+                parseValue: function (a) { if (this.cutDecimals) { var i = a.indexOf(this.decimalSeparator); if (i >= 0) a = a.substring(0, i + this.decimalPrecision + 1); } a = parseFloat(String(a).replace(this.decimalSeparator, ".")); return isNaN(a) ? null : a },
+                //getRawValue: function (){var b=this,a=Ext.form.field.Base.prototype.getRawValue.call(this);a=a.replace(/ /g,"");if(a===b.emptyText&&b.valueContainsPlaceholder){a=""}return a},// odstranenie medzeri kvôli formatovaniu
+                //setValue: function (a){if(typeof(a)=="number"&&this.format)a=Ext.util.Format.number(a,this.format);this.setRawValue(a);return this},//formatovanie napr. '0 0,00/i' TODO
+                decimalSeparator: Sfera.Web.Shell.ObjectModel.dictionary.get('DecimalPoint'),
+                decimalPrecision: 10 // kvôli numeric filtru nastavujem decimalSeparator a decimalPrecision globálne
+            });
+        }
+        if (Ext.form.TextField) {
+            Ext.override(Ext.form.TextField, {
+                //setValue: function (b){if(typeof(b)=="number"&&this.numberFormat)b=Ext.util.Format.number(b,this.numberFormat);var a=this,c=a.inputEl;if(c&&a.emptyText&&!Ext.isEmpty(b)){c.removeCls(a.emptyUICls);a.valueContainsPlaceholder=false}Ext.form.field.Base.prototype.setValue.apply(this,arguments);a.applyEmptyText();return a}
+                // return Ext.isEmpty(v) || !/[^ ]/.test(v) ? this.blankText : true;
+                //validator: function (text) { return this.allowBlank ? true : (!Ext.isEmpty(text) && Ext.String.trim(text).length == 0 ? Ext.form.TextField.prototype.blankText : true); } // vylúčiť prázdne medzery z validácie
+            });
+        }
+        if (Ext.form.DisplayField) {
+            Ext.override(Ext.form.DisplayField, {
+                setValue: function (b) { if (typeof (b) == "number" && this.numberFormat) b = Ext.util.Format.number(b, this.numberFormat); var a = this; a.setRawValue(a.valueToRaw(b)); return a.mixins.field.setValue.call(a, b) }//formátuje číselnú hodnotu podľa formátu, ak je nastavený
+            });
+        }
+        // ošetrenie vloženia presného stringu to comboboxu
+        if (Ext.form.ComboBox) {
+            Ext.override(Ext.form.ComboBox, {
+                onLoadOrig: Ext.form.ComboBox.prototype.onLoad,
+                onLoad: function () {
+                    Ext.form.ComboBox.prototype.onLoadOrig.apply(this, arguments);
+                    var cb = this;
+                    if (cb.editable && cb.store.data.length == 1 && cb.store.data.items[0].data[cb.displayField] === cb.getRawValue()) {
+                        cb.setValue(cb.store.data.items[0].data[cb.valueField]);
+                        if (cb.picker) cb.picker.hide();
+                    }
+                }
+            });
+        }
+        Ext.apply(Ext.form.VTypes, {
+            daterange: function (val, field) {
+                var date = field.parseDate(val);
+                if (date) {
+                    var date2 = new Date(date.getTime()),
+                        end, start;
+                    if (field.startDateField && (!this.dateRangeMax || (date.getTime() !== this.dateRangeMax.getTime())) && !this.startValidating) {
+                        start = eval(field.startDateField)
+                        this.dateRangeMax = date;
+                        start.setMaxValue(date);
+                        if (typeof (field.dateRangeDays) != 'undefined') {
+                            date2.setDate(date2.getDate() - parseInt(field.dateRangeDays))
+                            start.setMinValue(date2);
+                        }
+                        this.startValidating = true;
+                        start.validate();
+                        delete this.startValidating;
+                    } else if (field.endDateField && (!this.dateRangeMin || (date.getTime() !== this.dateRangeMin.getTime())) && !this.endValidating) {
+                        end = eval(field.endDateField)
+                        this.dateRangeMin = date;
+                        end.setMinValue(date);
+                        if (typeof (field.dateRangeDays) != 'undefined') {
+                            date2.setDate(date2.getDate() + parseInt(field.dateRangeDays))
+                            end.setMaxValue(date2);
+                        }
+                        this.endValidating = true;
+                        end.validate();
+                        delete this.endValidating;
+                    }
+                }
+                return true;
+            },
+            passwordText: OM.dictionary.get("PasswordDoNotMatch")
+        });
+        if (Ext.form.field && Ext.form.field.HtmlEditor) {
+            Ext.override(Ext.form.field.HtmlEditor, {
+                toggleSourceEdit: function (sourceEditMode) {
+                    var me = this, iframe = me.iframeEl, textarea = me.textareaEl, hiddenCls = Ext.baseCSSPrefix + 'hidden', btn = me.getToolbar().getComponent('sourceedit'); if (!Ext.isBoolean(sourceEditMode)) { sourceEditMode = !me.sourceEditMode; }
+                    me.sourceEditMode = sourceEditMode; if (btn.pressed !== sourceEditMode) { btn.toggle(sourceEditMode); }
+                    if (sourceEditMode) {
+                        me.disableItems(true); me.syncValue(); if (this.escapeValue) { textarea.dom.value = unescape(this.textareaEl.dom.value); }
+                        iframe.addCls(hiddenCls); textarea.removeCls(hiddenCls); textarea.dom.removeAttribute('tabindex'); textarea.focus(); me.inputEl = textarea;
+                    }
+                    else {
+                        if (me.initialized) { me.disableItems(me.readOnly); }
+                        me.pushValue(); if (this.escapeValue) { textarea.dom.value = escape(this.textareaEl.dom.value); }
+                        iframe.removeCls(hiddenCls); textarea.addCls(hiddenCls); textarea.dom.setAttribute('tabindex', -1); me.deferFocus(); me.inputEl = iframe;
+                    }
+                    me.fireEvent('editmodechange', me, sourceEditMode); me.updateLayout();
+                }
+            });
+        }
+        var numberFormatExt = function () { // tunning pre medzeru ako oddeľovač tisícov
+            Ext.apply(Ext.util.Format, {
+                thousandSeparator: OM.dictionary.get("ThousandsSeparator"),
+                formatPattern: /[\d,\.# ]+/  // pridaná medzera, aby si nemyslel, že tam mám extra charaktery, lebo sa dá takto '0,00 kWh'
+            });
+        }
+        Ext.apply(Ext.util.Format, {
+            extendFormatForThousands: numberFormatExt
+        });
+        Ext.onReady(numberFormatExt); // musí to prejsť neskôr ako lokálizácia, inak mi to prepíše
+    }
+    if (Ext.DatePicker) {
+        Ext.apply(Ext.DatePicker.prototype, {
+            okText: Sfera.Web.Shell.ObjectModel.dictionary.get("Submit"),
+            cancelText: Sfera.Web.Shell.ObjectModel.dictionary.get("Cancel")
+        });
+    }
+    /* lokalizácia pre filter v gride */
+    if (Ext.grid && Ext.grid.filters && Ext.grid.filters.Filters) {
+        Ext.apply(Ext.grid.filters.Filters.prototype, {
+            menuFilterText: Sfera.Web.Shell.ObjectModel.dictionary.get("Filter"),
+            setFilterValues: function (values) {
+                this.filters.each(function (f) {
+                    log("treba dorobit setFilterValues"); // TODO
+                    var ind = null
+                    for (var i = 0; i < values.length; i++) {
+                        if (f.dataIndex == values[i].field) {
+                            ind = i;
+                            break;
+                        }
+                    }
+                    if (ind == null) {
+                        f.setActive(false, true);
+                    } else {
+                        f.setValue(values[ind].value);
+                        f.setActive(true, true);
+                    }
+                });
+            }
+        });
+        if (Ext.grid.filters.filter.Boolean) {
+            Ext.apply(Ext.grid.filters.filter.Boolean.prototype, {
+                yesText: Sfera.Web.Shell.ObjectModel.dictionary.get("Yes"),
+                noText: Sfera.Web.Shell.ObjectModel.dictionary.get("No")
+            });
+        }
+        if (Ext.grid.filters.filter.String) {
+            Ext.apply(Ext.grid.filters.filter.String.prototype, {
+                emptyText: Sfera.Web.Shell.ObjectModel.dictionary.get("EnterFilter") + '...'
+            });
+        }
+        if (Ext.grid.filters.filter.List) {
+            Ext.apply(Ext.grid.filters.filter.List.prototype, {
+                // http://forums.ext.net/showthread.php?56201-List-filter-setting-from-codebehind-(possible-bug) | v metóde .setValue musí byť this.activateMenu(), aby sa uplatnili zmeny pri manuálnej zmene hodnoty, zabezpečené v Shell.GridFilters.extendFilterMenu -> list
+                activateMenu: function () { var e = this, g = e.filter.getValue(), c = e.menu.items, d, a, b; for (d = 0, a = c.length; d < a; d++) { b = c.getAt(d); if (b.setChecked) b.setChecked(Ext.Array.indexOf(g, b.value + "") > -1 || Ext.Array.indexOf(g, b.value) > -1, true) } }
+            });
+        }
+        if (Ext.grid.filters.filter.Date) {
+            Ext.apply(Ext.grid.filters.filter.Date.prototype, {
+                menuItems: ["gt", "lt", "-", "eq"]
+            });
+            Ext.apply(Ext.grid.filters.filter.Date.prototype.defaultConfig, {
+                dateFormat: Sfera.Web.Shell.ObjectModel.dictionary.get("DateFormat"),
+                fields: {
+                    eq: { text: Sfera.Web.Shell.ObjectModel.dictionary.get("On") },
+                    gt: { text: Sfera.Web.Shell.ObjectModel.dictionary.get("After") },
+                    lt: { text: Sfera.Web.Shell.ObjectModel.dictionary.get("Before") }
+                }
+            });
+        }
+        if (Ext.grid.filters.filter.Number) {
+            Ext.apply(Ext.grid.filters.filter.Number.prototype, {
+                emptyText: Sfera.Web.Shell.ObjectModel.dictionary.get("EnterFilter") + '...'
+            });
+        }
+        if (Ext.grid.filters.filter.TriFilter) {
+            Ext.override(Ext.grid.filters.filter.TriFilter, {
+                deactivate: function () { var c = this, b = c.filter, d, a, e; if (!c.hasActiveFilter() || c.preventFilterRemoval) { return } c.preventFilterRemoval = true; for (d in b) { a = b[d]; e = a.getValue(); if (e || e == 0) { c.removeStoreFilter(a) } } c.preventFilterRemoval = false },
+                activate: function (d) { var g = this, e = this.filter, a = g.fields, c, j, b, h; if (g.preventFilterRemoval) { return } for (b in e) { c = e[b]; j = a[b]; h = c.getValue(); if (h || h == 0) { j.setValue(h); j.up("menuitem").setChecked(true, true); if (!d) { g.addStoreFilter(c) } } } }
+            });
+        }
+    }
+    if (Ext.grid) {
+        if (Ext.grid.View) {
+            Ext.apply(Ext.grid.View.prototype, {
+                emptyText: Sfera.Web.Shell.ObjectModel.dictionary.get("NoRecordsFound"),
+                // chyba vo view, keď sa v prípade, že predchádzajúcom stave boli záznamy, view.refreshView nerefresholov view, ale sa zobral nejaký buffer, ktorý nebral do úvahy, že je 0 záznamov
+                onRender: function () { var a = this.loadMask; Ext.Component.prototype.onRender.apply(this, arguments); if (a) { this.createMask(a) } this.on("refresh", function (v, r) { if (!r.length) { var s = v.getStore(); if (!v.emptyEl && v.emptyText && !s.isLoading() && (!v.deferEmptyText || s.loadCount)) v.emptyEl = Ext.core.DomHelper.insertHtml('beforeEnd', v.getTargetEl().dom, v.emptyText); } }) }
+            });
+        }/*
+        if (Ext.grid.GroupingView) {
+            Ext.apply(Ext.grid.GroupingView.prototype, {
+                columnsText: Sfera.Web.Shell.ObjectModel.dictionary.get("Columns"),
+                emptyText: Sfera.Web.Shell.ObjectModel.dictionary.get("NoRecordsFound"),
+                emptyGroupText: Sfera.Web.Shell.ObjectModel.dictionary.get("EmptyGroupText"),
+                groupByText: Sfera.Web.Shell.ObjectModel.dictionary.get("GroupByText"),
+                showGroupsText: Sfera.Web.Shell.ObjectModel.dictionary.get("ShowGroupsText"),
+                deferEmptyText: true
+            });
+        }*/
+        if (Ext.grid.DateColumn) {
+            Ext.apply(Ext.grid.DateColumn.prototype, {
+                format: Sfera.Web.Shell.ObjectModel.dictionary.get("DateFormat")
+            });
+        }
+        if (Ext.grid.NumberColumn) {
+            Ext.apply(Ext.grid.NumberColumn.prototype, {
+                align: "right"
+            });
+        }
+    }
+    if (Ext.grid.Panel) {
+        Ext.override(Ext.grid.Panel, {
+            getSelectionSize: function () { return Shell.getObjectSize(this.getSelectionMemory().selectedIds) },
+            clearSelection: function () { this.clearMemory(); this.selModel.deselectAll() },
+            calculateDynamicPageSize: function () {
+                if (this.rendered) {
+                    var cw = 0, scr = 0; // riešenie scrollbaru, ktorý pri širokom gride bral z výšky
+                    Ext.each(this.columns, function (c) { if (c.width) cw += c.width });
+                    if (cw > this.getView().getWidth()) scr = 18;
+                    SP.dynamicPageSize = Math.floor((this.getView().getHeight() - scr) / 25);
+                }
+                if (SP.dynamicPageSize && !this.forceCalculateDynamicPageSize) {
+                    return SP.dynamicPageSize;
+                } else {
+                    return null;
+                }
+            },
+            setDynamicPageSize: function (size, active, cb) { var pss = size + ""; if (active) this.getStore().pageSize = size; if (cb) { cb.store.insert(0, [{ field1: size, field2: "Auto" }]); cb.width = 80; if (active) cb.setValue(size) } },
+            activateDynamicPageSize: function (active, cb) {
+                var size = this.calculateDynamicPageSize();
+                if (size) this.setDynamicPageSize(size, active, cb);
+                else {
+                    var store = this.getStore(),
+                        autoLoad = store.autoLoad,
+                        autoLoadFn;
+                    autoLoadFn = function () {
+                        this.setDynamicPageSize(this.calculateDynamicPageSize(), active, cb);
+                        if (autoLoad) this.gfe_reload ? this.gfe_reload() : store.reload()
+                        this.un("afterlayout", autoLoadFn, this);
+                    }
+                    store.autoLoad = false;
+                    this.on("afterlayout", autoLoadFn, this, { priority: 900 });
+                }
+            },
+            stateful: true,
+            //getStateOrig: Ext.grid.Panel.prototype.getState,
+            getState: function () { return { columns: Sfera.Web.Shell.Grid.getColumnState(this) } },
+            getStateId: function () { return this.stateId || ((/^(ext-comp-|ext-gen)/).test(String(this.id)) ? null : this.id.split("_").pop()) } // chcem vrátiť ID z ClientID
+        });
+    }
+    if (Ext.selection && Ext.selection.CheckboxModel) {
+        Ext.apply(Ext.selection.CheckboxModel.prototype, {
+            mode: "simple" // bol bug, nešiel selection change pri deselect pre default mode=MULTI
+        });
+    }
+    /*
+    if (Ext.ux.tree) {
+        if (Ext.ux.tree.TreeGridSorter) {
+            Ext.apply(Ext.grid.DateColumn.prototype, {
+                sortAscText: Sfera.Web.Shell.ObjectModel.dictionary.get("SortASC"),
+                sortDescText: Sfera.Web.Shell.ObjectModel.dictionary.get("SortDESC")
+            });
+        }
+        if (Ext.ux.tree && Ext.ux.tree.TreeGrid) {
+            Ext.apply(Ext.grid.DateColumn.prototype, {
+                sortAscText: Sfera.Web.Shell.ObjectModel.dictionary.get("Columns")
+            });
+        }
+    }
+    */
+    // fix | ak sa savestate "neobnoví", tak akoby nešiel
+    Ext.override(Ext.Component, {
+        saveState: Ext.Component.prototype.saveState
+    });
+
+    // predĺžim trvanie ajaxových requestov na 3 minúty
+    Ext.Ajax.timeout = Ext.net.DirectEvent.timeout = 180000;
+
+    // alias
+    window.Shell = Sfera.Web.Shell;
+
+}(window.Sfera = window.Sfera || {}));
+
+
+////////////--- Stavový mechanizmus Ext.JS komponentov - Provider ---////////////////// (prevzaté z ISOM/ŽSR a silne prerobené)
+
+Ext.ns('Ext.ux.state');
+
+Ext.ux.state.HttpProvider = function (config) {
+    // call parent 
+    Ext.ux.state.HttpProvider.superclass.constructor.call(this);
+
+    Ext.apply(this, config, {
+        // defaults
+        delay: 1200000 // po 20 minútach pošlem stav na uloženie
+        , dirty: false
+        , started: false
+        , autoStart: true
+        , queue: []
+        , paramNames: {
+            id: 'id'
+            , name: 'name'
+            , value: 'value'
+            , data: 'data'
+        }
+    });
+    this.dt = new Ext.util.DelayedTask(this.submitState, this);
+    if (this.autoStart) {
+        this.start();
+    }
+};
+
+Ext.extend(Ext.ux.state.HttpProvider, Ext.state.Provider, {
+    origState: null
+
+    /**
+    * Initializes state from the passed state object or array.
+    * This method can be called early during page load having the state Array/Object
+    * retrieved from database by server.
+    * @param {Array/Object} state State to initialize state manager with
+    */
+    , initState: function (state) {
+        if (state instanceof Array) {
+            Ext.each(state, function (item) {
+                this.state[item[this.paramNames.name]] = this.decodeValue(item[this.paramNames.value]);
+
+                var o = {};
+                o[this.paramNames.name] = item[this.paramNames.name];
+                o[this.paramNames.value] = item[this.paramNames.value];
+                this.queue.push(o);
+            }, this);
+        }
+        else {
+            this.state = state ? state : {};
+        }
+    }
+    /**
+    * Sets the passed state variable name to the passed value and queues the change
+    * @param {String} name Name of the state variable
+    * @param {Mixed} value Value of the state variable
+    */
+    , set: function (name, value) {
+        if (!name) {
+            return;
+        }
+        this.queueChange(name, value);
+    }
+    /**
+    * Starts submitting state changes to server
+    */
+    , start: function () {
+        this.dt.delay(this.delay);
+        this.started = true;
+    }
+    /**
+    * Stops submitting state changes
+    */
+    , stop: function () {
+        this.dt.cancel();
+        this.started = false;
+    }
+    /**
+    * private, queues the state change if state has changed
+    */
+    , queueChange: function (name, value) {
+        var o = {};
+        var i;
+        var found = false;
+
+        // see http://extjs.com/forum/showthread.php?p=344233
+        var lastValue = this.state[name];
+        for (i = 0; i < this.queue.length; i++) {
+            if (this.queue[i].name === name) {
+                lastValue = this.decodeValue(this.queue[i].value);
+            }
+        }
+        var changed = undefined === lastValue || lastValue !== value;
+
+        if (changed) {
+            o[this.paramNames.name] = name;
+            o[this.paramNames.value] = value;
+            for (i = 0; i < this.queue.length; i++) {
+                if (this.queue[i].name === o.name) {
+                    this.queue[i] = o;
+                    found = true;
+                }
+            }
+            if (false === found) {
+                this.queue.push(o);
+            }
+            this.dirty = true;
+        }
+        if (this.started) {
+            this.start();
+        }
+        return changed;
+    }
+    , flush: function (callback) {
+        this.submitState(callback);
+    }
+    /**
+    * private, submits state to server by Direct method
+    */
+    , submitState: function (callback) {
+        if (!this.dirty) {
+            if (this.started) {
+                this.dt.delay(this.delay);
+            }
+            return;
+        }
+        this.dt.cancel();
+
+        // be optimistic
+        this.dirty = false;
+        var data = this.queue;
+        if (data) {
+            App.direct.SaveUIState(data);
+        }
+        return data;
+    }
+    , getState: function () {
+        return this.queue;
+    }
+    /**
+    * Clears the state variable
+    * @param {String} name Name of the variable to clear
+    */
+    , clear: function (name) {
+        this.set(name, undefined);
+    }
+});
+
+// vytvorím inštanciu StateProvidera a priradím ju Ext.JS mechanizmu
+Sfera.Web.Shell.stateManager = new Ext.ux.state.HttpProvider(this.settings);
+
+Ext.state.Manager.setProvider(Sfera.Web.Shell.stateManager);

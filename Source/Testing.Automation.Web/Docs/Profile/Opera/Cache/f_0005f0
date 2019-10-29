@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<!--[if lt IE 8]> <html class="lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html> <!--<![endif]-->
+<head id="Head1"><meta http-equiv="X-UA-Compatible" content="IE=edge" /><title>
+	XMatik®.NET/ISOM V17.1 (10.08.2017v1.7.01.20)
+</title><meta name="author" content="sféra,a.s." /><link id="favicon" href="../Plugins/MDC/App_Themes/Default/favicon.png" rel="shortcut icon" type="image/png" />
+    <link type="text/css" rel="stylesheet" href="/extjs/packages/ext_theme_crisp/build/resources/ext-theme-crisp-all-embedded-css/ext.axd?v=29122" id="ext-theme" />
+    <link type="text/css" rel="stylesheet" href="/extnet/resources/css/extnet-all-embedded-css/ext.axd?v=29122" id="extnet-styles" />
+    <link type="text/css" rel="stylesheet" href="/ux/resources/portal-embedded-css/ext.axd?v=29122" /><link href="../App_Themes/Default/Shell.css?14" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="/extjs/ext-all-js/ext.axd?v=29122"></script>
+    <script type="text/javascript" src="/extjs/packages/ext_theme_crisp/build/ext-theme-crisp-js/ext.axd?v=29122"></script>
+    <script type="text/javascript" src="/extnet/extnet-all-js/ext.axd?v=29122"></script>
+    <script type="text/javascript" src="/extnet/locale/ext-locale-sk-js/ext.axd?v=29122"></script>
+    <script type="text/javascript" src="/ux/portal/portal-js/ext.axd?v=29122"></script>
+
+    <script type="text/javascript">
+    //<![CDATA[
+        Ext.net.ResourceMgr.init({ajaxTimeout:119000,id:"ctl00$resourceManager",aspForm:"form1",theme:"crisp",icons:["Cog","ArrowRight"]});Ext.onReady(function(){Ext.net.DirectEvent.showFailure = Ext.emptyFn;Ext.ns("App.direct");Ext.apply(App.direct, { LogJavascriptError:function(error,additionalInfo,config){return Ext.net.DirectMethod.request("LogJavascriptError",Ext.applyIf(config || {}, {params:{error:error,additionalInfo:additionalInfo}}));},SaveUIState:function(data,config){return Ext.net.DirectMethod.request("SaveUIState",Ext.applyIf(config || {}, {params:{data:data}}));},IsUrlAuthorized:function(url,config){return Ext.net.DirectMethod.request("IsUrlAuthorized",Ext.applyIf(config || {}, {params:{url:url}}));},NavigateTo:function(url,config){return Ext.net.DirectMethod.request("NavigateTo",Ext.applyIf(config || {}, {params:{url:url}}));} });Ext.net.DirectEvent.on({ajaxrequestexception:{fn:Sfera.Web.Shell.handleRequestException}});Ext.create("Ext.net.Viewport",{id:"cphShellContent_viewport",cls:" plugin-style-a",renderTo:Ext.get("form1"),items:[{id:"cphShellContent_pnlToolbar",border:false,region:"north",items:[{id:"cphShellContent_Toolbar1",xtype:"toolbar",items:[{id:"cphShellContent_tbf1",xtype:"tbfill"},{id:"cphShellContent_btnWidgetsPicker",iconCls:"#Cog",scale:"medium",text:"Nastavenia",directEvents:{click:{fn:function(item,e){Ext.net.directRequest({eventMask:{showMask:true,msg:"Načítavanie..."},control:this});}}}}]}],header:false,title:"Úvodné okno"},{id:"cphShellContent_prtDashboard","paddingSummary":"0 10px 10px 10px",border:false,xtype:"portalpanel",region:"center",items:[{padding:"0 12px",columnWidth:0.333333333333333},{padding:"0 12px",columnWidth:0.333333333333333},{padding:"0 12px",columnWidth:0.333333333333333,items:[{id:"CollectingStatus",cls:"w-widget",margin:"0 0 20px 0",flex:1,contentEl:"cphShellContent_CollectingStatus_Content",stateEvents:["drop"],stateId:"CollectingStatus",stateful:true,title:"Úspešnosť aktívneho zberu",directEvents:{hide:{fn:function(item){Ext.net.directRequest({extraParams:{"porlet":"CollectingStatus"},after:function(el,type,action,extraParams,o){App.CollectingStatus.destroy();},control:this,action:'Hide'});}}}},{id:"OverpaymentMaturity",cls:"w-widget",margin:"0 0 20px 0",flex:1,contentEl:"cphShellContent_OverpaymentMaturity_Content",stateEvents:["drop"],stateId:"OverpaymentMaturity",stateful:true,title:"Splatnosť záväzkov",directEvents:{hide:{fn:function(item){Ext.net.directRequest({extraParams:{"porlet":"OverpaymentMaturity"},after:function(el,type,action,extraParams,o){App.OverpaymentMaturity.destroy();},control:this,action:'Hide'});}}}},{id:"Atom",cls:"w-widget",margin:"0 0 20px 0",flex:1,contentEl:"cphShellContent_Atom_Content",stateEvents:["drop"],stateId:"Atom",stateful:true,title:"Stav importov",directEvents:{hide:{fn:function(item){Ext.net.directRequest({extraParams:{"porlet":"Atom"},after:function(el,type,action,extraParams,o){App.Atom.destroy();},control:this,action:'Hide'});}}}},{id:"TopDeptors",cls:"w-widget",margin:"0 0 20px 0",flex:1,contentEl:"cphShellContent_TopDeptors_Content",stateEvents:["drop"],stateId:"TopDeptors",stateful:true,title:"Najväčší dlžníci",directEvents:{hide:{fn:function(item){Ext.net.directRequest({extraParams:{"porlet":"TopDeptors"},after:function(el,type,action,extraParams,o){App.TopDeptors.destroy();},control:this,action:'Hide'});}}}},{id:"TopClients",cls:"w-widget",margin:"0 0 20px 0",flex:1,contentEl:"cphShellContent_TopClients_Content",stateEvents:["drop"],stateId:"TopClients",stateful:true,title:"Najlepší odberatelia",directEvents:{hide:{fn:function(item){Ext.net.directRequest({extraParams:{"porlet":"TopClients"},after:function(el,type,action,extraParams,o){App.TopClients.destroy();},control:this,action:'Hide'});}}}},{id:"ArrearMaturity",cls:"w-widget",margin:"0 0 20px 0",flex:1,contentEl:"cphShellContent_ArrearMaturity_Content",stateEvents:["drop"],stateId:"ArrearMaturity",stateful:true,title:"Splatnosť pohľadávok",directEvents:{hide:{fn:function(item){Ext.net.directRequest({extraParams:{"porlet":"ArrearMaturity"},after:function(el,type,action,extraParams,o){App.ArrearMaturity.destroy();},control:this,action:'Hide'});}}}},{id:"ContractualDiagramsRegistration",cls:"w-widget",margin:"0 0 20px 0",flex:1,contentEl:"cphShellContent_ContractualDiagramsRegistration_Content",stateEvents:["drop"],stateId:"ContractualDiagramsRegistration",stateful:true,title:"Stav registrácie zmluvných diagramov",directEvents:{hide:{fn:function(item){Ext.net.directRequest({extraParams:{"porlet":"ContractualDiagramsRegistration"},after:function(el,type,action,extraParams,o){App.ContractualDiagramsRegistration.destroy();},control:this,action:'Hide'});}}}},{id:"IOStatus",cls:"w-widget",margin:"0 0 20px 0",flex:1,contentEl:"cphShellContent_IOStatus_Content",stateEvents:["drop"],stateId:"IOStatus",stateful:true,title:"Komunikačný modul",directEvents:{hide:{fn:function(item){Ext.net.directRequest({extraParams:{"porlet":"IOStatus"},after:function(el,type,action,extraParams,o){App.IOStatus.destroy();},control:this,action:'Hide'});}}}},{id:"Calendar",cls:"w-widget",margin:"0 0 20px 0",flex:1,contentEl:"cphShellContent_Calendar_Content",stateEvents:["drop"],stateId:"Calendar",stateful:true,title:"Kalendár udalostí",directEvents:{hide:{fn:function(item){Ext.net.directRequest({extraParams:{"porlet":"Calendar"},after:function(el,type,action,extraParams,o){App.Calendar.destroy();},control:this,action:'Hide'});}}}},{id:"RegistrationProcessOverview",cls:"w-widget",margin:"0 0 20px 0",flex:1,contentEl:"cphShellContent_RegistrationProcessOverview_Content",stateEvents:["drop"],stateId:"RegistrationProcessOverview",stateful:true,title:"Vývoj evidencie - posledných 12 mesiacov",directEvents:{hide:{fn:function(item){Ext.net.directRequest({extraParams:{"porlet":"RegistrationProcessOverview"},after:function(el,type,action,extraParams,o){App.RegistrationProcessOverview.destroy();},control:this,action:'Hide'});}}}}]}],layout:{type:"column",reserveScrollbar:true},bodyStyle:"background-color: #FFF;",listeners:{resize:{fn:function(item,adjWidth,adjHeight){SP.reloadPortal(item);}},drop:{fn:function(e){SP.reloadWidget(e.panel);}}},directEvents:{drop:{fn:function(e){Ext.net.directRequest({extraParams:{"porlet":e.panel.stateId,"column":e.columnIndex,"position":e.position},control:this,action:'Drop'});}}}}],layout:"border"});window.App.cphShellContent_CollectingStatus_storeChartCollectingStatusInfo=Ext.create("Ext.data.Store",{model:Ext.ClassManager.isCreated(Ext.id()) ? Ext.id() : Ext.define(Ext.id(), {extend: "Ext.data.Model", fields:[{name:"Id"},{name:"Status"}],idProperty:"ID" }),storeId:"cphShellContent_CollectingStatus_storeChartCollectingStatusInfo",autoLoad:true,proxy:{data:[{"Status":0.0,"Id":"2017-08-09T00:00:00"},{"Status":0.0,"Id":"2017-08-10T00:00:00"},{"Status":0.0,"Id":"2017-08-11T00:00:00"},{"Status":0.0,"Id":"2017-08-12T00:00:00"},{"Status":0.0,"Id":"2017-08-13T00:00:00"},{"Status":0.0,"Id":"2017-08-14T00:00:00"},{"Status":0.0,"Id":"2017-08-15T00:00:00"}], type: 'memory'},listeners:{load:{fn:function(store,records,successful){Sfera.Web.Shell.loadHighstockScript(SP.showCollectingStatusChart);}}}});Ext.create("Ext.panel.Panel",{id:"cphShellContent_CollectingStatus_collectingStatusChart",height:250,renderTo:"App.cphShellContent_CollectingStatus_collectingStatusChart_Container"});Ext.create("Ext.panel.Panel",{id:"cphShellContent_CollectingStatus_pnlPackEnd",renderTo:"App.cphShellContent_CollectingStatus_pnlPackEnd_Container",defaults:{"margins":"0 5 0 0"},items:[{id:"cphShellContent_CollectingStatus_btnRedirect",style:"margin-right:15px",width:60,xtype:"button",iconCls:"#ArrowRight",directEvents:{click:{fn:function(item,e){Ext.net.directRequest({control:this});}}}}],layout:{type:"hbox",pack:"end",align:"middle"},bodyPadding:5});window.App.cphShellContent_OverpaymentMaturity_storeOverpaymentMaturity=Ext.create("Ext.data.Store",{model:Ext.ClassManager.isCreated(Ext.id()) ? Ext.id() : Ext.define(Ext.id(), {extend: "Ext.data.Model", fields:[{name:"ID"},{name:"Maturity"},{name:"Count"},{name:"Amount"}],idProperty:"ID" }),storeId:"cphShellContent_OverpaymentMaturity_storeOverpaymentMaturity",autoLoad:true,proxy:{data:[{"Maturity":"V splatnosti","Count":0,"Amount":0.0},{"Maturity":"Po splatnosti do 5 dní","Count":0,"Amount":0.0},{"Maturity":"Po splatnosti do 30 dní","Count":0,"Amount":0.0},{"Maturity":"Po splatnosti nad 30 dní","Count":8,"Amount":-11381.16}], type: 'memory'}});Ext.create("Ext.grid.Panel",{id:"cphShellContent_OverpaymentMaturity_gridOverpaymentMaturity",cls:"w-grid-a",minHeight:130,padding:"0 10px 10px 10px",renderTo:"App.cphShellContent_OverpaymentMaturity_gridOverpaymentMaturity_Container",columns:{items:[{minWidth:180,flex:1,resizable:false,dataIndex:"Maturity",menuDisabled:true},{"header":"Počet",width:60,xtype:"numbercolumn",resizable:false,align:"right",dataIndex:"Count",menuDisabled:true,format:"0 0/i"},{"header":"Suma (€)",width:100,xtype:"numbercolumn",resizable:false,align:"right",dataIndex:"Amount",menuDisabled:true,format:"0 0,00/i"}]},sortableColumns:false,selModel:window.App.cphShellContent_OverpaymentMaturity_ctl11=Ext.create("Ext.selection.RowModel",{proxyId:"cphShellContent_OverpaymentMaturity_ctl11",selType:"rowmodel",listeners:{beforeselect:{fn:function(item,record,index){return false}}}}),store:"cphShellContent_OverpaymentMaturity_storeOverpaymentMaturity",viewConfig:{xtype:"gridview",emptyText:"Neboli nájdené žiadne záznamy",loadMask:true,loadingText:"Načítavanie...",getRowClass:function(record,index,rowParams,store){if (index+1 == store.data.length) return 'x-row-highlight-text';}}});window.App.cphShellContent_Atom_storePoints=Ext.create("Ext.data.Store",{model:Ext.ClassManager.isCreated(Ext.id()) ? Ext.id() : Ext.define(Ext.id(), {extend: "Ext.data.Model", fields:[{name:"Summary"}],idProperty:"X" }),storeId:"cphShellContent_Atom_storePoints",autoLoad:true,proxy:{data:[{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22},{"Summary":99.22}], type: 'memory'},listeners:{load:{single:true,fn:function(store,records,successful){Sfera.Web.Shell.loadHighstockScript(SP.showChart);}}}});Ext.create("Ext.panel.Panel",{id:"cphShellContent_Atom_atomStatusChart",height:250,renderTo:"App.cphShellContent_Atom_atomStatusChart_Container"});Ext.create("Ext.panel.Panel",{id:"cphShellContent_Atom_pnlPackEnd",renderTo:"App.cphShellContent_Atom_pnlPackEnd_Container",defaults:{"margins":"0 5 0 0"},items:[{id:"cphShellContent_Atom_btnRedirect",style:"margin-right:15px",width:60,xtype:"button",iconCls:"#ArrowRight",directEvents:{click:{fn:function(item,e){Ext.net.directRequest({control:this});}}}}],layout:{type:"hbox",pack:"end",align:"middle"},bodyPadding:5});window.App.cphShellContent_TopDeptors_storeTopDeptors=Ext.create("Ext.data.Store",{model:Ext.ClassManager.isCreated(Ext.id()) ? Ext.id() : Ext.define(Ext.id(), {extend: "Ext.data.Model", fields:[{name:"ID"},{name:"Subject"},{name:"Dept"}],idProperty:"ID" }),storeId:"cphShellContent_TopDeptors_storeTopDeptors",autoLoad:true,proxy:{data:[{"Subject":"FOL - KONTAKT, s.r.o.","Dept":123638.48},{"Subject":"D.A.L., s.r.o.","Dept":105018.24},{"Subject":"Hyundai Dymos Slovakia s.r.o.","Dept":55747.07},{"Subject":"I.K.S. facility services spol. s r.o.","Dept":28114.50},{"Subject":"AQUATEC VFL, s.r.o.","Dept":20921.02},{"Subject":"Samwoo Slovakia, s.r.o.","Dept":16628.48},{"Subject":"DAPA-SK, s.r.o.","Dept":12000.0},{"Subject":"HOBBY EXPRES s.r.o.","Dept":9053.21},{"Subject":"KAPIT, s.r.o.","Dept":8479.56},{"Subject":"MONT IRP, s.r.o.","Dept":8410.14}], type: 'memory'}});Ext.create("Ext.grid.Panel",{id:"cphShellContent_TopDeptors_gridTopDeptors",cls:"w-grid-a",minHeight:130,padding:"0 10px 10px 10px",renderTo:"App.cphShellContent_TopDeptors_gridTopDeptors_Container",columns:{items:[{minWidth:180,flex:1,resizable:false,dataIndex:"Subject",menuDisabled:true},{"header":"Neuhradené (€)",width:110,xtype:"numbercolumn",resizable:false,align:"right",dataIndex:"Dept",menuDisabled:true,format:"0 0,00/i"}]},sortableColumns:false,selModel:window.App.cphShellContent_TopDeptors_ctl09=Ext.create("Ext.selection.RowModel",{proxyId:"cphShellContent_TopDeptors_ctl09",selType:"rowmodel",listeners:{beforeselect:{fn:function(item,record,index){return false}}}}),store:"cphShellContent_TopDeptors_storeTopDeptors",viewConfig:{xtype:"gridview",emptyText:"Neboli nájdené žiadne záznamy",loadMask:true,loadingText:"Načítavanie..."}});window.App.cphShellContent_TopClients_storeTopClients=Ext.create("Ext.data.Store",{model:Ext.ClassManager.isCreated(Ext.id()) ? Ext.id() : Ext.define(Ext.id(), {extend: "Ext.data.Model", fields:[{name:"ID"},{name:"Subject"},{name:"Turnover"}],idProperty:"ID" }),storeId:"cphShellContent_TopClients_storeTopClients",autoLoad:true,proxy:{data:[{"Subject":"Hyundai Dymos Slovakia s.r.o.","Turnover":248792.11},{"Subject":"FOL - KONTAKT, s.r.o.","Turnover":191300.99},{"Subject":"D.A.L., s.r.o.","Turnover":101782.22},{"Subject":"AQUATEC VFL, s.r.o.","Turnover":75296.67},{"Subject":"Samwoo Slovakia, s.r.o.","Turnover":68731.78},{"Subject":"I.K.S. facility services spol. s r.o.","Turnover":42856.47},{"Subject":"MONT IRP, s.r.o.","Turnover":40449.47},{"Subject":"BILLA s.r.o.","Turnover":27456.60},{"Subject":"ČEZ Slovensko, s.r.o.","Turnover":27258.72},{"Subject":"Optima consulting s.r.o.","Turnover":25676.28}], type: 'memory'}});Ext.create("Ext.grid.Panel",{id:"cphShellContent_TopClients_gridTopClients",cls:"w-grid-a",minHeight:130,padding:"0 10px 10px 10px",renderTo:"App.cphShellContent_TopClients_gridTopClients_Container",columns:{items:[{minWidth:180,flex:1,resizable:false,dataIndex:"Subject",menuDisabled:true},{"header":"Obrat (€)",width:110,xtype:"numbercolumn",resizable:false,align:"right",dataIndex:"Turnover",menuDisabled:true,format:"0 0,00/i"}]},sortableColumns:false,selModel:window.App.cphShellContent_TopClients_ctl09=Ext.create("Ext.selection.RowModel",{proxyId:"cphShellContent_TopClients_ctl09",selType:"rowmodel",listeners:{beforeselect:{fn:function(item,record,index){return false}}}}),store:"cphShellContent_TopClients_storeTopClients",viewConfig:{xtype:"gridview",emptyText:"Neboli nájdené žiadne záznamy",loadMask:true,loadingText:"Načítavanie..."}});window.App.cphShellContent_ArrearMaturity_storeArrearMaturity=Ext.create("Ext.data.Store",{model:Ext.ClassManager.isCreated(Ext.id()) ? Ext.id() : Ext.define(Ext.id(), {extend: "Ext.data.Model", fields:[{name:"ID"},{name:"Maturity"},{name:"Count"},{name:"Amount"}],idProperty:"ID" }),storeId:"cphShellContent_ArrearMaturity_storeArrearMaturity",autoLoad:true,proxy:{data:[{"Maturity":"V splatnosti","Count":328,"Amount":107162.36},{"Maturity":"Po splatnosti do 5 dní","Count":82,"Amount":26790.59},{"Maturity":"Po splatnosti do 30 dní","Count":6,"Amount":3177.21},{"Maturity":"Po splatnosti nad 30 dní","Count":727,"Amount":537057.44}], type: 'memory'}});Ext.create("Ext.grid.Panel",{id:"cphShellContent_ArrearMaturity_gridArrearMaturity",cls:"w-grid-a",minHeight:130,padding:"0 10px 10px 10px",renderTo:"App.cphShellContent_ArrearMaturity_gridArrearMaturity_Container",columns:{items:[{minWidth:180,flex:1,resizable:false,dataIndex:"Maturity",menuDisabled:true},{"header":"Počet",width:60,xtype:"numbercolumn",resizable:false,align:"right",dataIndex:"Count",menuDisabled:true,format:"0 0/i"},{"header":"Suma (€)",width:100,xtype:"numbercolumn",resizable:false,align:"right",dataIndex:"Amount",menuDisabled:true,format:"0 0,00/i"}]},sortableColumns:false,selModel:window.App.cphShellContent_ArrearMaturity_ctl11=Ext.create("Ext.selection.RowModel",{proxyId:"cphShellContent_ArrearMaturity_ctl11",selType:"rowmodel",listeners:{beforeselect:{fn:function(item,record,index){return false}}}}),store:"cphShellContent_ArrearMaturity_storeArrearMaturity",viewConfig:{xtype:"gridview",emptyText:"Neboli nájdené žiadne záznamy",loadMask:true,loadingText:"Načítavanie...",getRowClass:function(record,index,rowParams,store){if (index+1 == store.data.length) return 'x-row-highlight-text';}}});window.App.cphShellContent_ContractualDiagramsRegistration_storeRegistration=Ext.create("Ext.data.Store",{model:Ext.ClassManager.isCreated(Ext.id()) ? Ext.id() : Ext.define(Ext.id(), {extend: "Ext.data.Model", fields:[{name:"ID"},{name:"Date",type:"date",dateFormat:"c"},{name:"DayAheadStatus"},{name:"DayAheadStatusID"},{name:"IntradayStatus"},{name:"IntradayStatusID"}],idProperty:"ID" }),storeId:"cphShellContent_ContractualDiagramsRegistration_storeRegistration",autoLoad:true,proxy:{type:"page"},listeners:{load:{fn:function(store,records,successful){setTimeout(function() { try { App.cphShellContent_ContractualDiagramsRegistration_storeRegistration.reload(); } catch(e) {} }, 15000);}}}});Ext.create("Ext.grid.Panel",{id:"cphShellContent_ContractualDiagramsRegistration_gridRegistration",cls:"w-grid-a",maxHeight:300,minHeight:130,padding:"0 10px 10px 10px",renderTo:"App.cphShellContent_ContractualDiagramsRegistration_gridRegistration_Container",columns:{items:[{"header":"Dátum",width:85,xtype:"datecolumn",dataIndex:"Date",menuDisabled:true,sortable:false,format:"j. n. Y"},{"header":"Day-Ahead",minWidth:120,flex:1,dataIndex:"DayAheadStatus",menuDisabled:true,renderer:function(value,metadata,record,rowIndex,colIndex,store,view){return record.data.DayAheadStatusID == -1 ? '<span style=\'color:#CC0404;\'>'+value+'</span>' : value},sortable:false},{"header":"Intraday",width:120,dataIndex:"IntradayStatus",menuDisabled:true,renderer:function(value,metadata,record,rowIndex,colIndex,store,view){return record.data.IntradayStatusID == -1 ? '<span style=\'color:#CC0404;\'>'+value+'</span>' : value},sortable:false}]},selModel:window.App.cphShellContent_ContractualDiagramsRegistration_ctl11=Ext.create("Ext.selection.RowModel",{proxyId:"cphShellContent_ContractualDiagramsRegistration_ctl11",selType:"rowmodel",listeners:{beforeselect:{fn:function(item,record,index){return false}}}}),store:"cphShellContent_ContractualDiagramsRegistration_storeRegistration",viewConfig:{xtype:"gridview",emptyText:"Neboli nájdené žiadne záznamy",loadMask:true,loadingText:"Načítavanie...",getRowClass:function(record,index,rowParams,store){var d=record.data.Date,td=new Date();if (d.getDate()==td.getDate()&&d.getMonth()==td.getMonth()) return 'x-row-bold';}}});window.App.cphShellContent_IOStatus_storeIOStatus=Ext.create("Ext.data.Store",{model:Ext.ClassManager.isCreated(Ext.id()) ? Ext.id() : Ext.define(Ext.id(), {extend: "Ext.data.Model", fields:[{name:"ID"},{name:"Point"},{name:"UnprocessedMessageCount"},{name:"ErrorMessageCount"},{name:"UnprocessedFileCount"},{name:"ErrorFileCount"},{name:"ProcessedItems",type:"int"},{name:"TotalItems",type:"int"}],idProperty:"ID" }),storeId:"cphShellContent_IOStatus_storeIOStatus",autoLoad:true,proxy:{type:"page"},listeners:{load:{fn:function(store,records,successful){setTimeout(function() { try { App.cphShellContent_IOStatus_storeIOStatus.reload(); } catch(e) {} }, 15000);}}}});Ext.create("Ext.grid.Panel",{id:"cphShellContent_IOStatus_gridIOStatus",cls:"w-grid-a w-grid-a1",maxHeight:300,minHeight:130,padding:"0 10px 10px 10px",renderTo:"App.cphShellContent_IOStatus_gridIOStatus_Container",columns:{items:[{"header":"Bod",minWidth:80,flex:1,dataIndex:"Point",menuDisabled:true,sortable:false},{"header":"Nespracované",width:100,xtype:"templatecolumn",dataIndex:"UnprocessedMessageCount",menuDisabled:true,sortable:false,tooltip:"Počet nespracovaných správ/príloh",tpl:Ext.create("Ext.net.XTemplate",{html:["<tpl for=\".\">","{UnprocessedMessageCount} / {UnprocessedFileCount}","</tpl>",""]})},{"header":"Chybné",width:100,xtype:"templatecolumn",dataIndex:"ErrorMessageCount",menuDisabled:true,sortable:false,tooltip:"Počet chybných správ/príloh",tpl:Ext.create("Ext.net.XTemplate",{html:["<tpl for=\".\">","{ErrorMessageCount} / {ErrorFileCount}","</tpl>",""]})}]},selModel:window.App.cphShellContent_IOStatus_ctl13=Ext.create("Ext.selection.RowModel",{proxyId:"cphShellContent_IOStatus_ctl13",selType:"rowmodel",listeners:{beforeselect:{fn:function(item,record,index){return false}}}}),store:"cphShellContent_IOStatus_storeIOStatus",viewConfig:{xtype:"gridview",emptyText:"Neboli nájdené žiadne záznamy",loadMask:true,loadingText:"Načítavanie..."}});Ext.create("Ext.tip.ToolTip",{id:"cphShellContent_IOStatus_RowTip",delegate:".x-grid3-row",target:"App.cphShellContent_IOStatus_gridIOStatus.getView().mainBody",trackMouse:true,listeners:{show:{fn:function(item){var rowIndex = App.cphShellContent_IOStatus_gridIOStatus.view.findRowIndex(this.triggerElement);var rec = App.cphShellContent_IOStatus_storeIOStatus.getAt(rowIndex);
+            this.body.dom.innerHTML = '<b>Bod:</b> ' + rec.data.Point + '<br />'
+                + '<b>Stav procesu:</b> ' + Ext.util.Format.number((rec.data.ProcessedItems/rec.data.TotalItems)*100, '0,00/i') + '%<br />'
+                + '<b>Nespracované správy:</b> ' + rec.data.UnprocessedMessageCount + '<br />'
+                + '<b>Nespracované prílohy:</b> ' + rec.data.UnprocessedFileCount + '<br />'
+                + '<b>Chybné správy:</b> ' + rec.data.ErrorMessageCount + '<br />'
+                + '<b>Chybné prílohy:</b> ' + rec.data.ErrorFileCount;
+            }}}});window.App.cphShellContent_Calendar_storeEvents=Ext.create("Ext.data.Store",{model:Ext.ClassManager.isCreated(Ext.id()) ? Ext.id() : Ext.define(Ext.id(), {extend: "Ext.data.Model", fields:[{name:"ID"},{name:"Date",type:"date",dateFormat:"c"},{name:"Time"},{name:"Title"},{name:"Location"},{name:"ObligationTypeId"},{name:"Fulfilled"}],idProperty:"ID" }),storeId:"cphShellContent_Calendar_storeEvents",autoLoad:true,proxy:{data:[], type: 'memory'}});Ext.create("Ext.grid.Panel",{id:"cphShellContent_Calendar_gridEvents",cls:"w-grid-a w-calendar",minHeight:180,renderTo:"App.cphShellContent_Calendar_gridEvents_Container",autoScroll:true,tbar:{xtype:"toolbar",items:[{id:"cphShellContent_Calendar_dfMissedCount",xtype:"displayfield",fieldLabel:"Nestihnuté",value:"762",renderer:setMissedCountStyle}]},columns:{items:[{width:85,xtype:"templatecolumn",align:"right",tpl:Ext.create("Ext.net.XTemplate",{html:["<tpl for=\".\">","<span class=\"day\">{[values.Date.getDate()]}.</span><br />","{[Ext.Date.monthNames[values.Date.getMonth()]]}<br />","<i>{[Ext.Date.dayNames[values.Date.getDay()]]}</i>","</tpl>",""]})},{"columnID":"Info",xtype:"templatecolumn",flex:1,tpl:Ext.create("Ext.net.XTemplate",{html:["<tpl for=\".\">","<div class=\"info\">","<span class=\"title\">{Title}</span><br />","<i>{Time}</i><br />","{Location}","</div>","</tpl>",""]})},{height:100,width:40,xtype:"templatecolumn",tpl:Ext.create("Ext.net.XTemplate",{html:["<div class=\"clm-fullfilled\">","<tpl if=\"Fulfilled=='0'\">","<div class=\"icon-decline row-imagecommand\" ></div>","</tpl>","<tpl if=\"Fulfilled=='1'\">","<div class=\"icon-accept row-imagecommand\" ></div>","</tpl>","</div>",""]})}]},hideHeaders:true,selModel:window.App.cphShellContent_Calendar_ctl18=Ext.create("Ext.selection.RowModel",{proxyId:"cphShellContent_Calendar_ctl18",selType:"rowmodel",directEvents:{select:{fn:function(item,record,index){Ext.net.directRequest({extraParams:{"obligationTypeId":record.data.ObligationTypeId,"date":record.data.Date},control:this,action:'Select'});}}}}),store:"cphShellContent_Calendar_storeEvents",viewConfig:{xtype:"gridview",emptyText:"Neboli nájdené žiadne záznamy",loadMask:true,loadingText:"Načítavanie...",getRowClass:function(record,index,rowParams,store){return 'gridEvents-row';}}});window.App.cphShellContent_RegistrationProcessOverview_storeRegistrationChart=Ext.create("Ext.data.Store",{model:Ext.ClassManager.isCreated(Ext.id()) ? Ext.id() : Ext.define(Ext.id(), {extend: "Ext.data.Model", fields:[{name:"ID"},{name:"SerieID"},{name:"SerieTitle"},{name:"XAxisValue"},{name:"XAxisLabel"},{name:"XAxisTooltipValue"},{name:"YAxisLabel"},{name:"YAxisValue"}],idProperty:"ID" }),storeId:"cphShellContent_RegistrationProcessOverview_storeRegistrationChart",autoLoad:true,proxy:{data:[], type: 'memory'},listeners:{load:{single:true,fn:function(store,records,successful){Sfera.Web.Shell.loadHighstockScript(SP.showRegistrationChart);}}}});Ext.create("Ext.panel.Panel",{id:"cphShellContent_RegistrationProcessOverview_contRegistrationChart",height:250,renderTo:"App.cphShellContent_RegistrationProcessOverview_contRegistrationChart_Container"});Ext.net.ResourceMgr.destroyCmp("App.ttCollectingStatus");Ext.create("Ext.tip.ToolTip",{id:"ttCollectingStatus",html:"Úspešnosť aktívneho zberu",renderTo:Ext.getBody(),anchor:"bottom",target:"App.CollectingStatus.header"});Ext.net.ResourceMgr.destroyCmp("App.ttOverpaymentMaturity");Ext.create("Ext.tip.ToolTip",{id:"ttOverpaymentMaturity",html:"Prehľad splatnosti nevysporiadaných dobropisov a storno faktúr",renderTo:Ext.getBody(),anchor:"bottom",target:"App.OverpaymentMaturity.header"});Ext.net.ResourceMgr.destroyCmp("App.ttAtom");Ext.create("Ext.tip.ToolTip",{id:"ttAtom",html:"Stav importov",renderTo:Ext.getBody(),anchor:"bottom",target:"App.Atom.header"});Ext.net.ResourceMgr.destroyCmp("App.ttTopDeptors");Ext.create("Ext.tip.ToolTip",{id:"ttTopDeptors",html:"Zoznam subjektov s najvyššou neuhradenou sumou po splatnosti (za všetky faktúry vrátane opravných faktúr)",renderTo:Ext.getBody(),anchor:"bottom",target:"App.TopDeptors.header"});Ext.net.ResourceMgr.destroyCmp("App.ttTopClients");Ext.create("Ext.tip.ToolTip",{id:"ttTopClients",html:"Zoznam subjektov s najvyššou fakturovanou sumou za posledných 12 účtovných mesiacov",renderTo:Ext.getBody(),anchor:"bottom",target:"App.TopClients.header"});Ext.net.ResourceMgr.destroyCmp("App.ttArrearMaturity");Ext.create("Ext.tip.ToolTip",{id:"ttArrearMaturity",html:"Prehľad splatnosti neuhradených záväzkov",renderTo:Ext.getBody(),anchor:"bottom",target:"App.ArrearMaturity.header"});Ext.net.ResourceMgr.destroyCmp("App.ttContractualDiagramsRegistration");Ext.create("Ext.tip.ToolTip",{id:"ttContractualDiagramsRegistration",html:"Stav registrácie zmluvných diagramov",renderTo:Ext.getBody(),anchor:"bottom",target:"App.ContractualDiagramsRegistration.header"});Ext.net.ResourceMgr.destroyCmp("App.ttIOStatus");Ext.create("Ext.tip.ToolTip",{id:"ttIOStatus",html:"Stav príjmu a odosielania správ a ich príloh",renderTo:Ext.getBody(),anchor:"bottom",target:"App.IOStatus.header"});Ext.net.ResourceMgr.destroyCmp("App.ttCalendar");Ext.create("Ext.tip.ToolTip",{id:"ttCalendar",html:"Kalendár udalostí a ich termínov a miesta konania",renderTo:Ext.getBody(),anchor:"bottom",target:"App.Calendar.header"});Ext.net.ResourceMgr.destroyCmp("App.ttRegistrationProcessOverview");Ext.create("Ext.tip.ToolTip",{id:"ttRegistrationProcessOverview",html:"Zobrazenie priebehu registrácie nových subjektov a ich odberných miest do systému za posledných 12 mesiacov",renderTo:Ext.getBody(),anchor:"bottom",target:"App.RegistrationProcessOverview.header"});App.cphShellContent_prtDashboard.doLayout();OM.dictionary.add("ChartMonths", ["január","február","marec","apríl","máj","jún","júl","august","september","október","november","december"]);OM.dictionary.add("ChartShortMonths", ["jan","feb","mar","apr","máj","jún","júl","aug","sep","okt","nov","dec"]);OM.dictionary.add("ChartWeekdays", ["nedeľa","pondelok","utorok","streda","štvrtok","piatok","sobota"]);});
+    //]]>
+    </script>
+<style type='text/css'> @font-face {
+                          font-family: 'FontAwesome';
+                          src: url('/WebResource.axd?d=toAcwtf7dHxIYH4oxI7GhMIGgSyehdc_fWIW66rsdxO2lYuwEapVKIv-G4-UjFv_jDbkQwAOYZTB-ku1cNneuckkUvx8McPtSenVO8mFfK0WENkBFt4Khw7LSqcVgTuDvyb-Huf6h5OW3eVlSdIS_R9QbTPkRF5R5PiecE92BvTuukL4kMdy-yFgWMlOoAs90&t=636373711860000000?v=4.4.0');
+                          src: url('/WebResource.axd?d=toAcwtf7dHxIYH4oxI7GhMIGgSyehdc_fWIW66rsdxO2lYuwEapVKIv-G4-UjFv_jDbkQwAOYZTB-ku1cNneuckkUvx8McPtSenVO8mFfK0WENkBFt4Khw7LSqcVgTuDvyb-Huf6h5OW3eVlSdIS_R9QbTPkRF5R5PiecE92BvTuukL4kMdy-yFgWMlOoAs90&t=636373711860000000?#iefix&v=4.4.0') format('embedded-opentype'), url('/WebResource.axd?d=L0nbrzPpDo_kWDS7ai08-eCixqpy267eYAoGNdhL-9ASVGPJ05pE_gGm69hIDR7aw15tepdKNK8yrb5zcSFjAUhtJq55Zc1zSHgYCKKjKakaThb_axhM4DEsrVpc2l8BJjc9u-uh5KxKxo949q5_kLvWcwZWnI90Rps4YTS2JFcfSXs2MLuqSnPn2ILCKDwG0&t=636373711860000000?v=4.4.0') format('woff2'), url('/WebResource.axd?d=fjsAis9Pi9P6ZbWBTx-wZSxPyygOS6MGaBRwjwslFraGujB-scGJmn1zjSTR2mXMx-V83_KOLUdawdbcLwZKCtndfQVGcWUxlBNeGRmtFnkIiFLg_9ecEo1BxEOAroC_44Koc2Y1cyqpfMRJVIlWHqoMBjAdCX2fuhciL2LFHb_2N6Lj6l_Nxy2MBQLGwBUp0&t=636373711860000000?v=4.4.0') format('woff'), url('/WebResource.axd?d=CVmWjIxclTIYkQt6jeEmtOOW1PFi8qnQ1PQQUsZ-b1RVPE-ag8PX6jeRATupvfwrul1DdMouPWCNvzL7lBHq4LWrLRVAnxrTREWQFY6RGEhIpCzNqGuDjADsX3oBA7Nflc5X2tVERWQIT8B17wR0uGUXqZXPIfzTU9IPq_-gi3FqK9kbr56erPblkAVzsqkF0&t=636373711860000000?v=4.4.0') format('truetype'), url('/WebResource.axd?d=kx17AOp8I7C-HrpobYKw06kl0ZsM8Y7I0L9QW2joAz53inwNXx9NiZLpIH48zkksKola93MtOkBGggFl1DCjtRJmGxDqfLWZof91uarGFO__x79fvGUkvsHtby0hLLpJl4CPIWjX2IS-aupjAbWetCA_4LLV2RL--cLABw9a8jBz7-0jC7x40bGDVN5yUiiC0&t=636373711860000000?v=4.4.0#fontawesomeregular') format('svg');
+                          font-weight: normal;
+                          font-style: normal;
+                        }</style><link href="/WebResource.axd?d=_yHqY-p-z4l5XjDNL5z4YB97r9JxnA7g698MW_5RUwzj3Mkctn38Rfyy5jKSnHZl5FG-TlMFWTEltXNexFwsIYubykikElliibQAMd_g_OA6iyjAVXp7mooQkzCPxOqcacS5MtJztk8kSlg2S0UhAqDf5iYB1YyVHwR1C1MOS5M1&amp;t=636373711860000000" rel="stylesheet" /><link href="../Plugins/MDC/App_Themes/Default/Shell.css?5" rel="stylesheet" /></head>
+<body>        
+    <!-- Server: .15 -->  
+    <form method="post" action="./Dashboard.aspx?lang=sk-SK&amp;_dc=1502775473804" id="form1">
+<div class="aspNetHidden">
+
+
+
+</div>
+
+
+
+
+
+<script src="/WebResource.axd?d=r-zCcXDZDbeHb2CjAOijXVN5zETS9jaelaMM9r1_qA-I98jwA8eEMLUN688d1uTbk4Dx9AZB9FyM1j_OTzhuH5ToihEKLWdOsL1rszRrPVaVmO4YW73_sj8VDouzPUigWcRuMmEsUc5GOseofszl7Mmz9zd7yznU_wZ6HLjWILwcoQJ1hUNkB-WjgjeFu2Nx0&amp;t=636373711860000000" type="text/javascript"></script>
+<script type="text/javascript">
+//<![CDATA[
+OM.dictionary.addMultiple({status:"Stav",chartCollectingStatusInfoTitle:"Úspešnosť aktívneho zberu",date:"Dátum",importStatus:"Stav",Title:"Stav importov",ShowInShell:"true",ShowErrors:"true",GoogleAnalyticsId:"UA-39897374-1",GoogleAnalyticsName:"iszo.sk",ScriptHighstockUrl:"/WebResource.axd?d=50-w7AgyTOchHQqs5kYCwDgoJCdJWxZwDKNuxRRrl7s6PNOL157LOYtyEdpQt_v0yHkI8abIzYASVCo5BsvYmDuYTwH_bGmYCMQe10wD5UDDMuB6gDqLhlXh6xXo3qxVFNmibijQRwPpqYPei_AYcme372mFmxOlPzo_SNb0EDnYwbHXn-NnqCgCaLa5K30F0&t=636373711860000000",HighchartsExportHandler:"/intranet/HighchartsExport.axd",SystemPopupHeader:"",ImportFile:"Import súboru",EnterFilter:"Zadajte text filtra",Filter:"Filter",Before:"Do",RequestTimeoutInfo:"Požiadavka trvala príliš dlho a preto bola zrušená.",SystemErrorTitle:"V aplikácii nastala chyba",Cancel:"Zrušiť",DeleteToolTipNoPermissions:"Nemáte dostatočné práva na vymazanie všetkých zvolených záznamov.",InputNotNegative:"Hodnota pre toto pole nemôže byť záporná",ChartRangeSelector:"Rozsah údajov",SortASC:"Zoradiť vzostupne",DeleteToolTipNoRecords:"Nie je zvolený žiadny záznam.",DownloadText:"Súbor <b>{0}</b> s veľkosťou {1} KB je pripravený na stiahnutie.",DownloadFile:"Sťahovanie súboru",AllowPopupsForNav:"Pre otváranie stránok v novom okne povoľte v prehliadači vyskakovacie okná.",DecimalPoint:",",SortDESC:"Zoradiť zostupne",DateTimeSecFormat:"j. n. Y H:i:s",PasswordDoNotMatch:"Heslá sa musia zhodovať.",DownloadAsyncText:"Súbor <b>{0}</b> sa pripravuje na stiahnutie. Po jeho vygenerovaní si ho môžete stiahnuť v časti <a href=\"javascript:void(0);\" onclick=\"Sfera.Web.Shell.pluginPageRedirect('{1}');\" title=\"Správa exportu\">Správa exportu</a>.",ShowNavigation:"Zobraziť navigáciu",Submit:"Potvrdiť",ChartExport:"Uložiť graf ako obrázok",DateFieldStartDay:"1",GridFilter:"Filter tabuľky",NoDataToDisplay:"Žiadne údaje",ErrorsFound:"Nájdené chyby",Columns:"Stĺpce",DateFormat:"j. n. Y",ValidationErrorText:"Pri požadovanej operácii systém narazil na validačné obmedzenia. Prosím venujte pozornosť nasledujúcim chybám.",GroupByText:"Zoskupiť podľa tohto stĺpca",HideNavigation:"Skryť navigáciu",DateRangeDaysMaxWarning:"Maximálny rozsah dátumov je {0} dní.",ThousandsSeparator:" ",Download:"Stiahnuť",No:"Nie",On:"V",ChartResetZoom:"Zrušiť priblíženie",DateTimeFormatChart:"%d. %m. %Y %H:%M",Yes:"Áno",Error:"Chyba",After:"Od",Close:"Zavrieť",Clear:"Vyčistiť",ChartPrint:"Vytlačiť",ShowGroupsText:"Zobraziť skupiny",TimeSecFormat:"H:i:s",ValidationErrorTitle:"Chyba validácie",ImportAsyncText:"Súbor <b>{0}</b> sa importuje. Po jeho spracovaní si výsledok môžete overiť v časti <a href=\"javascript:void(0);\" onclick=\"Sfera.Web.Shell.pluginPageRedirect('{1}');\" title=\"Správa importu\">Správa importu</a>.",DeleteToolTip:"Vymazať zvolené záznamy",PageRedirectWarning:"Naozaj si želáte opustiť túto stránku? Všetky neuložené zmeny sa stratia.",SingleUserInfo:"V jednom prehliadači môže byť prihlásený iba jeden používateľ. Stránka bude obnovená v kontexte aktuálneho používateľa.",DateTimeFormat:"j. n. Y H:i",AltDateFormats:"j. n.Y|j.n. Y|j.n.Y|j. n. Y|j, n,Y|j,n, Y|j,n,Y|j, n, Y|dmY|dmy|j.n.y|j,n,y|d.m.Y",ExceptionOccured:"Systémová chyba",Loading:"Načítavanie...",ChartResetZoomTitle:"Zobraziť pôvodné priblíženie grafu",NoRecordsFound:"Neboli nájdené žiadne záznamy",EmptyGroupText:"(žiadne)",ChartSVG:"Uložiť ako SVG",ChartPNG:"Uložiť ako PNG",ChartPDF:"Uložiť ako PDF",DateFormatChart:"%d. %m. %Y",ChartJPEG:"Uložiť ako JPG",ChartMenu:"Možnosti grafu",Warning:"Upozornenie",FilterApply:"Filtrovať"});//]]>
+</script>
+
+<script src="/WebResource.axd?d=13MeSwixC33Ho0OJFcEv6I8uFu2E0NXE7zEGmog5hlAtIDTo2fHz_Hdk-nd51bZ6FxCWITSBUoLhc6LT2VQkr1zEyfj-c5MXnSnq4ER-Q9EGULpEgvU6W0Bo7lsdZjQ-TR61JLE6ZT3nL-g0IC_iM0eKoGByw2tgzNHjiAFFeJ8vC1Dx_weYH0Jx5HJinFiO0&amp;t=636373711860000000" type="text/javascript"></script>
+<script src="/WebResource.axd?d=QweeN7KGrVzrnbr8hc90W1QzSPM_IriMzsWgBWnzqw-mUOlq6p7Vofi83J999w2EZrC-tSKvCHKR5tt5D_9UQZeDigJA4LWW2jRP2BUBblllvuyHxtflme4wv9U-2eaHL9W2SxF5Wm42NhaLrxOH6z-_2u2OdvHTgbOEi27KNKlWrNwpww5Cy1cFFK18i1-d0&amp;t=636373711860000000" type="text/javascript"></script>
+<div class="aspNetHidden">
+
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="0A817427" />
+	
+</div>
+           
+                
+        
+
+    <div id="cphShellContent_CollectingStatus_Content" class="x-hidden">
+
+
+
+<div id="App.cphShellContent_CollectingStatus_collectingStatusChart_Container"></div>
+
+<div id="App.cphShellContent_CollectingStatus_pnlPackEnd_Container"></div>
+
+
+<script type="text/javascript">
+        SP.showCollectingStatusChart = function () {
+            var seriesOptions = SP.getCollectingStatusSeries();
+            SP.createCollectingStatusChart(seriesOptions);
+        };
+        SP.getCollectingStatusSeries = function () {
+            var serie = {
+                name: OM.dictionary.get('status'),
+                showInLegend: false,
+                data: SP.getCollectingStatusData()
+            }
+
+            return [serie];
+        }
+        SP.getCollectingStatusData = function () {
+            var data = [];
+            var store = App.cphShellContent_CollectingStatus_storeChartCollectingStatusInfo;
+
+            store.data.each(function (record, index) {
+                data.push({
+                    x: new Date(record.data.Id),
+                    y: record.data.Status,
+                    color: SP.getCollectingStatusColor(record.data.Status, store.storeId)
+                })
+            });
+
+            return data; 
+        }
+        SP.createCollectingStatusChart = function (seriesOptions) {
+            var chartOptions = SP.getCollectingStatusOptions();
+
+            var panelChart = App.cphShellContent_CollectingStatus_collectingStatusChart; 
+            panelChart.on('afterlayout', SP.resizeCollectingStatusChart);
+            var loadMask;
+            try {
+                if (typeof(SP.collectingStatusChart) != 'undefined') {
+                    SP.collectingStatusChart.destroy();
+                }
+            } catch(e) { }
+            
+            SP.collectingStatusChart = new Highcharts
+                .Chart({
+                    chart: {
+                        renderTo: panelChart.body.id,
+                        marginRight: 25,
+                        alignTicks: true,
+                        type: chartOptions.chartType,
+                    },
+                    title: null,
+                    xAxis: chartOptions.xAxis,
+                    yAxis: chartOptions.yAxis,
+                    tooltip: chartOptions.tooltip || '',
+                    plotOptions: chartOptions.plotOptions,
+                    exporting: {
+                        enabled: false
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    series: seriesOptions
+                }, function (chart) {
+                    var attrs = {
+                        align: 'left',
+                        zIndex: 20,
+                        cursor: 'pointer'
+                    };
+                });
+
+            panelChart.doLayout();
+            return true;
+        }
+        SP.resizeCollectingStatusChart = function (component) {
+            try {
+                if (typeof(SP.collectingStatusChart) != 'undefined') {
+                    SP.collectingStatusChart.setSize(component.getWidth(), component.getHeight(), false);
+                }
+            } catch(e) {}
+        };
+        SP.getCollectingStatusOptions = function () {
+            return  {
+                title: {
+                    text: OM.dictionary.get('chartCollectingStatusInfoTitle')
+                },
+                xAxis: {
+                    title: {
+                        text: OM.dictionary.get('date')
+                    },
+                    labels: {
+                        overflow: 'justify',
+                        format: '{value: %d.%m.%Y}'
+                    },
+                    tickInterval: 1
+                },
+                yAxis: {
+                    title: {
+                        text: OM.dictionary.get('status'),
+                        align: 'high'
+                    },
+                    min: 0,
+                    max: 100
+                },
+                tooltip: {
+                    formatter: function () {
+                        var date = new Date(this.x);
+                        return date.getDate() + '.' + (date.getMonth() + 1) + '.' + date.getFullYear() + ': ' + this.y.toString().replace('.', ',') + ' % ';
+                    }
+
+                },
+                plotOptions: {
+                    bar: {
+                        dataLabels: {
+                            enabled: true,
+                            formatter: function () { return this.y.toString().replace('.', ',') + ' % ' }
+                        }
+                    },
+                },
+                chartType: 'bar'
+            }
+        }
+
+        SP.getCollectingStatusColor = function (value) {
+            if (value >= 100)
+                return '#669535';
+            if (value < 50)
+                return 'indianred';
+            return '#7CB5EC';
+        }
+    </script>
+
+
+</div><div id="cphShellContent_OverpaymentMaturity_Content" class="x-hidden">
+
+
+<div id="App.cphShellContent_OverpaymentMaturity_gridOverpaymentMaturity_Container"></div>
+</div><div id="cphShellContent_Atom_Content" class="x-hidden">
+
+
+
+<div id="App.cphShellContent_Atom_atomStatusChart_Container"></div>
+
+<div id="App.cphShellContent_Atom_pnlPackEnd_Container"></div>
+
+<script type="text/javascript">
+        SP.showChart = function () {
+            var seriesOptions = SP.getSeries();
+            SP.createChart(seriesOptions);
+        };
+        SP.getColor = function(val) {
+            if (val < 50) {
+                return "indianred";
+            }
+            else if( val == 100) {
+                return "#669535";
+            }
+            return "#7CB5EC"
+        }
+        SP.getData = function() {
+            var data = [];
+            var store = App.cphShellContent_Atom_storePoints;
+
+            store.data.each(function (record, index) {
+                data.push({
+                    x: 0,
+                    y: record.data.Summary
+                })
+            });
+
+            return data;
+        }
+        SP.getSeries = function () {
+            var serie = {
+                showInLegend: false,
+                name: OM.dictionary.get('Title'), 
+                data: SP.getData(),
+                marker: {
+                    enabled: false,
+                    radius: 1
+                }
+            };
+
+            if (serie.data[0]) {
+                serie.color = SP.getColor(serie.data[0].y);
+            }
+            return [serie];
+        }
+        SP.createChart = function (seriesOptions) {          
+            var panelChart = App.cphShellContent_Atom_atomStatusChart; 
+            panelChart.on('afterlayout', SP.resizeChart);
+            var loadMask;
+            try {
+                if (typeof(SP.chart) != 'undefined') {
+                    SP.chart.destroy();
+                }
+            } catch(e) { }
+
+            SP.chart = new Highcharts.Chart({
+                chart: {
+                    animation:true,
+                    renderTo: panelChart.body.id,
+                    height: panelChart.getHeight(),
+                    width: panelChart.getWidth(),
+                    zoomType: 'x',
+                    resetZoomButton: { position: { align: 'center' } },
+                    type: 'bar'
+                }, 
+                title: { text:null },
+                credits: { enabled: false},	     
+                scrollbar: { enabled : false },
+                exporting: { enabled : false },
+                legend: {
+                    borderWidth: 0
+                }, 
+                xAxis: {
+                    visible: false,
+                    labels: {
+                        overflow: 'justify',
+                        formatter: function() { return ""; }
+                    },
+                    tickInterval: 1
+                },
+                yAxis: {
+                    title: {
+                        text: OM.dictionary.get('importStatus'),
+                        align: 'high'
+                    },
+                    min: 0,
+                    max: 100
+                },
+                plotOptions: {
+                    bar: {
+                        dataLabels: {
+                            enabled: true,
+                            formatter: function () { return this.y.toString().replace('.', ',') + ' % ' },
+                            y: -30
+                        },
+                        pointWidth: 45
+                    },
+                },
+                tooltip: {
+                    formatter: function(a) {
+                        return OM.dictionary.get('Title') + ": " + this.y + "%";
+                    }
+                },
+                series: seriesOptions
+                
+            }, function() { });	
+
+            panelChart.doLayout();
+            return true;
+        };
+        SP.resizeChart = function (component) {
+            try {
+                if (typeof(SP.chart) != 'undefined') {
+                    SP.chart.setSize(component.getWidth(), component.getHeight(), false);
+                }
+            } catch(e) {}
+        };
+    </script>
+
+
+</div><div id="cphShellContent_TopDeptors_Content" class="x-hidden">
+
+
+<div id="App.cphShellContent_TopDeptors_gridTopDeptors_Container"></div></div><div id="cphShellContent_TopClients_Content" class="x-hidden">
+
+
+<div id="App.cphShellContent_TopClients_gridTopClients_Container"></div></div><div id="cphShellContent_ArrearMaturity_Content" class="x-hidden">
+
+
+<div id="App.cphShellContent_ArrearMaturity_gridArrearMaturity_Container"></div></div><div id="cphShellContent_ContractualDiagramsRegistration_Content" class="x-hidden">
+
+
+<div id="App.cphShellContent_ContractualDiagramsRegistration_gridRegistration_Container"></div></div><div id="cphShellContent_IOStatus_Content" class="x-hidden">
+
+
+<div id="App.cphShellContent_IOStatus_gridIOStatus_Container"></div> 
+     </div><div id="cphShellContent_Calendar_Content" class="x-hidden">
+
+
+<div id="App.cphShellContent_Calendar_gridEvents_Container"></div>
+
+<style type="text/css">
+    .clm-fullfilled{
+        padding-top:13px;
+    }
+
+    .clm-fullfilled .icon-decline{
+        color:indianred;
+    }
+
+    .clm-fullfilled .icon-accept{
+        color:green;
+    }
+
+    tr.gridEvents-row td:hover{
+        cursor: pointer !important;
+    }
+</style>
+
+<script type="text/javascript">
+        function setMissedCountStyle(v, p) {
+            if (v == '0')
+                return v;
+            else
+                return '<span style="color: ' + 'indianred' + ';font-weight:bold;">' + v + '</span>';
+        }
+    </script></div><div id="cphShellContent_RegistrationProcessOverview_Content" class="x-hidden">
+
+
+<div id="App.cphShellContent_RegistrationProcessOverview_contRegistrationChart_Container"></div>
+<script type="text/javascript">
+        SP.showRegistrationChart = function () {
+            var seriesOptions = SP.getRegistrationChartSeries();
+            SP.createRegistrationChart(seriesOptions);
+        };
+        SP.weeksInfo = {};
+        SP.getRegistrationChartSeries = function () {
+            var seriesOptions = [],
+                series = {},
+                weeks = {},
+                weekCodes = [],
+                weekLabels = {};
+
+            App.cphShellContent_RegistrationProcessOverview_storeRegistrationChart.data.each(function (record, index) {
+                weekCodes.push(record.data.XAxisValue);
+                weekLabels[record.data.XAxisValue] = record.data.XAxisTooltipValue;
+            });
+            weekCodes.sort();
+            var i = 1;
+            for (var w = 0;w<weekCodes.length;w++) { 
+                weeks[weekCodes[w]] = i;
+                SP.weeksInfo[i] = weekLabels[weekCodes[w]];
+                i++;
+            }
+
+            App.cphShellContent_RegistrationProcessOverview_storeRegistrationChart.data.each(function (record, index) {
+                if (typeof(series[record.data.SerieID]) == "undefined") series[record.data.SerieID] = {name:record.data.SerieTitle, data:[]};
+                series[record.data.SerieID].data.push({x:weeks[record.data.XAxisValue], y:record.data.YAxisValue, key:record.data.XAxisValue});
+            });
+            for (var j in series) {
+                seriesOptions.push({
+                    name: series[j].name, 
+                    data: series[j].data,
+                    lineWidth:1,
+                    marker: {
+                        radius: 2
+                    }
+                });	 
+            }
+            return seriesOptions;
+        };
+        SP.createRegistrationChart = function (seriesOptions) {          
+            var panelChart = App.cphShellContent_RegistrationProcessOverview_contRegistrationChart; 
+            panelChart.on('afterlayout', SP.resizeRegistrationChart);
+            var loadMask;
+            try {
+                if (typeof(SP.registrationChart) != 'undefined') {
+                    SP.registrationChart.destroy();
+                }
+            } catch(e) { }
+            SP.registrationChart = new Highcharts.Chart({
+                chart: {
+                    animation:true,
+                    renderTo: panelChart.body.id,
+                    height: panelChart.getHeight(),
+                    width: panelChart.getWidth(),
+                    zoomType: 'x',
+                    resetZoomButton: { position: { align: 'center' } }                    
+                }, 
+                title: { text:null },
+                credits: { enabled: false},	     
+                scrollbar: { enabled : false },
+                exporting: { enabled : false },
+                legend: {
+                    borderWidth: 0
+                }, 
+                xAxis: {
+                    labels: { enabled: false },
+                    step: 1
+                }, 
+                yAxis: {
+                    min: 0,
+                    title: { text:null }
+                },
+                tooltip: {
+                    shared: true,
+                    crosshairs: true,
+                    /* funkcia, ktorá vyskladá tooltip po zaťažení bodu na grafe */
+                    formatter: function(a) {
+                        var s = SP.weeksInfo[this.x];                        
+                        var tot = 0;
+                        Ext.each(this.points, function (i, point) {
+                            s += '<br/><span style="color:' + this.series.color + '">' + this.series.name + '</span>: <b>' + this.point.y + '</b>';
+                            tot += point.y;
+                        });
+                        return s;
+                    }
+                },
+                series: seriesOptions
+            }, function() { });	
+            panelChart.doLayout();
+            return true;
+        };
+        SP.resizeRegistrationChart = function (component) {
+            try {
+                if (typeof(SP.registrationChart) != 'undefined') {
+                    SP.registrationChart.setSize(component.getWidth(), component.getHeight(), false);
+                }
+            } catch(e) {}
+        };
+    </script>
+</div>
+
+    
+
+    <script type="text/javascript">
+            SP.reloadPortal = function (portal) {
+                if (SP.portalLoaded) {
+                    portal.items.each(function (column) {
+                        column.items.each(function (portlet) {
+                            SP.reloadWidget(portlet);
+                        });
+                    });
+                }
+                SP.portalLoaded = true;
+            };
+            SP.reloadWidget = function (portlet) {
+                var cmp = SP.findComponent(Ext.get(portlet.contentEl).dom);
+                if (cmp && cmp.doLayout) setTimeout(function () { cmp.doLayout(); }, 10);
+            }
+            SP.findComponent = function (el) {
+                var cmp = Ext.getCmp(el.id);
+                if (cmp) return cmp;
+                for (var i = 0; i < el.children.length; i++) {
+                    cmp = Ext.getCmp(el.children[i].id);
+                    if (cmp) return cmp;
+                }
+                for (var i = 0; i < el.children.length; i++) {
+                    cmp = SP.findComponent(el.children[i]);
+                    if (cmp) return cmp;
+                }
+            };
+        </script>
+
+ 
+        
+    </form>                  
+</body>
+</html>

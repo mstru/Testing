@@ -1,0 +1,9 @@
+[4884:5248:0109/080823.118:INFO:CONSOLE(0)] "This page includes a password or credit card input in a non-secure context. A warning has been added to the URL bar. For more information, see https://goo.gl/zmWq3m.", source: http://intranet.isommds.sfera.sk/Pages/Login.aspx?ReturnUrl=/ (0)
+[4884:5248:0109/080828.080:INFO:CONSOLE(0)] "This page includes a password or credit card input in a non-secure context. A warning has been added to the URL bar. For more information, see https://goo.gl/zmWq3m.", source: http://intranet.isommds.sfera.sk/Pages/Login.aspx?ReturnUrl=%2f (0)
+[4884:5248:0109/080952.251:WARNING:render_frame_host_impl.cc(2646)] OnDidStopLoading was called twice.
+[4884:5248:0109/080952.886:WARNING:render_frame_host_impl.cc(2646)] OnDidStopLoading was called twice.
+[4884:5248:0109/080957.995:WARNING:render_frame_host_impl.cc(2646)] OnDidStopLoading was called twice.
+[4884:5248:0109/081001.477:WARNING:render_frame_host_impl.cc(2646)] OnDidStopLoading was called twice.
+[4884:2620:0109/081018.376:ERROR:process_metrics.cc(105)] NOT IMPLEMENTED
+[4884:2620:0109/081018.376:ERROR:process_metrics.cc(105)] NOT IMPLEMENTED
+[4884:2620:0109/081018.376:ERROR:process_metrics.cc(105)] NOT IMPLEMENTED

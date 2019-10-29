@@ -1,0 +1,424 @@
+﻿(function (Sfera, undefined) {
+
+    Sfera.Web = Sfera.Web || {};
+    Sfera.Web.Shell = Sfera.Web.Shell || {};
+    // ShellPlugin - objekt, do ktorého by Plugin mal registrovať svoje skripty, teda premenné a funkcie
+    Sfera.Web.ShellPlugin = Sfera.Web.ShellPlugin || {};
+    // pošle JS chybu na server na zalogovanie
+    Sfera.Web.Shell.logError = function (err, info) {
+        App.direct.LogJavascriptError(err, info);
+    }
+    // zaloguje na serveri chybu requestu
+    Sfera.Web.Shell.handleRequestException = function (response, result, el, eventType, action, extraParams, o) {
+        if (action == "LogJavascriptError" || response.status == 500 || (eventType == null && action == null)) return; // ak to padlo pri logovaní chyby (xy == null), alebo ak je 500 a teda to je zrejme už zalogované na serveri
+        if (response && response.request && response.request.options) delete response.request.options;
+        var info = {
+            url: o.url,
+            action: action + " on " + (el && el.id ? el.id : "unknown"),
+            response: response,
+            params: o.params
+        };
+        Sfera.Web.Shell.logError(result.errorMessage, info);
+        // ak je to timeout, tak to oznámim používateľovi
+        if (response.timedout) {
+            Sfera.Web.Shell.showSystemPopup(null, Sfera.Web.Shell.ObjectModel.dictionary.get("RequestTimeoutInfo"), null, null, null, "warning");
+        }
+    }
+    // handler načítania pluginu
+    Sfera.Web.Shell.onReady = function () {
+        parent.Sfera.Web.Shell.pluginReady(true);
+    };
+    // pred opustením stránky uložím stav
+    Sfera.Web.Shell.onBeforeUnload = function () {
+        if (Sfera.Web.Shell.stateManager && Sfera.Web.Shell.stateManager.submitState) {
+            Sfera.Web.Shell.stateManager.submitState();
+        }
+    };
+    Sfera.Web.Shell.reloadShell = function () {
+        parent.Sfera.Web.Shell.reload(true);
+    }
+    Sfera.Web.Shell.reload = function () {
+        window.location.reload(true);
+    }
+    // handler udalosti načítania pluginu, volá ho plugin po načítaní (tu nemá význam, prekrýva sa v Shelli)
+    Sfera.Web.Shell.pluginReady = function (ready) {
+    }
+    // provider state managera
+    Sfera.Web.Shell.stateManager = null;
+    // pred opustením stránky
+    window.onbeforeunload = function () {
+    };
+
+    // získa veľkosť objektu, počet jeho vlastností
+    Sfera.Web.Shell.getObjectSize = function (obj) {
+        var size = 0, key;
+        for (key in obj) {
+            if (obj.hasOwnProperty(key)) size++;
+        }
+        return size;
+    };
+    Sfera.Web.Shell.isPageDirty = false; //Je stránka pozmenená? Treba vyžadovať potvrdenie presmerovania?
+    Sfera.Web.Shell.markPageDirty = function (isDirty, calledByParent) {
+        Sfera.Web.Shell.isPageDirty = isDirty === false ? false : true;
+        if (!calledByParent) parent.Sfera.Web.Shell.markPageDirty(isDirty, true);
+    }
+    // overí pozíciu stránky vzhľadom na shell a jej požadovanú pozíciu. Ak sa nezhoduje, presmeruje stránku.
+    Sfera.Web.Shell.checkShellPosition = function (showInShell) {
+        var isInShell = self != top;
+        if (showInShell && !isInShell) { // ak sa má zobrazovať v shell-i, ale nie je v shell-i
+            window.location.href = "/#" + window.location.pathname;
+        } else if (isInShell && !showInShell) { // ak je v shell-u, ale nemá sa zobrazovať v shell-i
+            parent.window.location.href = window.location.hash || "/";
+        }
+    }
+    // z dictionary si získam, či sa má stránka zobrazovať v Shell-i a overím jej pozíciu    
+    try { Sfera.Web.Shell.checkShellPosition(eval(OM.dictionary.get("ShowInShell")));} catch (e) {}
+    // presmerovanie
+    Sfera.Web.Shell.pluginPageRedirect = function (url) {
+        parent.Sfera.Web.Shell.pluginPageRedirect(url); // parent.window.location.hash = url;
+    };
+    // notifikácia vpravo dole
+    Sfera.Web.Shell.notify = function (title, msg, closable) {
+        if (self != parent) {
+            parent.Shell.notify(title, msg, closable);
+        } else {
+            Ext.net.ResourceMgr.registerIcon(["Information"]);
+            Ext.net.Notification.show({
+                title: title,
+                html: msg,
+                closeVisible: closable ? true : false,
+                autoHide: closable ? false : true,
+                iconCls: "icon-information"
+            });
+        }
+    };
+    // v breadcrumbs dá na koniec zadaný text
+    Sfera.Web.Shell.setCurrentPageToBreadcrumb = function (title) {
+        if (self != parent) parent.Sfera.Web.Shell.setCurrentPageToBreadcrumb(title);
+        else document.title = title;
+    };
+    // odstráni posledný text z breadcrumbs
+    Sfera.Web.Shell.clearCurrentPageFromBreadcrumb = function () {
+        if (self != parent) parent.Sfera.Web.Shell.clearCurrentPageFromBreadcrumb();
+    };
+    // zobrazí okno na download súboru podľa nastavení
+    Sfera.Web.Shell.showDownloadWindow = function (options) {
+        var title = options.title,
+            text = options.text,
+            buttonText = options.buttonText,
+            url = options.url,
+            iconCls = options.iconCls || "icon-arrowdown",
+            width = options.width || 400,
+            id = options.id || "win-download",
+            note = options.note || null;
+
+        var win = new Ext.Window({
+            id: id,
+            width: width,
+            modal: true,
+            title: title,
+            /*iconCls: iconCls,*/
+            resizable: false,
+            closeAction: 'destroy',
+            buttonAlign: "center",
+            items: [{
+                autoHeight: true,
+                border: false,
+                html: note ? text + '<br />'+ note : text,
+                padding: 10
+            }],
+            buttons: [{
+                xtype: "button",
+                text: buttonText,
+                href: url,
+                align: "center",
+                handler: function () {
+                    win.close();
+                }
+            }]
+        });
+        win.show();
+    };
+    var shellDownloadIframe = null;
+    Sfera.Web.Shell.pluginPageAutoExport = function (url, note) {
+        setTimeout(function () {
+            if (!shellDownloadIframe) {
+                shellDownloadIframe = Ext.core.DomHelper.append(Ext.getBody(), { id: "shell-download", tag: "iframe", style: "display:none" });
+            }
+            shellDownloadIframe.src = url;
+            if (note) {
+                Ext.net.Notification.show({
+                    html: note,
+                    title: Sfera.Web.Shell.ObjectModel.dictionary.get("DownloadFile"),
+                    hideDelay: 5000
+                });
+            }
+        }, 10);
+    }
+    // zobrazí okno na download súboru s url, názvom, veľkostou a nejakou poznámkou
+    Sfera.Web.Shell.pluginPageExport = function (url, fullFileName, size, note) {
+        this.showDownloadWindow({
+            title: Sfera.Web.Shell.ObjectModel.dictionary.get("DownloadFile"),
+            text: Ext.String.format(Sfera.Web.Shell.ObjectModel.dictionary.get("DownloadText"), fullFileName, size),
+            buttonText: Sfera.Web.Shell.ObjectModel.dictionary.get("Download"),
+            note: note,
+            url: url
+        });
+    };
+    // zobrazí okno s informáciou, že súbor pre export bude vygenerovaný asynchrónne
+    Sfera.Web.Shell.pluginPageAsyncExportInfo = function (url, fullFileName) {
+        this.showDownloadWindow({
+            title: Sfera.Web.Shell.ObjectModel.dictionary.get("DownloadFile"),
+            text: Ext.String.format(Sfera.Web.Shell.ObjectModel.dictionary.get("DownloadAsyncText"), fullFileName, url),
+            buttonText: Sfera.Web.Shell.ObjectModel.dictionary.get("Close"),
+            url: null
+        });
+    }
+    // zobrazí okno s informáciou, že import bude prebiehať asynchrónne
+    Sfera.Web.Shell.pluginPageAsyncImportInfo = function (url, fileName) {
+        this.showDownloadWindow({
+            title: Sfera.Web.Shell.ObjectModel.dictionary.get("ImportFile"),
+            text: Ext.String.format(Sfera.Web.Shell.ObjectModel.dictionary.get("ImportAsyncText"), fileName, url),
+            buttonText: Sfera.Web.Shell.ObjectModel.dictionary.get("Close"),
+            url: null
+        });
+    }
+    // fronta pre systémové hlášky
+    Sfera.Web.Shell.systemPopupStack = [];
+    // handler zatvorenia systémovej hlášky (zobrazí sa ďalšia hláška v poradí)
+    Sfera.Web.Shell.systemPopupClosed = function (win) {
+        Sfera.Web.Shell.systemPopupStack.splice(0, 1);
+        if (Sfera.Web.Shell.systemPopupStack.length > 0) {
+            Sfera.Web.Shell.systemPopupStack[0].show();
+        }
+    };
+    // vráti okno pre systémovú hlášku
+    Sfera.Web.Shell.getSystemPopup = function (options) {
+        var header = options.header !== null ? options.header : OM.dictionary.get("SystemPopupHeader"),
+            title = options.title || OM.dictionary.get("SystemErrorTitle"),
+            text = options.text || "",
+            errorsTitle = OM.dictionary.get("ErrorsFound"),
+            errors = options.errors || null,
+            exceptionTitle = OM.dictionary.get("ExceptionOccured"),
+            exception = options.exception || null,
+            cancel = OM.dictionary.get("Close"),
+            exceptionHeight = isNaN(options.exceptionHeight) ? 350 : options.exceptionHeight,
+            width = options.width || 500,
+            modal = options.modal || true,
+            html = options.html || '<h2>' + title + '</h2><p>' + text + '</p>',
+            callback = options.callback || function () { },
+            type = "error";
+        if (options.type) {
+            if (options.type == "warning") {
+                type = "warning";
+            } else if (options.type == "information") {
+                type = "info";
+            }
+        }
+
+        var win = new Ext.Window({
+            cls: "system-popup",
+            width: width,
+            modal: modal,
+            title: header,
+            //header: header ? true : false,
+            autoHeight: true,
+            closable: false,
+            resizable: errors || exception,
+            closeAction: 'close',
+            buttonAlign: "center",
+            defaults: {
+                border: false
+            },
+            defaultButton: 0,
+            items: [{
+                bodyPadding: 10,
+                autoHeight: true,
+                layout: {
+                    type: 'hbox'
+                },
+                items: [{
+                    width: 70,
+                    border: false,
+                    html: '<span class="fa icon-' + type + '"></span>'
+                }, {
+                    flex: 1,
+                    border: false,
+                    padding: 10,
+                    html: html
+
+                }]
+            }],
+            buttons: [{
+                text: cancel,
+                iconCls: 'icon-decline',
+                handler: function () {
+                    win.close();
+                }
+            }],
+            listeners: {
+                close: function (w) { callback(); Sfera.Web.Shell.systemPopupClosed(w); }
+            }
+        });
+        if (errors && errors.length) {
+            var errs = [], rows = 0;
+            for (var i = 0; i < errors.length; i++) {
+                errs.push([errors[i]]);
+                rows += Math.floor(errors[i].length / 75) + 1;
+            }
+            var grd = {
+                xtype: "grid",
+                store: new Ext.data.ArrayStore({ fields: [{ name: 'text' }], data: errs }),
+                cls: "error-panel",
+                title: errorsTitle,
+                hideHeaders: true,
+                viewConfig: { xtype: "gridview", loadMask: true, scrollOffset: rows > 12 ? undefined : 0 },
+                columns: [{ id: 'text', dataIndex: 'text', flex:1 }]
+            };
+            if (rows > 12) {
+                grd.height = 300;
+            } else {
+                grd.autoHeight = true;
+            }
+            win.add(grd);
+        }
+        if (exception) {
+            win.add({
+                collapsible: true,
+                collapsed: true,
+                cls: "exception-panel",
+                title: exceptionTitle,
+                items: [{
+                    border: false,
+                    width: '100%',
+                    height: exceptionHeight,
+                    bodyCls: "exception-panel-body",
+                    html: exception
+                }]
+            });
+        }
+        return win;
+    }
+    // zobrazí systémovú hlášku
+    Sfera.Web.Shell.showSystemPopup = function (header, title, text, errors, exception, type, showInShell, callback) {
+        if (showInShell && parent && parent.Shell && parent.Shell.showSystemPopup) {
+            parent.Shell.showSystemPopup(header, title, text, errors, exception, type, false);
+        } else {
+            var win = Sfera.Web.Shell.getSystemPopup({
+                header: header,
+                title: title,
+                text: text,
+                errors: errors || null,
+                exception: exception || null,
+                type: type || null,
+                callback: typeof (callback) == "string" ? eval(callback) : callback
+            });
+            if (Ext.isEmpty(Sfera.Web.Shell.systemPopupStack)) {
+                win.show();
+            }
+            Sfera.Web.Shell.systemPopupStack.push(win);
+        }
+    };
+    // je na načítaný highstock skript?
+    Sfera.Web.Shell.highstockScriptLoaded = false;
+    var highstockLoadCallbacks = [],
+        highstockLoadInit = false;
+    //načíta Highstock + jQuery
+    Sfera.Web.Shell.loadHighstockScript = function (callback) {
+        if (Sfera.Web.Shell.highstockScriptLoaded) {
+            if (typeof (callback) == "function") callback();
+        } else {
+            highstockLoadCallbacks.push(callback);
+            if (!highstockLoadInit) {
+                highstockLoadInit = true;
+                var head = document.getElementsByTagName('head')[0];
+                var script = document.createElement('script');
+                script.type = 'text/javascript';
+                var onLoadFunction = function () {
+                    Sfera.Web.Shell.highstockScriptLoaded = true;
+                    Highcharts.setOptions({
+                        lang: {
+                            contextButtonTitle: OM.dictionary.get("ChartMenu"),
+                            decimalPoint: OM.dictionary.get("DecimalPoint"),
+                            downloadJPEG: OM.dictionary.get("ChartJPEG"),
+                            downloadPDF: OM.dictionary.get("ChartPDF"),
+                            downloadPNG: OM.dictionary.get("ChartPNG"),
+                            downloadSVG: OM.dictionary.get("ChartSVG"),
+                            exportButtonTitle: OM.dictionary.get("ChartExport"),
+                            rangeSelectorZoom: OM.dictionary.get("ChartRangeSelector"),
+                            loading: OM.dictionary.get("Loading"),
+                            printChart: OM.dictionary.get("ChartPrint"),
+                            resetZoom: OM.dictionary.get("ChartResetZoom"),
+                            resetZoomTitle: OM.dictionary.get("ChartResetZoomTitle"),
+                            thousandsSep: OM.dictionary.get("ThousandsSeparator"),
+                            months: OM.dictionary.get("ChartMonths"),
+                            shortMonths: OM.dictionary.get("ChartShortMonths"),
+                            weekdays: OM.dictionary.get("ChartWeekdays"),
+                            noData: OM.dictionary.get("NoDataToDisplay")
+                        }
+                    });
+                    for (var i = 0; i < highstockLoadCallbacks.length; i++) {
+                        var cb = highstockLoadCallbacks[i]
+                        if (typeof (cb) == "function") cb();
+                    }
+                }
+                if (script.addEventListener) {
+                    script.addEventListener("load", onLoadFunction, false);
+                } else if (script.readyState) {
+                    script.onreadystatechange = function () {
+                        if (this.readyState == 'complete') onLoadFunction()
+                    };
+                }
+                script.src = OM.dictionary.get("ScriptHighstockUrl");
+                head.appendChild(script);
+            }
+        }
+    }
+    Sfera.Web.Shell.highchartsExportHandler = OM.dictionary.get("HighchartsExportHandler");
+
+    if (self == parent) { // iba pre Shell alebo samostatne otvorený plugin
+        var i = 0;
+        var getServerTime = function () {
+            var sTime = new Date();
+            Ext.Ajax.request({
+                url: 'time.axd', success: function (a) {
+                    var requestTime = new Date() - sTime;
+                    var sto = parseInt(a.responseText);
+                    if (!isNaN(sto)) {
+                        var serverTime = new Date(sto + (requestTime / 2));
+                        window.systemTimeOffset = new Date() - serverTime;
+                        Sfera.Web.Shell.time = serverTime;
+                        setTimeout(function () {
+                            clearInterval(i);
+                            setInterval(updateTime, 1000);
+                        }, 1000 - serverTime.getMilliseconds());
+                    }
+                }
+            });
+        }
+        var updateTime = function () {
+            var newTime = new Date() - (window.systemTimeOffset || 0);
+            if (!Sfera.Web.Shell.time || Math.abs(newTime - Sfera.Web.Shell.time.getTime()) > 3000) {
+                getServerTime();
+            }
+            Sfera.Web.Shell.time = new Date(newTime);
+            Sfera.Web.Shell.onTimeUpdated(Sfera.Web.Shell.time);
+            if (Sfera.Web.Shell.getPluginWindow) {
+                var w = Sfera.Web.Shell.getPluginWindow();
+                if (w && w.Sfera) w.Sfera.Web.Shell.onTimeUpdated(Sfera.Web.Shell.time);
+            }
+        }
+        updateTime();
+        i = setInterval(updateTime, 1000);
+    }
+
+    // alias pre Shell
+    window.Shell = Sfera.Web.Shell;
+    // alias pre ShellPlugin
+    window.SP = Sfera.Web.ShellPlugin;
+
+}(window.Sfera = window.Sfera || {}));
+
+Ext.onReady(function () {
+    Sfera.Web.Shell.onReady();
+});
