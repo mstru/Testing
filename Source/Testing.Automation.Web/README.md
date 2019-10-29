@@ -1,4 +1,4 @@
-# Automation.Framework 
+# Testing.Automation.Web
 
 Automation.Framework je riešenie pripravené pre automatizované testovanie webového rozhrania pomocou technológií .NET, SpecFlow a Selenium Webdriver
 
