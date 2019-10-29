@@ -80,8 +80,8 @@ Príklad (Kontrola vytvorenia entity pomocou metódy HttpGet)
                    .WithRequestUri(uri))
                    .ShouldReturnHttpResponseMessage()
                         .ValidWithStatusCode(HttpStatusCode.OK)
-                        .CheckShouldEqual(new Dictionary<string, IEnumerable<string>>
-                         {
-                            { "typeId", new List<string> { TypeId } }, { "name", new List<string> { Name } }, { "polygonId", new List<string> { PolygonId } }
-                         });
+				.CheckShouldEqual(new Dictionary<string, IEnumerable<string>>
+				 {
+				    { "typeId", new List<string> { TypeId } }, { "name", new List<string> { Name } }, { "polygonId", new List<string> { PolygonId } }
+				 });
         }
