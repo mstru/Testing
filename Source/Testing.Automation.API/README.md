@@ -64,7 +64,8 @@ Príklad (Vytvorenie entity pomocou metódy HttpPost)
                    .ShouldReturnHttpResponseMessage()
                         .ValidWithStatusCode(HttpStatusCode.Created);
         }
- 
+
+
 Príklad (Kontrola vytvorenia entity pomocou metódy HttpGet)
 
         [When(@"Metoda GET /AlarmDef/ kontrola vrati dotazovatelny objekt - result should OK")]
