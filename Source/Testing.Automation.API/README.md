@@ -1,6 +1,6 @@
 # Testing.Automation.API
 
-Testing.Automation.API je riešenie pripravené pre automatizované testovanie Web API rozhrania pomocou technológií .NET
+je riešenie pripravené pre automatizované testovanie Web API rozhrania pomocou technológií .NET
 
 Príklad (Vytvorenie entity pomocou metódy HttpPost)
 
