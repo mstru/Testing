@@ -65,4 +65,22 @@ Príklad (Vytvorenie entity pomocou metódy HttpPost)
                         .ValidWithStatusCode(HttpStatusCode.Created);
         }
  
- 
+Príklad (Kontrola vytvorenia entity pomocou metódy HttpGet)
+
+        [When(@"Metoda GET /AlarmDef/ kontrola vrati dotazovatelny objekt - result should OK")]
+        public void WhenMetodaGETAlarmDefKontrolaVratiDotazovatelnyObjekt_ResultShouldOK(Table table)
+        {
+            string uri = $"/v2/{RoutePrefixConst}?$filter=name eq '{alarmDefName}'";
+
+            var result = MyWebApi
+               .Start()
+                   .Working()
+                   .WithHttpRequestMessage(req => req.WithMethod(HttpMethod.Get)
+                   .WithRequestUri(uri))
+                   .ShouldReturnHttpResponseMessage()
+                        .ValidWithStatusCode(HttpStatusCode.OK)
+                        .CheckShouldEqual(new Dictionary<string, IEnumerable<string>>
+                         {
+                            { "typeId", new List<string> { TypeId } }, { "name", new List<string> { Name } }, { "polygonId", new List<string> { PolygonId } }
+                         });
+        }
