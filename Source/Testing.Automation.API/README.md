@@ -2,7 +2,7 @@
 
 Testing.Automation.API je riešenie pripravené pre automatizované testovanie Web API rozhrania pomocou technológií .NET
 
-Príklad (Vytvorenie entity pomocou metódy Post)
+Príklad (Vytvorenie entity pomocou metódy HttpPost)
 
 	[Given(@"Metoda POST /AlarmDef/ insert - definovanie alarmu typu = ""(.*)"" - result should Created")]
         public void GivenMetodaPOSTAlarmDefInsert_DefinovanieAlarmuTypu_ResultShouldCreated(string alarmType)
