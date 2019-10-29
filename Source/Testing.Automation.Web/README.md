@@ -1,6 +1,6 @@
 # Testing.Automation.Web
 
-Automation.Framework je riešenie pripravené pre automatizované testovanie webového rozhrania pomocou technológií .NET, SpecFlow a Selenium Webdriver
+Testing.Automation.Web je riešenie pripravené pre automatizované testovanie webového rozhrania pomocou technológií .NET, SpecFlow a Selenium Webdriver
 
 Príklad (Prihlásenie sa do aplikácie)
 
