@@ -4,7 +4,7 @@ Testing.Automation.API je riešenie pripravené pre automatizované testovanie W
 
 Príklad (Vytvorenie entity pomocou metódy HttpPost)
 
-		[Given(@"Metoda POST /AlarmDef/ insert - definovanie alarmu typu = ""(.*)"" - result should Created")]
+	    [Given(@"Metoda POST /AlarmDef/ insert - definovanie alarmu typu = ""(.*)"" - result should Created")]
         public void GivenMetodaPOSTAlarmDefInsert_DefinovanieAlarmuTypu_ResultShouldCreated(string alarmType)
         {
             string body = string.Empty;
